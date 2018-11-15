@@ -145,8 +145,8 @@ class P {
         </div>
 
         <div>
-          <StyledButton>Previous rule</StyledButton>
-          <StyledButton>Next rule</StyledButton>
+          <StyledButton onClick={ () => props.setActiveRule('previous') }>Previous rule</StyledButton>
+          <StyledButton onClick={ () => props.setActiveRule('next') }>Next rule</StyledButton>
         </div>
       </Footer>
     </Wrapper>

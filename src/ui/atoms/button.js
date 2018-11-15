@@ -16,6 +16,7 @@ export const Button = styled.a`
   padding-left: 15px;
   transition: 0.1s;
   cursor: pointer;
+  user-select: none;
   
   &:hover {
     border-color: ${color.primary};
