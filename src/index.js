@@ -17,13 +17,13 @@ class App extends React.Component {
       {
         name: 'for-direction',
         description: 'Enforce “for” loop update clause moving the counter in the right direction',
-        isActive: false,
+        isActive: true,
         isChecked: true,
       },
       {
         name: 'getter-return',
         description: 'Enforce return statements in getters',
-        isActive: true,
+        isActive: false,
         isChecked: false,
       },
       {
@@ -70,11 +70,24 @@ class App extends React.Component {
       },
     ],
     activeRule: {
-      name: 'getter-return',
-      description: 'Enforce return statements in getters',
+      name: 'for-direction',
+      description: 'Enforce “for” loop update clause moving the counter in the right direction',
       isActive: true,
-      isChecked: false,
+      isChecked: true,
     },
+  };
+
+  setActiveRule = (activeRuleName) => {
+
+    this.setState((prevState) => ({
+      ...prevState,
+      rules: prevState.rules.map((rule) => {
+        rule.isActive = rule.name === activeRuleName;
+
+        return rule;
+      }),
+      activeRule: prevState.rules.find((rule) => rule.name === activeRuleName),
+    }));
   };
 
   render = () => {
@@ -84,8 +97,12 @@ class App extends React.Component {
         <GlobalStyles/>
 
         <Wrapper>
-          <Sidebar rules={ this.state.rules }/>
-          <RuleInfo name={ this.state.activeRule.name } description={ this.state.activeRule.description }/>
+          <Sidebar rules={ this.state.rules } handleRuleClick={ this.setActiveRule }/>
+          <RuleInfo
+            name={ this.state.activeRule.name }
+            description={ this.state.activeRule.description }
+            setActiveRule={ this.setActiveRule }
+          />
         </Wrapper>
       </React.Fragment>
     );

@@ -44,6 +44,7 @@ export const Sidebar = (props) => {
           description={ rule.description }
           isActive={ rule.isActive }
           isChecked={ rule.isChecked }
+          onClick={ props.handleRuleClick }
           key={ rule.name }
         />
       )) }

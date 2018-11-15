@@ -76,7 +76,7 @@ const Wrapper = styled.div`
 
 export const Rule = (props) => {
   return (
-    <Wrapper className={ props.className } isActive={ props.isActive }>
+    <Wrapper className={ props.className } isActive={ props.isActive } onClick={ () => props.onClick(props.name) }>
       <Header>
         <Name>{ props.name }</Name>
         { props.isChecked && <StyledCheck width={ 15 } height={ 15 } fill={ color.primary }/> }
