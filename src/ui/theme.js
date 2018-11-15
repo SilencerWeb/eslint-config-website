@@ -44,6 +44,7 @@ const globalStyles = css`
     min-width: 32rem;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
+    line-height: 1.2;
     color: ${color.secondary};
   }
 `;
