@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 import { Check } from 'ui/outlines';
 import { color } from 'ui/theme';
-import { rgba } from 'ui/utils';
+import { rgba } from 'utils';
 
 
 const Name = styled.h3`

@@ -43,8 +43,11 @@ const Header = styled.div`
 `;
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 
   pre {
+    flex-grow: 1;
     border: 1px solid ${color.tertiary};
     margin-top: 0;
     margin-bottom: 0;

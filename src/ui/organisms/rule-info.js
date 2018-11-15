@@ -30,15 +30,6 @@ const LongDescription = styled.p`
   margin-bottom: 0;
 `;
 
-const Checkbox = styled.label`
-  
-  span {
-    display: inline-block;
-    vertical-align: top;
-    margin-left: 5px;
-  }
-`;
-
 const StyledButton = styled(Button)`
   margin-right: 15px;
   
@@ -49,9 +40,11 @@ const StyledButton = styled(Button)`
 
 const StyledRuleExample = styled(RuleExample)`
   flex-grow: 1;
+  max-width: 50%;
 `;
 
 const RuleExamples = styled.div`
+  flex-grow: 1;
   display: flex;
 `;
 
@@ -66,6 +59,8 @@ const Section = styled.div`
 
     ${props.isAllowedToGrow && css`
       flex-grow: 1;
+      display: flex;
+      flex-direction: column;
     `}
   `}
 `;
@@ -93,41 +88,6 @@ const Wrapper = styled.div`
 
 
 export const RuleInfo = (props) => {
-  const correctCode = `p = {
-    get name() {
-        return "nicholas";
-    }
-};
-
-Object.defineProperty(p, "age",  {
-    get: function () {
-        return 18;
-    }
-});
-
-class P {
-    get name() {
-        return "nicholas";
-    }
-}`;
-
-  const incorrectCode = `p = {
-    get name() {
-        // no returns.
-    }
-};
-
-Object.defineProperty(p, "age", {
-    get: function () {
-        // no returns.
-    }
-});
-
-class P {
-    get name() {
-        // no returns.
-    }
-}`;
 
   return (
     <Wrapper className={ props.className }>
@@ -139,30 +99,11 @@ class P {
         <LongDescription>{ props.longDescription }</LongDescription>
       </Section>
 
-      {
-        props.options &&
-        <Section>
-          <Heading>Rule options</Heading>
-          {
-            props.options.map((option) => {
-              if (option.type === 'checkbox') {
-                return (
-                  <Checkbox>
-                    <input type="checkbox"/>
-                    <span>{ option.description }</span>
-                  </Checkbox>
-                );
-              }
-            })
-          }
-        </Section>
-      }
-
       <Section isAllowedToGrow={ true }>
         <Heading>Rule examples</Heading>
         <RuleExamples>
-          <StyledRuleExample code={ correctCode } theme={ 'correct' }/>
-          <StyledRuleExample code={ incorrectCode } theme={ 'incorrect' }/>
+          <StyledRuleExample code={ props.examples && props.examples.correct } theme={ 'correct' }/>
+          <StyledRuleExample code={ props.examples && props.examples.incorrect } theme={ 'incorrect' }/>
         </RuleExamples>
       </Section>
 
