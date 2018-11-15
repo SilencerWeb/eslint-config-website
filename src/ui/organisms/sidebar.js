@@ -41,7 +41,7 @@ export const Sidebar = (props) => {
       { props.rules && props.rules.map((rule) => (
         <StyledRule
           name={ rule.name }
-          description={ rule.description }
+          description={ rule.shortDescription }
           isActive={ rule.isActive }
           isChecked={ rule.isChecked }
           onClick={ props.handleRuleClick }

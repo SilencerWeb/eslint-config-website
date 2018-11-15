@@ -7,12 +7,25 @@ import { color } from 'ui/theme';
 
 
 const Name = styled(Heading)`
+  display: inline;
   font-size: 25px;
   color: ${color.primary};
+  margin-bottom: 0;
+`;
+
+const ShortDescription = styled.p`
+  display: inline;
+  font-size: 25px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 5px;
+`;
+
+const Title = styled.div`
   margin-bottom: 10px;
 `;
 
-const Description = styled.p`
+const LongDescription = styled.p`
   margin-top: 0;
   margin-bottom: 0;
 `;
@@ -119,17 +132,31 @@ class P {
   return (
     <Wrapper className={ props.className }>
       <Section>
-        <Name>{ props.name }</Name>
-        <Description>{ props.description }</Description>
+        <Title>
+          <Name>{ props.name }</Name>
+          <ShortDescription>- { props.shortDescription }</ShortDescription>
+        </Title>
+        <LongDescription>{ props.longDescription }</LongDescription>
       </Section>
 
-      <Section>
-        <Heading>Rule options</Heading>
-        <Checkbox>
-          <input type="checkbox"/>
-          <span>disallow implicitly returning undefined with a return statement</span>
-        </Checkbox>
-      </Section>
+      {
+        props.options &&
+        <Section>
+          <Heading>Rule options</Heading>
+          {
+            props.options.map((option) => {
+              if (option.type === 'checkbox') {
+                return (
+                  <Checkbox>
+                    <input type="checkbox"/>
+                    <span>{ option.description }</span>
+                  </Checkbox>
+                );
+              }
+            })
+          }
+        </Section>
+      }
 
       <Section isAllowedToGrow={ true }>
         <Heading>Rule examples</Heading>

@@ -16,64 +16,18 @@ class App extends React.Component {
     rules: [
       {
         name: 'for-direction',
-        description: 'Enforce “for” loop update clause moving the counter in the right direction',
+        shortDescription: 'Enforce “for” loop update clause moving the counter in the right direction',
+        longDescription: 'A for loop with a stop condition that can never be reached, such as one with a counter that moves in the wrong direction, will run infinitely. While there are occasions when an infinite loop is intended, the convention is to construct such loops as while loops. More typically, an infinite for loop is a bug.',
         isActive: true,
-        isChecked: true,
-      },
-      {
-        name: 'getter-return',
-        description: 'Enforce return statements in getters',
-        isActive: false,
         isChecked: false,
-      },
-      {
-        name: 'no-async-promise-executor',
-        description: 'Enforce “for” loop update clause moving the counter in the right direction.',
-        isActive: false,
-        isChecked: false,
-      },
-      {
-        name: 'no-await-in-loop',
-        description: 'Enforce “for” loop update clause moving the counter in the right direction.',
-        isActive: false,
-        isChecked: true,
-      },
-      {
-        name: 'no-compare-neg-zero',
-        description: 'Enforce “for” loop update clause moving the counter in the right direction.',
-        isActive: false,
-        isChecked: false,
-      },
-      {
-        name: 'no-cond-assign',
-        description: 'Enforce “for” loop update clause moving the counter in the right direction.',
-        isActive: false,
-        isChecked: false,
-      },
-      {
-        name: 'no-console',
-        description: 'Enforce “for” loop update clause moving the counter in the right direction.',
-        isActive: false,
-        isChecked: false,
-      },
-      {
-        name: 'no-constant-condition',
-        description: 'Enforce “for” loop update clause moving the counter in the right direction.',
-        isActive: false,
-        isChecked: true,
-      },
-      {
-        name: 'no-control-regex',
-        description: 'Enforce “for” loop update clause moving the counter in the right direction.',
-        isActive: false,
-        isChecked: true,
       },
     ],
     activeRule: {
       name: 'for-direction',
-      description: 'Enforce “for” loop update clause moving the counter in the right direction',
+      shortDescription: 'Enforce “for” loop update clause moving the counter in the right direction',
+      longDescription: 'A for loop with a stop condition that can never be reached, such as one with a counter that moves in the wrong direction, will run infinitely. While there are occasions when an infinite loop is intended, the convention is to construct such loops as while loops. More typically, an infinite for loop is a bug.',
       isActive: true,
-      isChecked: true,
+      isChecked: false,
     },
   };
 
@@ -115,7 +69,9 @@ class App extends React.Component {
           <Sidebar rules={ this.state.rules } handleRuleClick={ this.setActiveRule }/>
           <RuleInfo
             name={ this.state.activeRule.name }
-            description={ this.state.activeRule.description }
+            shortDescription={ this.state.activeRule.shortDescription }
+            longDescription={ this.state.activeRule.longDescription }
+            options={ this.state.activeRule.options }
             setActiveRule={ this.setActiveRule }
           />
         </Wrapper>
