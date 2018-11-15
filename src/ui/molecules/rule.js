@@ -19,18 +19,18 @@ const StyledCheck = styled(Check)`
   margin-left: 5px;
 `;
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-`;
-
 const Description = styled.p`
   font-size: 14px;
   color: ${rgba(color.secondary, 0.7)};
   margin-top: 0;
   margin-bottom: 0;
   transition: 0.1s;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 `;
 
 const Wrapper = styled.div`

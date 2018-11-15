@@ -19,7 +19,7 @@ const StyledRule = styled(Rule)`
 `;
 
 const Wrapper = styled.div`
-  width: 20%;
+  flex: 0 1 20%;
   min-width: 300px;
   height: 100vh;
   border-right: 1px solid ${color.tertiary};

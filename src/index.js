@@ -1,8 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import styled from 'styled-components';
 
-import { Sidebar } from 'ui/organisms';
+import { Sidebar, RuleInfo } from 'ui/organisms';
 import { GlobalStyles } from 'ui/theme';
+
+
+const Wrapper = styled.div`
+  display: flex;
+`;
 
 
 class App extends React.Component {
@@ -63,6 +69,12 @@ class App extends React.Component {
         isChecked: true,
       },
     ],
+    activeRule: {
+      name: 'getter-return',
+      description: 'Enforce return statements in getters',
+      isActive: true,
+      isChecked: false,
+    },
   };
 
   render = () => {
@@ -71,7 +83,10 @@ class App extends React.Component {
       <React.Fragment>
         <GlobalStyles/>
 
-        <Sidebar rules={ this.state.rules }/>
+        <Wrapper>
+          <Sidebar rules={ this.state.rules }/>
+          <RuleInfo name={ this.state.activeRule.name } description={ this.state.activeRule.description }/>
+        </Wrapper>
       </React.Fragment>
     );
   };
