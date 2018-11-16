@@ -106,10 +106,15 @@ const globalStyles = css`
   
   .react-tooltip {
     font-size: 12px;
+    background-color: ${color.secondary} !important;
     padding-top: 5px;
     padding-right: 10px;
     padding-bottom: 5px;
     padding-left: 10px;
+    
+    &.show {
+      opacity: 1 !important;
+    }
   }
 `;
 

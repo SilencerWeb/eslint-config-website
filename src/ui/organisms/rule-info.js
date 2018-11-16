@@ -5,6 +5,7 @@ import ReactTooltip from 'react-tooltip';
 
 import { Heading, Button, Switcher } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
+import { Check, Wrench } from 'ui/outlines';
 import { color } from 'ui/theme';
 
 
@@ -25,11 +26,17 @@ const ShortDescription = styled.p`
 
 const Title = styled.div`
   padding-right: 20px;
+
+  svg {
+    display: inline;
+    margin-top: 2.5px;
+    margin-left: 10px;
+  }
 `;
 
 const StyledSwitcher = styled(Switcher)`
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-top: 5px;
 `;
 
 const Paragraph = styled.p`
@@ -109,11 +116,19 @@ export const RuleInfo = (props) => {
           <Title>
             <Name>{ props.rule.name }</Name>
             <ShortDescription>- { props.rule.shortDescription }</ShortDescription>
+            {
+              props.rule.isRecommended &&
+              <Check data-tip data-for={ `rule-info-check-icon-${ props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+            }
+            {
+              props.rule.isFixable &&
+              <Wrench data-tip data-for={ `rule-info-wrench-icon-${ props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+            }
           </Title>
 
           <StyledSwitcher
             data-tip
-            data-for={ `rule-info-switcher-${props.name}` }
+            data-for={ `rule-info-switcher-${props.rule.name}` }
             size={ 'large' }
             isActive={ props.rule.isTurnedOn }
             onClick={ () => props.onSwitcherClick(props.rule.name, !props.rule.isTurnedOn) }
@@ -160,7 +175,13 @@ export const RuleInfo = (props) => {
         </div>
       </Footer>
 
-      <ReactTooltip id={ `rule-info-switcher-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 250 }>
+      <ReactTooltip id={ `rule-info-check-icon-${props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+        <span>Recommended</span>
+      </ReactTooltip>
+      <ReactTooltip id={ `rule-info-wrench-icon-${props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+        <span>Fixable</span>
+      </ReactTooltip>
+      <ReactTooltip id={ `rule-info-switcher-${props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
         <span>{ props.rule.isTurnedOn ? 'Turned on' : 'Turned off' }</span>
       </ReactTooltip>
     </Wrapper>
