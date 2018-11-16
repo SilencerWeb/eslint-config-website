@@ -45,11 +45,6 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const StyledSelect = styled.select`
-  margin-top: 20px;
-  outline: none;
-`;
-
 const StyledRuleExample = styled(RuleExample)`
   flex-grow: 1;
   max-width: 50%;

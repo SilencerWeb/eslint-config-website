@@ -113,8 +113,6 @@ const Wrapper = styled.div`
 
 
 export const Rule = (props) => {
-  console.log(props.isTurnedOn);
-
   return (
     <Wrapper className={ props.className } isActive={ props.isActive }>
       <Header>

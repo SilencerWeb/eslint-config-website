@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import fast from 'fast.js';
 
 import { Search, Heading, Button } from 'ui/atoms';
 import { Rule } from 'ui/molecules';
@@ -55,13 +56,25 @@ const Wrapper = styled.div`
 
 
 export const Sidebar = (props) => {
+  const handleSearchKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      props.onSearchEnterPress(e.currentTarget.value);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    if (e.currentTarget.value.length === 0) {
+      props.onSearchEnterPress(e.currentTarget.value);
+    }
+  };
+
   return (
     <Wrapper className={ props.className }>
-      <StyledSearch placeholder={ 'Type a rule here...' } onChange={ (e) => props.onSearchChange(e.currentTarget.value) }/>
+      <StyledSearch placeholder={ 'Type a rule here...' } onKeyPress={ handleSearchKeyPress } onChange={ handleSearchChange }/>
 
       <Heading as={ 'h2' }>Rules</Heading>
       <RulesWrapper>
-        { props.rules ? props.rules.map((rule) => (
+        { props.rules ? fast.map(props.rules, (rule) => (
           <StyledRule
             name={ rule.name }
             description={ rule.shortDescription }

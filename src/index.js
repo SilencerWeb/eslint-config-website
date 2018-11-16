@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import fast from 'fast.js';
 
 import { Sidebar, RuleInfo } from 'ui/organisms';
 import { GlobalStyles } from 'ui/theme';
@@ -23,12 +24,19 @@ class App extends React.Component {
 
   filterRules = () => {
     this.setState((prevState) => {
-      const rulesMatchedByName = prevState.rules.filter((rule) => rule.name.includes(prevState.searchingString));
-      const rulesMatchedByShortDescription = prevState.rules.filter((rule) => rule.shortDescription.includes(prevState.searchingString));
+      if (prevState.searchingString.length === 0) {
+        return {
+          ...prevState,
+          filteredRules: prevState.rules,
+        };
+      }
+
+      const rulesMatchedByName = fast.filter(prevState.rules, ((rule) => rule.name.includes(prevState.searchingString)));
+      const rulesMatchedByShortDescription = fast.filter(prevState.rules, ((rule) => rule.shortDescription.includes(prevState.searchingString)));
 
       const filteredRules = [...rulesMatchedByName, ...rulesMatchedByShortDescription];
 
-      const filteredRulesWithoutCopies = filteredRules.filter((rule, i, rules) => !rules.includes(rule, i + 1));
+      const filteredRulesWithoutCopies = fast.filter(filteredRules, ((rule, i, rules) => !rules.includes(rule, i + 1)));
 
       return {
         ...prevState,
@@ -59,11 +67,11 @@ class App extends React.Component {
 
       return {
         ...prevState,
-        rules: prevState.rules.map((rule) => {
+        rules: fast.map(prevState.rules, ((rule) => {
           rule.isActive = rule.name === activeRuleName;
 
           return rule;
-        }),
+        })),
         activeRule: prevState.rules.find((rule) => rule.name === activeRuleName),
       };
     });
@@ -102,7 +110,9 @@ class App extends React.Component {
   downloadConfig = () => {
     let rulesAsString = '';
 
-    this.state.rules.filter((rule) => rule.isTurnedOn).forEach((rule, i, rules) => {
+    const filteredRules = fast.filter(this.state.rules, ((rule) => rule.isTurnedOn));
+
+    fast.forEach(filteredRules, (rule, i, rules) => {
       rulesAsString += `    "${rule.name}": "${rule.value}"`;
 
       if (i !== rules.length - 1) {
@@ -131,7 +141,7 @@ ${rulesAsString}
         <Wrapper>
           <Sidebar
             rules={ this.state.filteredRules }
-            onSearchChange={ this.changeSearchingString }
+            onSearchEnterPress={ this.changeSearchingString }
             onSwitcherClick={ this.changeRuleTurnOnValue }
             onRuleClick={ this.setActiveRule }
             onDownloadConfigButtonClick={ this.downloadConfig }
