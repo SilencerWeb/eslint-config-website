@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import Select from 'react-select';
+import ReactTooltip from 'react-tooltip';
 
 import { Heading, Button, Switcher } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
@@ -116,6 +117,8 @@ export const RuleInfo = (props) => {
           </Title>
 
           <StyledSwitcher
+            data-tip
+            data-for={ `rule-info-switcher-${props.name}` }
             size={ 'large' }
             isActive={ props.rule.isTurnedOn }
             onClick={ () => props.onSwitcherClick(props.rule.name, !props.rule.isTurnedOn) }
@@ -161,6 +164,10 @@ export const RuleInfo = (props) => {
           <StyledButton onClick={ () => props.onPreviousOrNextButtonClick('next') }>Next rule</StyledButton>
         </div>
       </Footer>
+
+      <ReactTooltip id={ `rule-info-switcher-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 250 }>
+        <span>{ props.rule.isTurnedOn ? 'Turned on' : 'Turned off' }</span>
+      </ReactTooltip>
     </Wrapper>
   );
 };

@@ -103,6 +103,14 @@ const globalStyles = css`
       transition: 0.1s !important;
     }
   }
+  
+  .react-tooltip {
+    font-size: 12px;
+    padding-top: 5px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+  }
 `;
 
 

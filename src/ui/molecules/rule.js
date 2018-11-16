@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
+import ReactTooltip from 'react-tooltip';
 
 import { Switcher } from 'ui/atoms';
 import { Check, Wrench } from 'ui/outlines';
@@ -112,18 +113,35 @@ const Wrapper = styled.div`
 
 
 export const Rule = (props) => {
+  console.log(props.isTurnedOn);
+
   return (
     <Wrapper className={ props.className } isActive={ props.isActive }>
       <Header>
         <HeaderSide onClick={ () => props.onClick(props.name) }>
           <Name>{ props.name }</Name>
-          { props.isRecommended && <Check width={ 14 } height={ 14 }/> }
-          { props.isFixable && <Wrench width={ 14 } height={ 14 }/> }
+          { props.isRecommended && <Check data-tip data-for={ `check-icon-${ props.name }` } width={ 14 } height={ 14 }/> }
+          { props.isFixable && <Wrench data-tip data-for={ `wrench-icon-${ props.name }` } width={ 14 } height={ 14 }/> }
         </HeaderSide>
 
-        <Switcher isActive={ props.isTurnedOn } onClick={ () => props.onSwitcherClick(props.name, !props.isTurnedOn) }/>
+        <Switcher
+          data-tip
+          data-for={ `rule-switcher-${props.name}` }
+          isActive={ props.isTurnedOn }
+          onClick={ () => props.onSwitcherClick(props.name, !props.isTurnedOn) }
+        />
       </Header>
       <Description onClick={ () => props.onClick(props.name) }>{ props.description }</Description>
+
+      <ReactTooltip id={ `check-icon-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 250 }>
+        <span>Recommended</span>
+      </ReactTooltip>
+      <ReactTooltip id={ `wrench-icon-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 250 }>
+        <span>Fixable</span>
+      </ReactTooltip>
+      <ReactTooltip id={ `rule-switcher-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 250 }>
+        <span>{ props.isTurnedOn ? 'Turned on' : 'Turned off' }</span>
+      </ReactTooltip>
     </Wrapper>
   );
 };

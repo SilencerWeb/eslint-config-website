@@ -57,11 +57,11 @@ const Wrapper = styled.div`
 export const Sidebar = (props) => {
   return (
     <Wrapper className={ props.className }>
-      <StyledSearch placeholder={ 'Type a rule here...' }/>
+      <StyledSearch placeholder={ 'Type a rule here...' } onChange={ (e) => props.onSearchChange(e.currentTarget.value) }/>
 
       <Heading as={ 'h2' }>Rules</Heading>
       <RulesWrapper>
-        { props.rules && props.rules.map((rule) => (
+        { props.rules ? props.rules.map((rule) => (
           <StyledRule
             name={ rule.name }
             description={ rule.shortDescription }
@@ -73,7 +73,7 @@ export const Sidebar = (props) => {
             onSwitcherClick={ props.onSwitcherClick }
             key={ rule.name }
           />
-        )) }
+        )) : 'No rules found' }
       </RulesWrapper>
 
       <Footer>

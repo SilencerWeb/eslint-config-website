@@ -16,7 +16,29 @@ const Wrapper = styled.div`
 class App extends React.Component {
   state = {
     rules: rules,
+    filteredRules: rules,
     activeRule: rules[0],
+    searchingString: '',
+  };
+
+  filterRules = () => {
+    this.setState((prevState) => {
+      const rulesMatchedByName = prevState.rules.filter((rule) => rule.name.includes(prevState.searchingString));
+      const rulesMatchedByShortDescription = prevState.rules.filter((rule) => rule.shortDescription.includes(prevState.searchingString));
+
+      const filteredRules = [...rulesMatchedByName, ...rulesMatchedByShortDescription];
+
+      const filteredRulesWithoutCopies = filteredRules.filter((rule, i, rules) => !rules.includes(rule, i + 1));
+
+      return {
+        ...prevState,
+        filteredRules: filteredRulesWithoutCopies,
+      };
+    });
+  };
+
+  changeSearchingString = (value) => {
+    this.setState({ searchingString: value }, this.filterRules);
   };
 
   setActiveRule = (activeRuleName) => {
@@ -108,7 +130,8 @@ ${rulesAsString}
 
         <Wrapper>
           <Sidebar
-            rules={ this.state.rules }
+            rules={ this.state.filteredRules }
+            onSearchChange={ this.changeSearchingString }
             onSwitcherClick={ this.changeRuleTurnOnValue }
             onRuleClick={ this.setActiveRule }
             onDownloadConfigButtonClick={ this.downloadConfig }
