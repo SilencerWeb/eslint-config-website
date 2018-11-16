@@ -62,6 +62,29 @@ class App extends React.Component {
     });
   };
 
+  downloadConfig = () => {
+    let rulesAsString = '';
+
+    this.state.rules.filter((rule) => rule.isTurnedOn).map((rule, i, rules) => {
+      rulesAsString += `    "${rule.name}": 2`;
+
+      if (i !== rules.length - 1) {
+        rulesAsString += ',\n';
+      }
+    });
+
+    const element = document.createElement('a');
+    const file = new Blob([`{
+  "rules": {
+${rulesAsString}
+  }
+}`], { type: 'application/json' });
+
+    element.href = URL.createObjectURL(file);
+    element.download = '_.eslintrc.json';
+    element.click();
+  };
+
   render = () => {
 
     return (
@@ -69,7 +92,12 @@ class App extends React.Component {
         <GlobalStyles/>
 
         <Wrapper>
-          <Sidebar rules={ this.state.rules } onRuleClick={ this.setActiveRule } onSwitcherClick={ this.changeRuleTurnOnValue }/>
+          <Sidebar
+            rules={ this.state.rules }
+            onSwitcherClick={ this.changeRuleTurnOnValue }
+            onRuleClick={ this.setActiveRule }
+            onDownloadConfigButtonClick={ this.downloadConfig }
+          />
           <RuleInfo
             rule={ this.state.activeRule }
             onPreviousOrNextButtonClick={ this.setActiveRule }
