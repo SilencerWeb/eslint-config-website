@@ -8,7 +8,7 @@ export const Switcher = styled.div`
   width: 34px;
   height: 20px;
   border-radius: 15px;
-  box-shadow: inset 0 0 0 1px #d5d5d5;
+  box-shadow: inset 0 0 0 1px ${color.tertiary};
   cursor: pointer;
   
   &:before {
@@ -19,7 +19,6 @@ export const Switcher = styled.div`
     width: 20px;
     height: 20px;
     border-radius: 15px;
-    background: rgba(19, 191, 17, 0);
     transition: 0.2s ease-in-out;
   }
   
@@ -32,7 +31,7 @@ export const Switcher = styled.div`
     height: 20px;
     background: #ffffff;
     border-radius: 15px;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 0 1px ${color.tertiary}, 0 2px 4px ${color.tertiary};
     transition: 0.2s ease-in-out;
   }
   
@@ -51,7 +50,7 @@ export const Switcher = styled.div`
       
       &:after {
         left: 16px;
-        box-shadow: inset 0 0 0 1px ${color.primary}, 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0 0 0 1px ${color.primary};
       }  
     `}
   `}

@@ -9,7 +9,7 @@ export const Search = styled.input`
   font-size: 14px;
   line-height: 1;
   color: ${color.secondary};
-  background-color: ${color.tertiary};
+  background-color: #f2f2f2;
   border: 1px solid transparent;
   border-radius: 40px;
   padding-top: 10px;

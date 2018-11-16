@@ -7,7 +7,7 @@ import { rgba } from 'utils';
 export const color = {
   primary: '#4b32c3',
   secondary: '#393e41',
-  tertiary: '#f2f2f2',
+  tertiary: '#eaeaea',
   success: '#44c139',
   error: '#e41717',
 };
@@ -57,31 +57,9 @@ const globalStyles = css`
       transition: 0.1s !important;
       cursor: pointer !important;
       
-      &:hover {
-        border-color: ${color.secondary} !important;
-        
-        .react-select {
-        
-          &__dropdown-indicator {
-            color: ${color.secondary} !important;
-          }
-        }
-      }
-      
       &--is-focused {
         border-color: ${color.primary} !important;
         box-shadow: none !important;
-        
-        &:hover {
-          border-color: ${color.primary} !important;
-        
-         .react-select {
-        
-            &__dropdown-indicator {
-              color: ${color.primary} !important;
-            }
-          }
-        }
         
         .react-select {
         
