@@ -8,6 +8,7 @@ import { rgba } from 'utils';
 
 
 const Name = styled.h3`
+  display: inline;
   font-size: 16px;
   font-weight: 500;
   color: ${rgba(color.secondary, 0.7)};
@@ -26,13 +27,13 @@ const Description = styled.p`
 
 const HeaderSide = styled.div`
   flex-grow: 1;
-  display: flex;
-  align-items: center;
-  padding-right: 5px;
+  padding-right: 10px;
   padding-bottom: 5px;
     
   svg {
+    display: inline;
     fill: ${rgba(color.secondary, 0.7)};
+    margin-top: 2.5px;
     margin-left: 5px;
     transition: 0.1s;
   }
@@ -42,6 +43,10 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  
+  ${Switcher} {
+    flex-shrink: 0;
+  }
 `;
 
 const Wrapper = styled.div`

@@ -20,7 +20,7 @@ export const Switcher = styled.div`
     height: 20px;
     border-radius: 15px;
     background: rgba(19, 191, 17, 0);
-    transition: 0.25s ease-in-out;
+    transition: 0.2s ease-in-out;
   }
   
   &:after {
@@ -33,10 +33,14 @@ export const Switcher = styled.div`
     background: #ffffff;
     border-radius: 15px;
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: 0.25s ease-in-out;
+    transition: 0.2s ease-in-out;
   }
   
   ${props => css`
+    
+    ${props.size === 'large' && css`
+      transform: scale(1.4);
+    `}
     
     ${props.isActive && css`
       

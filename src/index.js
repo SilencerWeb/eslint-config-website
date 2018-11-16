@@ -72,7 +72,8 @@ class App extends React.Component {
           <Sidebar rules={ this.state.rules } onRuleClick={ this.setActiveRule } onSwitcherClick={ this.changeRuleTurnOnValue }/>
           <RuleInfo
             rule={ this.state.activeRule }
-            setActiveRule={ this.setActiveRule }
+            onPreviousOrNextButtonClick={ this.setActiveRule }
+            onSwitcherClick={ this.changeRuleTurnOnValue }
           />
         </Wrapper>
       </React.Fragment>

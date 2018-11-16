@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 
-import { Heading, Button } from 'ui/atoms';
+import { Heading, Button, Switcher } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
 import { color } from 'ui/theme';
 
@@ -22,7 +22,12 @@ const ShortDescription = styled.p`
 `;
 
 const Title = styled.div`
-  margin-bottom: 10px;
+  padding-right: 20px;
+`;
+
+const StyledSwitcher = styled(Switcher)`
+  flex-shrink: 0;
+  margin-top: 2px;
 `;
 
 const LongDescription = styled.p`
@@ -46,6 +51,12 @@ const StyledRuleExample = styled(RuleExample)`
 const RuleExamples = styled.div`
   flex-grow: 1;
   display: flex;
+`;
+
+const HeaderSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 `;
 
 const Section = styled.div`
@@ -92,10 +103,19 @@ export const RuleInfo = (props) => {
   return (
     <Wrapper className={ props.rule.className }>
       <Section>
-        <Title>
-          <Name>{ props.rule.name }</Name>
-          <ShortDescription>- { props.rule.shortDescription }</ShortDescription>
-        </Title>
+        <HeaderSection>
+          <Title>
+            <Name>{ props.rule.name }</Name>
+            <ShortDescription>- { props.rule.shortDescription }</ShortDescription>
+          </Title>
+
+          <StyledSwitcher
+            size={ 'large' }
+            isActive={ props.rule.isTurnedOn }
+            onClick={ () => props.onSwitcherClick(props.rule.name, !props.rule.isTurnedOn) }
+          />
+        </HeaderSection>
+
         <LongDescription>{ props.rule.longDescription }</LongDescription>
       </Section>
 
@@ -113,8 +133,8 @@ export const RuleInfo = (props) => {
         </div>
 
         <div>
-          <StyledButton onClick={ () => props.setActiveRule('previous') }>Previous rule</StyledButton>
-          <StyledButton onClick={ () => props.setActiveRule('next') }>Next rule</StyledButton>
+          <StyledButton onClick={ () => props.onPreviousOrNextButtonClick('previous') }>Previous rule</StyledButton>
+          <StyledButton onClick={ () => props.onPreviousOrNextButtonClick('next') }>Next rule</StyledButton>
         </div>
       </Footer>
     </Wrapper>
