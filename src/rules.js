@@ -1,6 +1,7 @@
 export const rules = [
   {
     name: 'for-direction',
+    value: 'warn',
     shortDescription: 'Enforce “for” loop update clause moving the counter in the right direction',
     longDescription: 'A for loop with a stop condition that can never be reached, such as one with a counter that moves in the wrong direction, will run infinitely. While there are occasions when an infinite loop is intended, the convention is to construct such loops as while loops. More typically, an infinite for loop is a bug.',
     examples: {
@@ -19,6 +20,7 @@ for (var i = 10; i >= 0; i++) {}`,
   },
   {
     name: 'no-async-promise-executor',
+    value: 'warn',
     shortDescription: 'Disallow using an async function as a Promise executor',
     longDescription: 'This rule aims to disallow async Promise executor functions.',
     examples: {
@@ -58,6 +60,7 @@ const result = new Promise(async (resolve, reject) => {
   },
   {
     name: 'no-await-in-loop',
+    value: 'warn',
     shortDescription: 'Disallow await inside of loops',
     longDescription: 'This rule disallows the use of await within loop bodies.',
     examples: {
@@ -89,6 +92,7 @@ async function foo(things) {
   },
   {
     name: 'no-compare-neg-zero',
+    value: 'warn',
     shortDescription: 'Disallow comparing against -0',
     longDescription: 'The rule should warn against code that tries to compare against -0, since that will not work as intended. That is, code like x === -0 will pass for both +0 and -0. The author probably intended Object.is(x, -0).',
     examples: {
@@ -101,12 +105,13 @@ if (Object.is(x, -0)) {}`,
 if (x === -0) {}`,
     },
     isActive: false,
-    isRecommended: false,
+    isRecommended: true,
     isFixable: false,
     isTurnedOn: false,
   },
   {
     name: 'no-control-regex',
+    value: 'warn',
     shortDescription: 'Disallow control characters in regular expressions',
     longDescription: 'This rule disallows control characters in regular expressions.',
     examples: {
@@ -122,12 +127,13 @@ var pattern = /\x1f/;
 var pattern = new RegExp("\x1f");`,
     },
     isActive: false,
-    isRecommended: false,
+    isRecommended: true,
     isFixable: false,
     isTurnedOn: false,
   },
   {
     name: 'no-debugger',
+    value: 'warn',
     shortDescription: 'Disallow the use of debugger',
     longDescription: 'This rule disallows debugger statements.',
     examples: {
@@ -142,12 +148,13 @@ function isTruthy(x) {
 }`,
     },
     isActive: false,
-    isRecommended: false,
+    isRecommended: true,
     isFixable: false,
     isTurnedOn: false,
   },
   // {
   //   name: '',
+  //   value: 'warn',
   //   shortDescription: '',
   //   longDescription: '',
   //   examples: {

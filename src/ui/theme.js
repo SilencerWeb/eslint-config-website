@@ -1,6 +1,8 @@
 import { createGlobalStyle, css } from 'styled-components';
 import normalize from 'normalize.css/normalize.css';
 
+import { rgba } from 'utils';
+
 
 export const color = {
   primary: '#4b32c3',
@@ -46,6 +48,82 @@ const globalStyles = css`
     font-weight: 400;
     line-height: 1.3;
     color: ${color.secondary};
+  }
+  
+  .react-select {
+  
+    &__control {
+      border-color: ${color.tertiary} !important;
+      transition: 0.1s !important;
+      cursor: pointer !important;
+      
+      &:hover {
+        border-color: ${color.secondary} !important;
+        
+        .react-select {
+        
+          &__dropdown-indicator {
+            color: ${color.secondary} !important;
+          }
+        }
+      }
+      
+      &--is-focused {
+        border-color: ${color.primary} !important;
+        box-shadow: none !important;
+        
+        &:hover {
+          border-color: ${color.primary} !important;
+        
+         .react-select {
+        
+            &__dropdown-indicator {
+              color: ${color.primary} !important;
+            }
+          }
+        }
+        
+        .react-select {
+        
+          &__dropdown-indicator {
+            color: ${color.primary} !important;
+          }
+        }
+      }
+    }
+    
+    &__menu {
+      border: 1px solid ${color.tertiary};
+      box-shadow: none !important;
+    }
+    
+    &__option {
+      color: ${color.secondary} !important;
+      transition: 0.1s !important;
+      cursor: pointer !important;
+      
+      &--is-focused {
+        background-color: ${rgba(color.primary, 0.2)} !important;
+      }
+      
+      &--is-selected {
+        color: #ffffff !important;
+        background-color: ${color.primary} !important;
+      }
+    }
+    
+    &__single-value {
+      color: ${color.secondary} !important;
+    }
+    
+    &__indicator-separator {
+      display: none;
+    }
+    
+    &__dropdown-indicator {
+      color: ${color.tertiary} !important;
+      transition: 0.1s !important;
+    }
   }
 `;
 

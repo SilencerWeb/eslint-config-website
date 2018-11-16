@@ -47,6 +47,21 @@ class App extends React.Component {
     });
   };
 
+  changeRuleValue = (ruleName, value) => {
+    this.setState((prevState) => {
+      const rules = [...prevState.rules];
+
+      const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
+
+      rules[changingRuleIndex].value = value;
+
+      return {
+        ...prevState,
+        rules: rules,
+      };
+    });
+  };
+
   changeRuleTurnOnValue = (ruleName, value) => {
     this.setState((prevState) => {
       const rules = [...prevState.rules];
@@ -65,8 +80,8 @@ class App extends React.Component {
   downloadConfig = () => {
     let rulesAsString = '';
 
-    this.state.rules.filter((rule) => rule.isTurnedOn).map((rule, i, rules) => {
-      rulesAsString += `    "${rule.name}": 2`;
+    this.state.rules.filter((rule) => rule.isTurnedOn).forEach((rule, i, rules) => {
+      rulesAsString += `    "${rule.name}": "${rule.value}"`;
 
       if (i !== rules.length - 1) {
         rulesAsString += ',\n';
@@ -100,6 +115,7 @@ ${rulesAsString}
           />
           <RuleInfo
             rule={ this.state.activeRule }
+            onSelectChange={ this.changeRuleValue }
             onPreviousOrNextButtonClick={ this.setActiveRule }
             onSwitcherClick={ this.changeRuleTurnOnValue }
           />

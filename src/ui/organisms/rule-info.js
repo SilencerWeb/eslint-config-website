@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
+import Select from 'react-select';
 
 import { Heading, Button, Switcher } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
@@ -30,7 +31,7 @@ const StyledSwitcher = styled(Switcher)`
   margin-top: 2px;
 `;
 
-const LongDescription = styled.p`
+const Paragraph = styled.p`
   margin-top: 0;
   margin-bottom: 0;
 `;
@@ -41,6 +42,11 @@ const StyledButton = styled(Button)`
   &:last-child {
     margin-right: 0;
   }
+`;
+
+const StyledSelect = styled.select`
+  margin-top: 20px;
+  outline: none;
 `;
 
 const StyledRuleExample = styled(RuleExample)`
@@ -116,7 +122,25 @@ export const RuleInfo = (props) => {
           />
         </HeaderSection>
 
-        <LongDescription>{ props.rule.longDescription }</LongDescription>
+        <Paragraph>{ props.rule.longDescription }</Paragraph>
+      </Section>
+
+      <Section>
+        <Heading>What ESLint should do when it catches the rule break</Heading>
+        <Select
+          classNamePrefix={ 'react-select' }
+          value={
+            props.rule.value === 'warn' ?
+              { label: 'Show a warning', value: 'warn' }
+              :
+              { label: 'Throw an error', value: 'error' }
+          }
+          options={ [
+            { label: 'Show a warning', value: 'warn' },
+            { label: 'Throw an error', value: 'error' },
+          ] }
+          onChange={ ({ value }) => props.onSelectChange(props.rule.name, value) }
+        />
       </Section>
 
       <Section isAllowedToGrow={ true }>
