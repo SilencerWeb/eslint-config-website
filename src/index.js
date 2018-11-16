@@ -47,6 +47,21 @@ class App extends React.Component {
     });
   };
 
+  changeRuleTurnOnValue = (ruleName, value) => {
+    this.setState((prevState) => {
+      const rules = [...prevState.rules];
+
+      const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
+
+      rules[changingRuleIndex].isTurnedOn = value;
+
+      return {
+        ...prevState,
+        rules: rules,
+      };
+    });
+  };
+
   render = () => {
 
     return (
@@ -54,12 +69,9 @@ class App extends React.Component {
         <GlobalStyles/>
 
         <Wrapper>
-          <Sidebar rules={ this.state.rules } handleRuleClick={ this.setActiveRule }/>
+          <Sidebar rules={ this.state.rules } onRuleClick={ this.setActiveRule } onSwitcherClick={ this.changeRuleTurnOnValue }/>
           <RuleInfo
-            name={ this.state.activeRule.name }
-            shortDescription={ this.state.activeRule.shortDescription }
-            longDescription={ this.state.activeRule.longDescription }
-            examples={ this.state.activeRule.examples }
+            rule={ this.state.activeRule }
             setActiveRule={ this.setActiveRule }
           />
         </Wrapper>

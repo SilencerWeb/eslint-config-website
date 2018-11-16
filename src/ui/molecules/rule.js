@@ -1,7 +1,8 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 
-import { Check } from 'ui/outlines';
+import { Switcher } from 'ui/atoms';
+import { Check, Wrench } from 'ui/outlines';
 import { color } from 'ui/theme';
 import { rgba } from 'utils';
 
@@ -15,10 +16,6 @@ const Name = styled.h3`
   transition: 0.1s;
 `;
 
-const StyledCheck = styled(Check)`
-  margin-left: 5px;
-`;
-
 const Description = styled.p`
   font-size: 14px;
   color: ${rgba(color.secondary, 0.7)};
@@ -27,10 +24,24 @@ const Description = styled.p`
   transition: 0.1s;
 `;
 
-const Header = styled.div`
+const HeaderSide = styled.div`
+  flex-grow: 1;
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+    
+  svg {
+    fill: ${rgba(color.secondary, 0.7)};
+    margin-left: 5px;
+    transition: 0.1s;
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 `;
 
 const Wrapper = styled.div`
@@ -44,6 +55,13 @@ const Wrapper = styled.div`
     
     ${Description} {
       color: ${color.secondary};
+    }
+    
+    ${HeaderSide} {
+      
+      svg {
+        fill: ${color.secondary};
+      }
     }
   }
 
@@ -60,6 +78,13 @@ const Wrapper = styled.div`
         ${Description} {
           color: ${color.secondary};
         }
+        
+        ${HeaderSide} {
+      
+          svg {
+            fill: ${color.secondary};
+          }
+        }
       }
 
       ${Name} {
@@ -69,6 +94,13 @@ const Wrapper = styled.div`
       ${Description} {
         color: ${color.secondary};
       }
+      
+      ${HeaderSide} {
+    
+        svg {
+          fill: ${color.secondary};
+        }
+      }
     `}
   `}
 `;
@@ -76,12 +108,17 @@ const Wrapper = styled.div`
 
 export const Rule = (props) => {
   return (
-    <Wrapper className={ props.className } isActive={ props.isActive } onClick={ () => props.onClick(props.name) }>
+    <Wrapper className={ props.className } isActive={ props.isActive }>
       <Header>
-        <Name>{ props.name }</Name>
-        { props.isChecked && <StyledCheck width={ 15 } height={ 15 } fill={ color.primary }/> }
+        <HeaderSide onClick={ () => props.onClick(props.name) }>
+          <Name>{ props.name }</Name>
+          { props.isRecommended && <Check width={ 14 } height={ 14 }/> }
+          { props.isFixable && <Wrench width={ 14 } height={ 14 }/> }
+        </HeaderSide>
+
+        <Switcher isActive={ props.isTurnedOn } onClick={ () => props.onSwitcherClick(props.name, !props.isTurnedOn) }/>
       </Header>
-      <Description>{ props.description }</Description>
+      <Description onClick={ () => props.onClick(props.name) }>{ props.description }</Description>
     </Wrapper>
   );
 };

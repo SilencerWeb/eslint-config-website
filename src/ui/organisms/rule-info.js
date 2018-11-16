@@ -90,20 +90,20 @@ const Wrapper = styled.div`
 export const RuleInfo = (props) => {
 
   return (
-    <Wrapper className={ props.className }>
+    <Wrapper className={ props.rule.className }>
       <Section>
         <Title>
-          <Name>{ props.name }</Name>
-          <ShortDescription>- { props.shortDescription }</ShortDescription>
+          <Name>{ props.rule.name }</Name>
+          <ShortDescription>- { props.rule.shortDescription }</ShortDescription>
         </Title>
-        <LongDescription>{ props.longDescription }</LongDescription>
+        <LongDescription>{ props.rule.longDescription }</LongDescription>
       </Section>
 
       <Section isAllowedToGrow={ true }>
         <Heading>Rule examples</Heading>
         <RuleExamples>
-          <StyledRuleExample code={ props.examples && props.examples.correct } theme={ 'correct' }/>
-          <StyledRuleExample code={ props.examples && props.examples.incorrect } theme={ 'incorrect' }/>
+          <StyledRuleExample code={ props.rule.examples && props.rule.examples.correct } theme={ 'correct' }/>
+          <StyledRuleExample code={ props.rule.examples && props.rule.examples.incorrect } theme={ 'incorrect' }/>
         </RuleExamples>
       </Section>
 

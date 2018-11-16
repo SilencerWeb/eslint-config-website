@@ -43,8 +43,11 @@ export const Sidebar = (props) => {
           name={ rule.name }
           description={ rule.shortDescription }
           isActive={ rule.isActive }
-          isChecked={ rule.isChecked }
-          onClick={ props.handleRuleClick }
+          isRecommended={ rule.isRecommended }
+          isFixable={ rule.isFixable }
+          isTurnedOn={ rule.isTurnedOn }
+          onClick={ props.onRuleClick }
+          onSwitcherClick={ props.onSwitcherClick }
           key={ rule.name }
         />
       )) }
