@@ -84,6 +84,7 @@ class App extends React.Component {
       const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
 
       rules[changingRuleIndex].value = value;
+      rules[changingRuleIndex].isTurnedOn = true;
 
       return {
         ...prevState,
