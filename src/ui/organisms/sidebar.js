@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import fast from 'fast.js';
+import ReactList from 'react-list';
 
 import { Search, Heading, Button } from 'ui/atoms';
 import { Rule } from 'ui/molecules';
@@ -74,19 +74,26 @@ export const Sidebar = (props) => {
 
       <Heading as={ 'h2' }>Rules</Heading>
       <RulesWrapper>
-        { props.rules ? fast.map(props.rules, (rule) => (
-          <StyledRule
-            name={ rule.name }
-            description={ rule.shortDescription }
-            isActive={ rule.isActive }
-            isRecommended={ rule.isRecommended }
-            isFixable={ rule.isFixable }
-            isTurnedOn={ rule.isTurnedOn }
-            onClick={ props.onRuleClick }
-            onSwitcherClick={ props.onSwitcherClick }
-            key={ rule.name }
-          />
-        )) : 'No rules found' }
+        {
+          props.rules ?
+            <ReactList
+              itemRenderer={ (i, key) => (
+                <StyledRule
+                  name={ props.rules[i].name }
+                  description={ props.rules[i].shortDescription }
+                  isActive={ props.rules[i].isActive }
+                  isRecommended={ props.rules[i].isRecommended }
+                  isFixable={ props.rules[i].isFixable }
+                  isTurnedOn={ props.rules[i].isTurnedOn }
+                  onClick={ props.onRuleClick }
+                  onSwitcherClick={ props.onSwitcherClick }
+                  key={ key }
+                />
+              ) }
+              length={ props.rules.length }
+            />
+            : 'No rules found'
+        }
       </RulesWrapper>
 
       <Footer>

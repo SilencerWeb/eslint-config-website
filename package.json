@@ -1,12 +1,12 @@
 {
   "name": "eslint-config-website",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "fast.js": "^0.1.1",
     "normalize.css": "^8.0.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-list": "^0.8.10",
     "react-scripts": "2.1.1",
     "react-select": "^2.1.1",
     "react-syntax-highlighter": "^10.0.1",
