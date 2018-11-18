@@ -1,7 +1,7 @@
 {
   "name": "eslint-config-website",
   "version": "0.1.0",
-  "homepage": "http://doniyor2109.github.io/eslint-config-website",
+  "homepage": "http://silencerweb.github.io/eslint-config-website",
   "dependencies": {
     "fast.js": "^0.1.1",
     "normalize.css": "^8.0.1",
