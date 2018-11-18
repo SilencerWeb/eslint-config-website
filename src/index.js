@@ -77,6 +77,22 @@ class App extends React.Component {
     });
   };
 
+  toggleAllRulesInCategory = (category, value) => {
+    this.setState((prevState) => {
+
+      return {
+        ...prevState,
+        rules: fast.map(prevState.rules, ((rule) => {
+          if (rule.category === category) {
+            rule.isTurnedOn = value;
+          }
+
+          return rule;
+        })),
+      };
+    });
+  };
+
   changeRuleValue = (ruleName, value) => {
     this.setState((prevState) => {
       const rules = [...prevState.rules];
@@ -143,7 +159,8 @@ ${rulesAsString}
           <Sidebar
             rules={ this.state.filteredRules }
             onSearchEnterPress={ this.changeSearchingString }
-            onSwitcherClick={ this.changeRuleTurnOnValue }
+            onCategorySwitcherClick={ this.toggleAllRulesInCategory }
+            onRuleSwitcherClick={ this.changeRuleTurnOnValue }
             onRuleClick={ this.setActiveRule }
             onDownloadConfigButtonClick={ this.downloadConfig }
           />

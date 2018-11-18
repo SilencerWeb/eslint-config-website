@@ -37,6 +37,10 @@ export const Switcher = styled.div`
   
   ${props => css`
     
+    ${props.size === 'medium' && css`
+      transform: scale(1.2);
+    `}
+    
     ${props.size === 'large' && css`
       transform: scale(1.4);
     `}
