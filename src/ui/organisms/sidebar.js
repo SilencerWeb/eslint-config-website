@@ -53,6 +53,9 @@ const Footer = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   text-align: center;
   background-color: #ffffff;
   border-top: 1px solid ${color.tertiary};
@@ -371,7 +374,8 @@ export const Sidebar = (props) => {
       </RulesWrapper>
 
       <Footer>
-        <Button onClick={ props.onDownloadConfigButtonClick }>Download config</Button>
+        <Button onClick={ props.onDownloadConfigButtonClick }>Download</Button>
+        <Button onClick={ props.onPreviewConfigButtonClick }>Preview</Button>
       </Footer>
     </Wrapper>
   );

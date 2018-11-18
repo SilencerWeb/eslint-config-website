@@ -3,10 +3,12 @@ import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import fast from 'fast.js';
 
+import { ConfigPreviewer } from 'ui/molecules';
 import { Sidebar, RuleInfo } from 'ui/organisms';
 import { GlobalStyles } from 'ui/theme';
 
-import { rules } from './rules';
+import { rules } from 'rules';
+import { generateConfig } from 'utils';
 
 
 const Wrapper = styled.div`
@@ -20,6 +22,7 @@ class App extends React.Component {
     filteredRules: rules,
     activeRule: rules[0],
     searchingString: '',
+    isConfigPreviewerVisible: false,
   };
 
   filterRules = () => {
@@ -125,28 +128,20 @@ class App extends React.Component {
   };
 
   downloadConfig = () => {
-    let rulesAsString = '';
-
-    const filteredRules = fast.filter(this.state.rules, ((rule) => rule.isTurnedOn));
-
-    fast.forEach(filteredRules, (rule, i, rules) => {
-      rulesAsString += `    "${rule.name}": "${rule.value}"`;
-
-      if (i !== rules.length - 1) {
-        rulesAsString += ',\n';
-      }
-    });
-
     const element = document.createElement('a');
-    const file = new Blob([`{
-  "rules": {
-${rulesAsString}
-  }
-}`], { type: 'application/json' });
+    const file = new Blob([generateConfig(this.state.rules)], { type: 'application/json' });
 
     element.href = URL.createObjectURL(file);
     element.download = '_.eslintrc.json';
     element.click();
+  };
+
+  openConfigPreviewer = () => {
+    this.setState({ isConfigPreviewerVisible: true });
+  };
+
+  closeConfigPreviewer = () => {
+    this.setState({ isConfigPreviewerVisible: false });
   };
 
   render = () => {
@@ -163,13 +158,19 @@ ${rulesAsString}
             onRuleSwitcherClick={ this.changeRuleTurnOnValue }
             onRuleClick={ this.setActiveRule }
             onDownloadConfigButtonClick={ this.downloadConfig }
+            onPreviewConfigButtonClick={ this.openConfigPreviewer }
           />
-          <RuleInfo
-            rule={ this.state.activeRule }
-            onSelectChange={ this.changeRuleValue }
-            onPreviousOrNextButtonClick={ this.setActiveRule }
-            onSwitcherClick={ this.changeRuleTurnOnValue }
-          />
+          {
+            this.state.isConfigPreviewerVisible ?
+              <ConfigPreviewer rules={ this.state.rules } onCloseButtonClick={ this.closeConfigPreviewer }/>
+              :
+              <RuleInfo
+                rule={ this.state.activeRule }
+                onSelectChange={ this.changeRuleValue }
+                onPreviousOrNextButtonClick={ this.setActiveRule }
+                onSwitcherClick={ this.changeRuleTurnOnValue }
+              />
+          }
         </Wrapper>
       </React.Fragment>
     );

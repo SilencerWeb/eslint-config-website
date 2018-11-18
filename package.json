@@ -5,6 +5,7 @@
     "fast.js": "^0.1.1",
     "normalize.css": "^8.0.1",
     "react": "^16.6.3",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.6.3",
     "react-list": "^0.8.10",
     "react-scripts": "2.1.1",
