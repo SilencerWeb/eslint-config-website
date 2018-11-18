@@ -32,6 +32,8 @@ const HeaderSide = styled.div`
   padding-bottom: 5px;
     
   svg {
+    position: relative;
+    z-index: 9;
     display: inline;
     fill: ${rgba(color.secondary, 0.7)};
     margin-top: 2.5px;
@@ -118,8 +120,24 @@ export const Rule = (props) => {
       <Header>
         <HeaderSide onClick={ () => props.onClick(props.name) }>
           <Name>{ props.name }</Name>
-          { props.isRecommended && <Check data-tip data-for={ `rule-check-icon-${ props.name }` } width={ 14 } height={ 14 }/> }
-          { props.isFixable && <Wrench data-tip data-for={ `rule-wrench-icon-${ props.name }` } width={ 14 } height={ 14 }/> }
+          {
+            props.isRecommended &&
+            <React.Fragment>
+              <Check data-tip data-for={ `rule-check-icon-${ props.name }` } width={ 14 } height={ 14 }/>
+              <ReactTooltip id={ `rule-check-icon-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                <span>Recommended</span>
+              </ReactTooltip>
+            </React.Fragment>
+          }
+          {
+            props.isFixable &&
+            <React.Fragment>
+              <Wrench data-tip data-for={ `rule-wrench-icon-${ props.name }` } width={ 14 } height={ 14 }/>
+              <ReactTooltip id={ `rule-wrench-icon-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                <span>Fixable</span>
+              </ReactTooltip>
+            </React.Fragment>
+          }
         </HeaderSide>
 
         <Switcher
@@ -128,18 +146,11 @@ export const Rule = (props) => {
           isActive={ props.isTurnedOn }
           onClick={ () => props.onSwitcherClick(props.name, !props.isTurnedOn) }
         />
+        <ReactTooltip id={ `rule-switcher-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
+          <span>{ props.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
+        </ReactTooltip>
       </Header>
       <Description onClick={ () => props.onClick(props.name) }>{ props.description }</Description>
-
-      <ReactTooltip id={ `rule-check-icon-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
-        <span>Recommended</span>
-      </ReactTooltip>
-      <ReactTooltip id={ `rule-wrench-icon-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
-        <span>Fixable</span>
-      </ReactTooltip>
-      <ReactTooltip id={ `rule-switcher-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-        <span>{ props.isTurnedOn ? 'Turned on' : 'Turned off' }</span>
-      </ReactTooltip>
     </Wrapper>
   );
 };
