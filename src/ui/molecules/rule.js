@@ -114,43 +114,51 @@ const Wrapper = styled.div`
 `;
 
 
-export const Rule = (props) => {
-  return (
-    <Wrapper className={ props.className } isActive={ props.isActive }>
-      <Header>
-        <HeaderSide onClick={ () => props.onClick(props.name) }>
-          <Name>{ props.name }</Name>
-          {
-            props.isRecommended &&
-            <React.Fragment>
-              <Check data-tip data-for={ `rule-check-icon-${ props.name }` } width={ 14 } height={ 14 }/>
-              <ReactTooltip id={ `rule-check-icon-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
-                <span>Recommended</span>
-              </ReactTooltip>
-            </React.Fragment>
-          }
-          {
-            props.isFixable &&
-            <React.Fragment>
-              <Wrench data-tip data-for={ `rule-wrench-icon-${ props.name }` } width={ 14 } height={ 14 }/>
-              <ReactTooltip id={ `rule-wrench-icon-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
-                <span>Fixable</span>
-              </ReactTooltip>
-            </React.Fragment>
-          }
-        </HeaderSide>
+export class Rule extends React.Component {
 
-        <Switcher
-          data-tip
-          data-for={ `rule-switcher-${props.name}` }
-          isActive={ props.isTurnedOn }
-          onClick={ () => props.onSwitcherClick(props.name, !props.isTurnedOn) }
-        />
-        <ReactTooltip id={ `rule-switcher-${props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-          <span>{ props.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
-        </ReactTooltip>
-      </Header>
-      <Description onClick={ () => props.onClick(props.name) }>{ props.description }</Description>
-    </Wrapper>
-  );
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return nextProps.isTurnedOn !== this.props.isTurnedOn || nextProps.isActive !== this.props.isActive;
+  };
+
+  render = () => {
+
+    return (
+      <Wrapper className={ this.props.className } isActive={ this.props.isActive }>
+        <Header>
+          <HeaderSide onClick={ () => this.props.onClick(this.props.name) }>
+            <Name>{ this.props.name }</Name>
+            {
+              this.props.isRecommended &&
+              <React.Fragment>
+                <Check data-tip data-for={ `rule-check-icon-${ this.props.name }` } width={ 14 } height={ 14 }/>
+                <ReactTooltip id={ `rule-check-icon-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                  <span>Recommended</span>
+                </ReactTooltip>
+              </React.Fragment>
+            }
+            {
+              this.props.isFixable &&
+              <React.Fragment>
+                <Wrench data-tip data-for={ `rule-wrench-icon-${ this.props.name }` } width={ 14 } height={ 14 }/>
+                <ReactTooltip id={ `rule-wrench-icon-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                  <span>Fixable</span>
+                </ReactTooltip>
+              </React.Fragment>
+            }
+          </HeaderSide>
+
+          <Switcher
+            data-tip
+            data-for={ `rule-switcher-${this.props.name}` }
+            isActive={ this.props.isTurnedOn }
+            onClick={ () => this.props.onSwitcherClick(this.props.name, !this.props.isTurnedOn) }
+          />
+          <ReactTooltip id={ `rule-switcher-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
+            <span>{ this.props.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
+          </ReactTooltip>
+        </Header>
+        <Description onClick={ () => this.props.onClick(this.props.name) }>{ this.props.description }</Description>
+      </Wrapper>
+    );
+  };
 };
