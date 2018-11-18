@@ -116,7 +116,7 @@ const Wrapper = styled.div`
 
 export class Rule extends React.Component {
 
-  shouldComponentUpdate = (nextProps, nextState) => {
+  shouldComponentUpdate = (nextProps) => {
     return nextProps.isTurnedOn !== this.props.isTurnedOn || nextProps.isActive !== this.props.isActive;
   };
 

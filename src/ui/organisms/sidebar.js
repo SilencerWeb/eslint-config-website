@@ -127,7 +127,7 @@ export const Sidebar = (props) => {
                       onClick={ () => props.onCategorySwitcherClick('Possible Errors', !areAllPossibleErrorsRulesTurnedOn) }
                     />
                     <ReactTooltip id={ `sidebar-switcher-possible-errors` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ possibleErrorsRules ? 'Turn off' : 'Turn on' }</span>
+                      <span>{ areAllPossibleErrorsRulesTurnedOn ? 'Turn off' : 'Turn on' }</span>
                     </ReactTooltip>
                   </RulesGroupHeader>
                   <ReactList
@@ -157,13 +157,13 @@ export const Sidebar = (props) => {
                     <Subtitle as={ 'h3' }>Best Practices</Subtitle>
                     <Switcher
                       data-tip
-                      data-for={ `sidebar-switcher-best-practices-rules` }
+                      data-for={ `sidebar-switcher-best-practices` }
                       size={ 'medium' }
                       isActive={ areAllBestPracticesRules }
                       onClick={ () => props.onCategorySwitcherClick('Best Practices', !areAllBestPracticesRules) }
                     />
-                    <ReactTooltip id={ `sidebar-switcher-best-practices-rules` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ bestPracticesRules ? 'Turn off' : 'Turn on' }</span>
+                    <ReactTooltip id={ `sidebar-switcher-best-practices` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
+                      <span>{ areAllBestPracticesRules ? 'Turn off' : 'Turn on' }</span>
                     </ReactTooltip>
                   </RulesGroupHeader>
                   <ReactList
@@ -235,7 +235,7 @@ export const Sidebar = (props) => {
                       onClick={ () => props.onCategorySwitcherClick('Variables', !areAllVariablesRules) }
                     />
                     <ReactTooltip id={ `sidebar-switcher-variables` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ variablesRules ? 'Turn off' : 'Turn on' }</span>
+                      <span>{ areAllVariablesRules ? 'Turn off' : 'Turn on' }</span>
                     </ReactTooltip>
                   </RulesGroupHeader>
                   <ReactList
