@@ -2,6 +2,7 @@ export const rules = [
   {
     name: 'for-direction',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Enforce “for” loop update clause moving the counter in the right direction',
     longDescription:
       'A for loop with a stop condition that can never be reached, such as one with a counter that moves in the wrong direction, will run infinitely. While there are occasions when an infinite loop is intended, the convention is to construct such loops as while loops. More typically, an infinite for loop is a bug.',
@@ -9,7 +10,7 @@ export const rules = [
       correct: 'for (var i = 0; i &lt; 10; i++) {\n}',
       incorrect: 'for (var i = 0; i &lt; 10; i--) {\n}\n\nfor (var i = 10; i &gt;= 0; i++) {\n}',
     },
-    isActive: false,
+    isActive: true,
     isRecommended: true,
     isFixable: false,
     isTurnedOn: false,
@@ -17,6 +18,7 @@ export const rules = [
   {
     name: 'getter-return',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Enforce return statements in getters',
     longDescription: 'This rule enforces that a return statement is present in property getters.',
     examples: {
@@ -25,7 +27,7 @@ export const rules = [
       incorrect:
         'p = {\n    get name(){\n        // no returns.\n    }\n};\n\nObject.defineProperty(p, "age", {\n    get: function (){\n        // no returns.\n    }\n});\n\nclass P{\n    get name(){\n        // no returns.\n    }\n}',
     },
-    isActive: true,
+    isActive: false,
     isRecommended: true,
     isFixable: false,
     isTurnedOn: false,
@@ -33,6 +35,7 @@ export const rules = [
   {
     name: 'no-async-promise-executor',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow using an async function as a Promise executor',
     longDescription: 'This rule aims to disallow async Promise executor functions.',
     examples: {
@@ -49,6 +52,7 @@ export const rules = [
   {
     name: 'no-await-in-loop',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow await inside of loops',
     longDescription: 'This rule disallows the use of await within loop bodies.',
     examples: {
@@ -65,6 +69,7 @@ export const rules = [
   {
     name: 'no-compare-neg-zero',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow comparing against -0',
     longDescription:
       'The rule should warn against code that tries to compare against -0, since that will not work as intended. That is, code like x === -0 will pass for both +0 and -0. The author probably intended Object.is(x, -0).',
@@ -77,6 +82,7 @@ export const rules = [
   {
     name: 'no-cond-assign',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow assignment operators in conditional expressions',
     longDescription: 'This rule disallows ambiguous assignment operators in test conditions of if, for, while, and do...while statements.',
     examples: {
@@ -93,6 +99,7 @@ export const rules = [
   {
     name: 'no-console',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow the use of console',
     longDescription: 'This rule disallows calls to methods of the console object.',
     examples: {
@@ -108,6 +115,7 @@ export const rules = [
   {
     name: 'no-constant-condition',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow constant expressions in conditions',
     longDescription: 'This rule disallows constant expressions in the test condition of:.',
     examples: {
@@ -124,6 +132,7 @@ export const rules = [
   {
     name: 'no-control-regex',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow control characters in regular expressions',
     longDescription: 'This rule disallows control characters in regular expressions.',
     examples: {
@@ -138,6 +147,7 @@ export const rules = [
   {
     name: 'no-debugger',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow the use of debugger',
     longDescription: 'This rule disallows debugger statements.',
     examples: {
@@ -152,6 +162,7 @@ export const rules = [
   {
     name: 'no-dupe-args',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow duplicate arguments in function definitions',
     longDescription:
       'This rule disallows duplicate parameter names in function declarations or expressions. It does not apply to arrow functions or class methods, because the parser reports the error.',
@@ -168,6 +179,7 @@ export const rules = [
   {
     name: 'no-dupe-keys',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow duplicate keys in object literals',
     longDescription: 'This rule disallows duplicate keys in object literals.',
     examples: {
@@ -183,6 +195,7 @@ export const rules = [
   {
     name: 'no-duplicate-case',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow duplicate case labels',
     longDescription: 'This rule disallows duplicate test expressions in case clauses of switch statements.',
     examples: {
@@ -199,6 +212,7 @@ export const rules = [
   {
     name: 'no-empty',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow empty block statements',
     longDescription:
       'This rule disallows empty block statements. This rule ignores block statements which contain a comment (for example, in an empty catch or finally block of a try statement to indicate that execution should continue regardless of errors).',
@@ -215,6 +229,7 @@ export const rules = [
   {
     name: 'no-empty-character-class',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow empty character classes in regular expressions',
     longDescription: 'This rule disallows empty character classes in regular expressions.',
     examples: {
@@ -230,6 +245,7 @@ export const rules = [
   {
     name: 'no-ex-assign',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow reassigning exceptions in catch clauses',
     longDescription: 'This rule disallows reassigning exceptions in catch clauses.',
     examples: { correct: 'try {\n    // code\n} catch (e) {\n    var foo = 10;\n}', incorrect: 'try {\n    // code\n} catch (e) {\n    e = 10;\n}' },
@@ -241,6 +257,7 @@ export const rules = [
   {
     name: 'no-extra-boolean-cast',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow unnecessary boolean casts',
     longDescription: 'This rule disallows unnecessary boolean casts.',
     examples: {
@@ -256,6 +273,7 @@ export const rules = [
   {
     name: 'no-extra-parens',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow unnecessary parentheses',
     longDescription: 'This rule always ignores extra parentheses around the following:.',
     examples: {
@@ -272,6 +290,7 @@ export const rules = [
   {
     name: 'no-extra-semi',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow unnecessary semicolons',
     longDescription: 'This rule disallows unnecessary semicolons.',
     examples: { correct: 'var x = 5;\n\nvar foo = function() {\n    // code\n};', incorrect: 'var x = 5;;\n\nfunction foo() {\n    // code\n};' },
@@ -283,6 +302,7 @@ export const rules = [
   {
     name: 'no-func-assign',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow reassigning function declarations',
     longDescription: 'This rule disallows reassigning function declarations.',
     examples: {
@@ -298,6 +318,7 @@ export const rules = [
   {
     name: 'no-inner-declarations',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow variable or function declarations in nested blocks',
     longDescription:
       'This rule requires that function declarations and, optionally, variable declarations be in the root of a program or the body of a function.',
@@ -315,6 +336,7 @@ export const rules = [
   {
     name: 'no-invalid-regexp',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow invalid regular expression strings in RegExp constructors',
     longDescription: 'This rule disallows invalid regular expression strings in RegExp constructors.',
     examples: { correct: "RegExp('.')\n\nnew RegExp\n\nthis.RegExp('[')", incorrect: "RegExp('[')\n\nRegExp('.', 'z')\n\nnew RegExp('\\\\')" },
@@ -326,6 +348,7 @@ export const rules = [
   {
     name: 'no-irregular-whitespace',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow irregular whitespace outside of strings and comments',
     longDescription:
       'This rule is aimed at catching invalid whitespace that is not a normal tab and space. Some of these characters may cause issues in modern browsers and others will be a debugging issue to spot.',
@@ -343,6 +366,7 @@ export const rules = [
   {
     name: 'no-misleading-character-class',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow characters which are made with multiple code points in character class syntax',
     longDescription: 'This rule reports the regular expressions which include multiple code point characters in character class syntax.',
     examples: { correct: '/^[abc]$/\n/^[👍]$/u', incorrect: '/^[Á]$/u\n/^[❇️]$/u\n/^[👶🏻]$/u\n/^[🇯🇵]$/u\n/^[👨‍👩‍👦]$/u\n/^[👍]$/' },
@@ -354,6 +378,7 @@ export const rules = [
   {
     name: 'no-obj-calls',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow calling global object properties as functions',
     longDescription: 'This rule disallows calling the Math, JSON and Reflect objects as functions.',
     examples: {
@@ -368,6 +393,7 @@ export const rules = [
   {
     name: 'no-prototype-builtins',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow calling some Object.prototype methods directly on objects',
     longDescription: 'This rule disallows calling some Object.prototype methods directly on object instances.',
     examples: {
@@ -384,6 +410,7 @@ export const rules = [
   {
     name: 'no-regex-spaces',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow multiple spaces in regular expressions',
     longDescription: 'This rule disallows multiple spaces in regular expression literals.',
     examples: {
@@ -398,6 +425,7 @@ export const rules = [
   {
     name: 'no-sparse-arrays',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow sparse arrays',
     longDescription:
       'This rule disallows sparse array literals which have “holes” where commas are not preceded by elements. It does not apply to a trailing comma following the last element.',
@@ -414,6 +442,7 @@ export const rules = [
   {
     name: 'no-template-curly-in-string',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow template literal placeholder syntax in regular strings',
     longDescription:
       'This rule aims to warn when a regular string contains what looks like a template literal placeholder. It will warn when it finds a string containing the template literal place holder (${something}) that uses either " or \' for the quotes.',
@@ -429,6 +458,7 @@ export const rules = [
   {
     name: 'no-unexpected-multiline',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow confusing multiline expressions',
     longDescription: 'This rule disallows confusing multiline expressions where a newline looks like it is ending a statement, but is not.',
     examples: {
@@ -445,6 +475,7 @@ export const rules = [
   {
     name: 'no-unreachable',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow unreachable code after return, throw, continue, and break statements',
     longDescription: 'This rule disallows unreachable code after return, throw, continue, and break statements.',
     examples: {
@@ -461,6 +492,7 @@ export const rules = [
   {
     name: 'no-unsafe-finally',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow control flow statements in finally blocks',
     longDescription:
       'This rule disallows return, throw, break, and continue statements inside finally blocks. It allows indirect usages, such as in function or class definitions.',
@@ -478,6 +510,7 @@ export const rules = [
   {
     name: 'no-unsafe-negation',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow negating the left operand of relational operators',
     longDescription: 'This rule disallows negating the left operand of Relational Operators.',
     examples: {
@@ -494,6 +527,7 @@ export const rules = [
   {
     name: 'require-atomic-updates',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Disallow assignments that can lead to race conditions due to usage of await or yield',
     longDescription: 'This rule aims to report assignments to variables or properties where all of the following are true:.',
     examples: {
@@ -510,6 +544,7 @@ export const rules = [
   {
     name: 'use-isnan',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Require calls to isNaN() when checking for NaN',
     longDescription: 'This rule disallows comparisons to ‘NaN’.',
     examples: {
@@ -524,6 +559,7 @@ export const rules = [
   {
     name: 'valid-jsdoc',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Enforce valid JSDoc comments',
     longDescription: 'This rule enforces valid and consistent JSDoc comments. It reports any of the following problems:.',
     examples: {
@@ -540,6 +576,7 @@ export const rules = [
   {
     name: 'valid-typeof',
     value: 'warn',
+    category: 'Possible Errors',
     shortDescription: 'Enforce comparing typeof expressions against valid strings',
     longDescription: 'This rule enforces comparing typeof expressions to valid string literals.',
     examples: {
@@ -554,6 +591,7 @@ export const rules = [
   {
     name: 'accessor-pairs',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce getter and setter pairs in objects',
     longDescription: 'This rule enforces a style where it requires to have a getter for every property which has a setter defined.',
     examples: {
@@ -570,6 +608,7 @@ export const rules = [
   {
     name: 'array-callback-return',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce return statements in callbacks of array methods',
     longDescription: 'This rule finds callback functions of the following methods, then checks usage of return statement.',
     examples: {
@@ -586,6 +625,7 @@ export const rules = [
   {
     name: 'block-scoped-var',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce the use of variables within the scope they are defined',
     longDescription:
       'This rule aims to reduce the usage of variables outside of their binding context and emulate traditional block scope from other languages. This is to help newcomers to the language avoid difficult bugs with variable hoisting.',
@@ -603,6 +643,7 @@ export const rules = [
   {
     name: 'class-methods-use-this',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce that class methods utilize this',
     longDescription: 'This rule is aimed to flag class methods that do not use this.',
     examples: {
@@ -619,6 +660,7 @@ export const rules = [
   {
     name: 'complexity',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce a maximum cyclomatic complexity allowed in a program',
     longDescription:
       'This rule is aimed at reducing code complexity by capping the amount of cyclomatic complexity allowed in a program. As such, it will warn when the cyclomatic complexity crosses the configured threshold (default is 20).',
@@ -635,6 +677,7 @@ export const rules = [
   {
     name: 'consistent-return',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Require return statements to either always or never specify values',
     longDescription:
       'This rule requires return statements to either always or never specify values. This rule ignores function definitions where the name begins with an uppercase letter, because constructors (when invoked with the new operator) return the instantiated object implicitly if they do not return another object explicitly.',
@@ -652,6 +695,7 @@ export const rules = [
   {
     name: 'curly',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce consistent brace style for all control statements',
     longDescription:
       'This rule is aimed at preventing bugs and increasing code clarity by ensuring that block statements are wrapped in curly braces. It will warn when it encounters blocks that omit curly braces.',
@@ -667,6 +711,7 @@ export const rules = [
   {
     name: 'default-case',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Require default cases in switch statements',
     longDescription:
       'This rule aims to require default case in switch statements. You may optionally include a // no default after the last case if there is no default case. The comment may be in any desired case, such as // No Default.',
@@ -683,6 +728,7 @@ export const rules = [
   {
     name: 'dot-location',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce consistent newlines before and after dots',
     longDescription:
       'This rule aims to enforce newline consistency in member expressions. This rule prevents the use of mixed newlines around the dot in a member expression.',
@@ -695,6 +741,7 @@ export const rules = [
   {
     name: 'dot-notation',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce dot notation whenever possible',
     longDescription:
       'This rule is aimed at maintaining code consistency and improving code readability by encouraging use of the dot notation style whenever possible. As such, it will warn when it encounters an unnecessary use of square-bracket notation.',
@@ -710,6 +757,7 @@ export const rules = [
   {
     name: 'eqeqeq',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Require the use of === and !==',
     longDescription: 'This rule is aimed at eliminating the type-unsafe equality operators.',
     examples: {
@@ -725,6 +773,7 @@ export const rules = [
   {
     name: 'guard-for-in',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Require for-in loops to include an if statement',
     longDescription:
       'This rule is aimed at preventing unexpected behavior that could arise from using a for in loop without filtering the results in the loop. As such, it will warn when for in loops do not filter their results with an if statement.',
@@ -741,6 +790,7 @@ export const rules = [
   {
     name: 'max-classes-per-file',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce a maximum number of classes per file',
     longDescription: 'This rule enforces that each file may contain only a particular number\nof classes and no more.',
     examples: { correct: 'class Foo {}', incorrect: 'class Foo {}\nclass Bar {}' },
@@ -752,6 +802,7 @@ export const rules = [
   {
     name: 'no-alert',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow the use of alert, confirm, and prompt',
     longDescription:
       'This rule is aimed at catching debugging code that should be removed and popup UI elements that should be replaced with less obtrusive, custom UIs. As such, it will warn when it encounters alert, prompt, and confirm function calls which are not shadowed.',
@@ -768,6 +819,7 @@ export const rules = [
   {
     name: 'no-caller',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow the use of arguments.caller or arguments.callee',
     longDescription:
       'This rule is aimed at discouraging the use of deprecated and sub-optimal code, but disallowing the use of arguments.caller and arguments.callee. As such, it will warn when arguments.caller and arguments.callee are used.',
@@ -785,6 +837,7 @@ export const rules = [
   {
     name: 'no-case-declarations',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow lexical declarations in case clauses',
     longDescription: 'This rule aims to prevent access to uninitialized lexical bindings as well as accessing hoisted functions across case clauses.',
     examples: {
@@ -801,6 +854,7 @@ export const rules = [
   {
     name: 'no-div-regex',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow division operators explicitly at the beginning of regular expressions',
     longDescription: 'This is used to disambiguate the division operator to not confuse users.',
     examples: { correct: 'function bar() { return /\\=foo/; }', incorrect: 'function bar() { return /=foo/; }' },
@@ -812,6 +866,7 @@ export const rules = [
   {
     name: 'no-else-return',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow else blocks after return statements in if statements',
     longDescription:
       'This rule is aimed at highlighting an unnecessary block of code following an if containing a return statement. As such, it will warn when it encounters an else following a chain of ifs, all of them containing a return statement.',
@@ -829,6 +884,7 @@ export const rules = [
   {
     name: 'no-empty-function',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow empty functions',
     longDescription: 'This rule is aimed at eliminating empty functions.\nA function will not be considered a problem if it contains a comment.',
     examples: {
@@ -845,6 +901,7 @@ export const rules = [
   {
     name: 'no-empty-pattern',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow empty destructuring patterns',
     longDescription:
       'This rule aims to flag any empty patterns in destructured objects and arrays, and as such, will report a problem whenever one is encountered.',
@@ -861,6 +918,7 @@ export const rules = [
   {
     name: 'no-eq-null',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow null comparisons without type-checking operators',
     longDescription:
       'The no-eq-null rule aims reduce potential bug and unwanted behavior by ensuring that comparisons to null only match null, and not also undefined. As such it will flag comparisons to null when using == and !=.',
@@ -876,6 +934,7 @@ export const rules = [
   {
     name: 'no-eval',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow the use of eval()',
     longDescription:
       'This rule is aimed at preventing potentially dangerous, unnecessary, and slow code by disallowing the use of the eval() function. As such, it will warn whenever the eval() function is used.',
@@ -893,6 +952,7 @@ export const rules = [
   {
     name: 'no-extend-native',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow extending native types',
     longDescription: 'Disallows directly modifying the prototype of builtin objects.',
     examples: {
@@ -907,6 +967,7 @@ export const rules = [
   {
     name: 'no-extra-bind',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unnecessary calls to .bind()',
     longDescription:
       'This rule is aimed at avoiding the unnecessary use of bind() and as such will warn whenever an immediately-invoked function expression (IIFE) is using bind() and doesn’t have an appropriate this value. This rule won’t flag usage of bind() that includes function argument binding.',
@@ -923,6 +984,7 @@ export const rules = [
   {
     name: 'no-extra-label',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unnecessary labels',
     longDescription: 'This rule is aimed at eliminating unnecessary labels.',
     examples: {
@@ -939,6 +1001,7 @@ export const rules = [
   {
     name: 'no-fallthrough',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow fallthrough of case statements',
     longDescription:
       'This rule is aimed at eliminating unintentional fallthrough of one case to the other. As such, it flags any fallthrough scenarios that are not marked by a comment.',
@@ -955,6 +1018,7 @@ export const rules = [
   {
     name: 'no-floating-decimal',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow leading or trailing decimal points in numeric literals',
     longDescription:
       'This rule is aimed at eliminating floating decimal points and will warn whenever a numeric value has a decimal point but is missing a number either before or after it.',
@@ -967,6 +1031,7 @@ export const rules = [
   {
     name: 'no-global-assign',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow assignments to native objects or read-only global variables',
     longDescription: 'This rule disallows modifications to read-only global variables.',
     examples: { correct: 'a = 1\nvar b = 1\nb = 2', incorrect: 'Object = null\nundefined = 1' },
@@ -978,6 +1043,7 @@ export const rules = [
   {
     name: 'no-implicit-coercion',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow shorthand type conversions',
     longDescription: 'This rule is aimed to flag shorter notations for the type conversion, then suggest a more self-explanatory notation.',
     examples: {
@@ -992,6 +1058,7 @@ export const rules = [
   {
     name: 'no-implicit-globals',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow variable and function declarations in the global scope',
     longDescription:
       'This rule disallows var and named function declarations at the top-level script scope. This does not apply to ES and CommonJS modules since they have a module scope.',
@@ -1008,6 +1075,7 @@ export const rules = [
   {
     name: 'no-implied-eval',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow the use of eval()-like methods',
     longDescription:
       'This rule aims to eliminate implied eval() through the use of setTimeout(), setInterval() or execScript(). As such, it will warn when either function is used with a string as the first argument.',
@@ -1024,6 +1092,7 @@ export const rules = [
   {
     name: 'no-invalid-this',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow this keywords outside of classes or class-like objects',
     longDescription: 'This rule aims to flag usage of this keywords outside of classes or class-like objects.',
     examples: {
@@ -1040,6 +1109,7 @@ export const rules = [
   {
     name: 'no-iterator',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow the use of the __iterator__ property',
     longDescription:
       'This rule is aimed at preventing errors that may arise from using the __iterator__ property, which is not implemented in several browsers. As such, it will warn whenever it encounters the __iterator__ property.',
@@ -1056,6 +1126,7 @@ export const rules = [
   {
     name: 'no-labels',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow labeled statements',
     longDescription:
       'This rule aims to eliminate the use of labeled statements in JavaScript. It will warn whenever a labeled statement is encountered and whenever break or continue are used with a label.',
@@ -1072,6 +1143,7 @@ export const rules = [
   {
     name: 'no-lone-blocks',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unnecessary nested blocks',
     longDescription: 'This rule aims to eliminate unnecessary and potentially confusing blocks at the top level of a script or within other blocks.',
     examples: {
@@ -1088,6 +1160,7 @@ export const rules = [
   {
     name: 'no-loop-func',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow function declarations and expressions inside loop statements',
     longDescription:
       'This error is raised to highlight a piece of code that may not work as you expect it to and could also indicate a misunderstanding of how the language works. Your code may run without any problems if you do not fix this error, but in some situations it could behave unexpectedly.',
@@ -1105,6 +1178,7 @@ export const rules = [
   {
     name: 'no-magic-numbers',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow magic numbers',
     longDescription:
       'The no-magic-numbers rule aims to make code more readable and refactoring easier by ensuring that special numbers\nare declared as constants to make their meaning explicit.',
@@ -1120,6 +1194,7 @@ export const rules = [
   {
     name: 'no-multi-spaces',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow multiple spaces',
     longDescription:
       'This rule aims to disallow multiple whitespace around logical expressions, conditional expressions, declarations, array elements, object properties, sequences and function parameters.',
@@ -1135,6 +1210,7 @@ export const rules = [
   {
     name: 'no-multi-str',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow multiline strings',
     longDescription: 'This rule is aimed at preventing the use of multiline strings.',
     examples: { correct: 'var x = "Line 1\\n" +\n        "Line 2";', incorrect: 'var x = "Line 1 \\\n         Line 2";' },
@@ -1146,6 +1222,7 @@ export const rules = [
   {
     name: 'no-new',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow new operators outside of assignments or comparisons',
     longDescription:
       'This rule is aimed at maintaining consistency and convention by disallowing constructor calls using the new keyword that do not assign the resulting object to a variable.',
@@ -1158,6 +1235,7 @@ export const rules = [
   {
     name: 'no-new-func',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow new operators with the Function object',
     longDescription:
       'This error is raised to highlight the use of a bad practice. By passing a string to the Function constructor, you are requiring the engine to parse that string much in the way it has to when you call the eval function.',
@@ -1173,6 +1251,7 @@ export const rules = [
   {
     name: 'no-new-wrappers',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow new operators with the String, Number, and Boolean objects',
     longDescription:
       'This rule aims to eliminate the use of String, Number, and Boolean with the new operator. As such, it warns whenever it sees new String, new Number, or new Boolean.',
@@ -1189,6 +1268,7 @@ export const rules = [
   {
     name: 'no-octal',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow octal literals',
     longDescription: 'The rule disallows octal literals.',
     examples: { correct: 'var num  = "071";', incorrect: 'var num = 071;\nvar result = 5 + 07;' },
@@ -1200,6 +1280,7 @@ export const rules = [
   {
     name: 'no-octal-escape',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow octal escape sequences in string literals',
     longDescription: 'This rule disallows octal escape sequences in string literals.',
     examples: {
@@ -1214,6 +1295,7 @@ export const rules = [
   {
     name: 'no-param-reassign',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow reassigning function parameters',
     longDescription: 'This rule aims to prevent unintended behavior caused by modification or reassignment of function parameters.',
     examples: {
@@ -1228,6 +1310,7 @@ export const rules = [
   {
     name: 'no-proto',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow the use of the __proto__ property',
     longDescription:
       'When an object is created __proto__ is set to the original prototype property of the object’s constructor function. getPrototypeOf is the preferred method of getting “the prototype”.',
@@ -1240,6 +1323,7 @@ export const rules = [
   {
     name: 'no-redeclare',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow variable redeclaration',
     longDescription: 'This rule is aimed at eliminating variables that have multiple declarations in the same scope.',
     examples: { correct: 'var a = 3;\n// ...\na = 10;', incorrect: 'var a = 3;\nvar a = 10;' },
@@ -1251,6 +1335,7 @@ export const rules = [
   {
     name: 'no-restricted-properties',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow certain properties on certain objects',
     longDescription:
       'This rule looks for accessing a given property key on a given object name, either when reading the property’s value or invoking it as a function. You may specify an optional message to indicate an alternative API or a reason for the restriction.',
@@ -1268,6 +1353,7 @@ export const rules = [
   {
     name: 'no-return-assign',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow assignment operators in return statements',
     longDescription:
       'This rule aims to eliminate assignments from return statements. As such, it will warn whenever an assignment is found as part of return.',
@@ -1284,6 +1370,7 @@ export const rules = [
   {
     name: 'no-return-await',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unnecessary return await',
     longDescription:
       'This rule aims to prevent a likely common performance hazard due to a lack of understanding of the semantics of async function.',
@@ -1296,6 +1383,7 @@ export const rules = [
   {
     name: 'no-script-url',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow javascript: urls',
     longDescription: 'Examples of incorrect code for this rule:.',
     examples: { correct: 'No example :(', incorrect: 'location.href = "javascript:void(0)";' },
@@ -1307,6 +1395,7 @@ export const rules = [
   {
     name: 'no-self-assign',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow assignments where both sides are exactly the same',
     longDescription: 'This rule is aimed at eliminating self assignments.',
     examples: {
@@ -1322,6 +1411,7 @@ export const rules = [
   {
     name: 'no-self-compare',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow comparisons where both sides are exactly the same',
     longDescription:
       'This error is raised to highlight a potentially confusing and potentially pointless piece of code. There are almost no situations in which you would need to compare something to itself.',
@@ -1334,6 +1424,7 @@ export const rules = [
   {
     name: 'no-sequences',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow comma operators',
     longDescription: 'This rule forbids the use of the comma operator, with the following exceptions:.',
     examples: {
@@ -1350,6 +1441,7 @@ export const rules = [
   {
     name: 'no-throw-literal',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow throwing literals as exceptions',
     longDescription:
       'This rule is aimed at maintaining consistency when throwing exception by disallowing to throw literals and other expressions which cannot possibly be an Error object.',
@@ -1367,6 +1459,7 @@ export const rules = [
   {
     name: 'no-unmodified-loop-condition',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unmodified loop conditions',
     longDescription:
       'This rule finds references which are inside of loop conditions, then checks the\nvariables of those references are modified in the loop.',
@@ -1384,6 +1477,7 @@ export const rules = [
   {
     name: 'no-unused-expressions',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unused expressions',
     longDescription: 'This rule aims to eliminate unused expressions which have no effect on the state of the program.',
     examples: {
@@ -1400,6 +1494,7 @@ export const rules = [
   {
     name: 'no-unused-labels',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unused labels',
     longDescription: 'This rule is aimed at eliminating unused labels.',
     examples: {
@@ -1415,6 +1510,7 @@ export const rules = [
   {
     name: 'no-useless-call',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unnecessary calls to .call() and .apply()',
     longDescription:
       'This rule is aimed to flag usage of Function.prototype.call() and Function.prototype.apply() that can be replaced with the normal function invocation.',
@@ -1432,6 +1528,7 @@ export const rules = [
   {
     name: 'no-useless-concat',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unnecessary concatenation of literals or template literals',
     longDescription:
       'This rule aims to flag the concatenation of 2 literals when they could be combined into a single literal. Literals can be strings or template literals.',
@@ -1449,6 +1546,7 @@ export const rules = [
   {
     name: 'no-useless-escape',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow unnecessary escape characters',
     longDescription: 'This rule flags escapes that can be safely removed without changing behavior.',
     examples: {
@@ -1464,6 +1562,7 @@ export const rules = [
   {
     name: 'no-useless-return',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow redundant return statements',
     longDescription: 'This rule aims to report redundant return statements.',
     examples: {
@@ -1480,6 +1579,7 @@ export const rules = [
   {
     name: 'no-void',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow void operators',
     longDescription: 'This rule aims to eliminate use of void operator.',
     examples: { correct: 'No example :(', incorrect: 'void foo\n\nvar foo = void bar();' },
@@ -1491,6 +1591,7 @@ export const rules = [
   {
     name: 'no-warning-comments',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow specified warning terms in comments',
     longDescription: 'This rule reports comments that include any of the predefined terms specified in its configuration.',
     examples: {
@@ -1506,6 +1607,7 @@ export const rules = [
   {
     name: 'no-with',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow with statements',
     longDescription: 'This rule disallows with statements.',
     examples: {
@@ -1520,6 +1622,7 @@ export const rules = [
   {
     name: 'prefer-promise-reject-errors',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Require using Error objects as Promise rejection reasons',
     longDescription: 'This rule aims to ensure that Promises are only rejected with Error objects.',
     examples: {
@@ -1536,6 +1639,7 @@ export const rules = [
   {
     name: 'radix',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce the consistent use of the radix argument when using parseInt()',
     longDescription:
       'This rule is aimed at preventing the unintended conversion of a string to a number of a different base than intended or at preventing the redundant 10 radix if targeting modern environments only.',
@@ -1551,6 +1655,7 @@ export const rules = [
   {
     name: 'require-await',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Disallow async functions which have no await expression',
     longDescription: 'This rule warns async functions which have no await expression.',
     examples: {
@@ -1566,6 +1671,7 @@ export const rules = [
   {
     name: 'require-unicode-regexp',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Enforce the use of u flag on RegExp',
     longDescription: 'This rule aims to enforce the use of u flag on regular expressions.',
     examples: {
@@ -1581,6 +1687,7 @@ export const rules = [
   {
     name: 'vars-on-top',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Require var declarations be placed at the top of their containing scope',
     longDescription:
       'This rule aims to keep all variable declarations in the leading series of statements.\nAllowing multiple declarations helps promote maintainability and is thus allowed.',
@@ -1598,6 +1705,7 @@ export const rules = [
   {
     name: 'wrap-iife',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Require parentheses around immediate function invocations',
     longDescription: 'This rule requires all immediately-invoked function expressions to be wrapped in parentheses.',
     examples: {
@@ -1613,6 +1721,7 @@ export const rules = [
   {
     name: 'yoda',
     value: 'warn',
+    category: 'Best Practices',
     shortDescription: 'Require or disallow “Yoda” conditions',
     longDescription: 'This rule aims to enforce consistent style of conditions which compare a variable to a literal value.',
     examples: {
@@ -1628,6 +1737,7 @@ export const rules = [
   {
     name: 'strict',
     value: 'warn',
+    category: 'Strict Mode',
     shortDescription: 'Require or disallow strict mode directives',
     longDescription: 'This rule requires or disallows strict mode directives.',
     examples: { correct: '"use strict";\n\nfunction foo() {\n}', incorrect: 'function foo() {\n}' },
@@ -1639,6 +1749,7 @@ export const rules = [
   {
     name: 'init-declarations',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Require or disallow initialization in variable declarations',
     longDescription:
       'This rule is aimed at enforcing or eliminating variable initializations during declaration. For example, in the following code, foo is initialized during declaration, while bar is not.',
@@ -1654,6 +1765,7 @@ export const rules = [
   {
     name: 'no-delete-var',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow deleting variables',
     longDescription: 'This rule disallows the use of the delete operator on variables.',
     examples: { correct: 'No example :(', incorrect: 'var x;\ndelete x;' },
@@ -1665,6 +1777,7 @@ export const rules = [
   {
     name: 'no-label-var',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow labels that share a name with a variable',
     longDescription:
       'This rule aims to create clearer code by disallowing the bad practice of creating a label that shares a name with a variable that is in scope.',
@@ -1681,6 +1794,7 @@ export const rules = [
   {
     name: 'no-restricted-globals',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow specified global variables',
     longDescription: 'This rule allows you to specify global variable names that you don’t want to use in your application.',
     examples: {
@@ -1695,6 +1809,7 @@ export const rules = [
   {
     name: 'no-shadow',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow variable declarations from shadowing variables declared in the outer scope',
     longDescription: 'This rule aims to eliminate shadowed variable declarations.',
     examples: {
@@ -1710,6 +1825,7 @@ export const rules = [
   {
     name: 'no-shadow-restricted-names',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow identifiers from shadowing restricted names',
     longDescription: 'Examples of incorrect code for this rule:.',
     examples: {
@@ -1724,6 +1840,7 @@ export const rules = [
   {
     name: 'no-undef',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow the use of undeclared variables unless mentioned in /*global */ comments',
     longDescription:
       'Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a /*global ...*/ comment, or specified in the globals key in the configuration file. A common use case for these is if you intentionally use globals that are defined elsewhere (e.g. in a script sourced from HTML).',
@@ -1736,6 +1853,7 @@ export const rules = [
   {
     name: 'no-undef-init',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow initializing variables to undefined',
     longDescription: 'This rule aims to eliminate variable declarations that initialize to undefined.',
     examples: { correct: 'var foo;\nlet bar;\nconst baz = undefined;', incorrect: 'var foo = undefined;\nlet bar = undefined;' },
@@ -1747,6 +1865,7 @@ export const rules = [
   {
     name: 'no-undefined',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow the use of undefined as an identifier',
     longDescription: 'This rule aims to eliminate the use of undefined, and as such, generates a warning whenever it is used.',
     examples: {
@@ -1762,6 +1881,7 @@ export const rules = [
   {
     name: 'no-unused-vars',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow unused variables',
     longDescription: 'This rule is aimed at eliminating unused variables, functions, and parameters of functions.',
     examples: {
@@ -1778,6 +1898,7 @@ export const rules = [
   {
     name: 'no-use-before-define',
     value: 'warn',
+    category: 'Variables',
     shortDescription: 'Disallow the use of variables before they are defined',
     longDescription: 'This rule will warn when it encounters a reference to an identifier that has not yet been declared.',
     examples: {
@@ -1793,6 +1914,7 @@ export const rules = [
   {
     name: 'callback-return',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Require return statements after callbacks',
     longDescription:
       'This rule is aimed at ensuring that callbacks used outside of the main function block are always part-of or immediately\npreceding a return statement. This rule decides what is a callback based on the name of the function being called.',
@@ -1808,6 +1930,7 @@ export const rules = [
   {
     name: 'global-require',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Require require() calls to be placed at top-level module scope',
     longDescription:
       'This rule requires all calls to require() to be at the top level of the module, similar to ES6 import and export statements, which also can occur only at the top level.',
@@ -1825,6 +1948,7 @@ export const rules = [
   {
     name: 'handle-callback-err',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Require error handling in callbacks',
     longDescription: 'This rule expects that when you’re using the callback pattern in Node.js you’ll handle the error.',
     examples: {
@@ -1840,6 +1964,7 @@ export const rules = [
   {
     name: 'no-buffer-constructor',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Disallow use of the Buffer() constructor',
     longDescription: 'This rule disallows calling and constructing the Buffer() constructor.',
     examples: {
@@ -1855,6 +1980,7 @@ export const rules = [
   {
     name: 'no-mixed-requires',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Disallow require calls to be mixed with regular variable declarations',
     longDescription: 'When this rule is enabled, each var statement must satisfy the following conditions:.',
     examples: {
@@ -1871,6 +1997,7 @@ export const rules = [
   {
     name: 'no-new-require',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Disallow new operators with calls to require',
     longDescription: 'This rule aims to eliminate use of the new require expression.',
     examples: {
@@ -1885,6 +2012,7 @@ export const rules = [
   {
     name: 'no-path-concat',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Disallow string concatenation with __dirname and __filename',
     longDescription: 'This rule aims to prevent string concatenation of directory paths in Node.js.',
     examples: {
@@ -1899,6 +2027,7 @@ export const rules = [
   {
     name: 'no-process-env',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Disallow the use of process.env',
     longDescription:
       'This rule is aimed at discouraging use of process.env to avoid global dependencies. As such, it will warn whenever process.env is used.',
@@ -1914,6 +2043,7 @@ export const rules = [
   {
     name: 'no-process-exit',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Disallow the use of process.exit()',
     longDescription:
       'This rule aims to prevent the use of process.exit() in Node.js JavaScript. As such, it warns whenever process.exit() is found in code.',
@@ -1926,6 +2056,7 @@ export const rules = [
   {
     name: 'no-restricted-modules',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Disallow specified modules when loaded by require',
     longDescription: 'This rule allows you to specify modules that you don’t want to use in your application.',
     examples: { correct: "var crypto = require('crypto');", incorrect: "var fs = require('fs');\nvar cluster = require('cluster');" },
@@ -1937,6 +2068,7 @@ export const rules = [
   {
     name: 'no-sync',
     value: 'warn',
+    category: 'Node.js and CommonJS',
     shortDescription: 'Disallow synchronous methods',
     longDescription:
       'This rule is aimed at preventing synchronous methods from being called in Node.js. It looks specifically for the method suffix “Sync” (as is the convention with Node.js operations).',
@@ -1952,6 +2084,7 @@ export const rules = [
   {
     name: 'array-bracket-newline',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce linebreaks after opening and before closing array brackets',
     longDescription: 'This rule enforces line breaks after opening and before closing array brackets.',
     examples: {
@@ -1967,6 +2100,7 @@ export const rules = [
   {
     name: 'array-bracket-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing inside array brackets',
     longDescription: 'This rule enforces consistent spacing inside array brackets.',
     examples: {
@@ -1983,6 +2117,7 @@ export const rules = [
   {
     name: 'array-element-newline',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce line breaks after each array element',
     longDescription: 'This rule enforces line breaks between array elements.',
     examples: {
@@ -1999,6 +2134,7 @@ export const rules = [
   {
     name: 'block-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow or enforce spaces inside of blocks after opening block and before closing block',
     longDescription:
       'This rule enforces consistent spacing inside an open block token and the next token on the same line. This rule also enforces consistent spacing inside a close block token and previous token on the same line.',
@@ -2014,6 +2150,7 @@ export const rules = [
   {
     name: 'brace-style',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent brace style for blocks',
     longDescription: 'This rule enforces consistent brace style for blocks.',
     examples: {
@@ -2030,6 +2167,7 @@ export const rules = [
   {
     name: 'camelcase',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce camelcase naming convention',
     longDescription:
       'This rule looks for any underscores (_) located within the source code. It ignores leading and trailing underscores and only checks those in the middle of a variable name. If ESLint decides that the variable is a constant (all uppercase), then no warning will be thrown. Otherwise, a warning will be thrown. This rule only flags definitions and assignments but not function calls. In case of ES6 import statements, this rule only targets the name of the variable that will be imported into the local module scope.',
@@ -2047,6 +2185,7 @@ export const rules = [
   {
     name: 'capitalized-comments',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce or disallow capitalization of the first letter of a comment',
     longDescription:
       'This rule aims to enforce a consistent style of comments across your codebase, specifically by either requiring or disallowing a capitalized letter as the first word character in a comment. This rule will not issue warnings when non-cased letters are used.',
@@ -2063,6 +2202,7 @@ export const rules = [
   {
     name: 'comma-dangle',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow trailing commas',
     longDescription: 'This rule enforces consistent use of trailing commas in object and array literals.',
     examples: {
@@ -2077,6 +2217,7 @@ export const rules = [
   {
     name: 'comma-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing before and after commas',
     longDescription:
       'This rule enforces consistent spacing before and after commas in variable declarations, array literals, object literals, function parameters, and sequences.',
@@ -2094,6 +2235,7 @@ export const rules = [
   {
     name: 'comma-style',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent comma style',
     longDescription: 'This rule enforce consistent comma style in array literals, object literals, and variable declarations.',
     examples: {
@@ -2110,6 +2252,7 @@ export const rules = [
   {
     name: 'computed-property-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing inside computed property brackets',
     longDescription: 'This rule enforces consistent spacing inside computed property brackets.',
     examples: {
@@ -2124,6 +2267,7 @@ export const rules = [
   {
     name: 'consistent-this',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent naming when capturing the current execution context',
     longDescription: 'This rule enforces two things about variables with the designated alias names for this:.',
     examples: {
@@ -2138,6 +2282,7 @@ export const rules = [
   {
     name: 'eol-last',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow newline at the end of files',
     longDescription: 'This rule enforces at least one newline (or absence thereof) at the end\nof non-empty files.',
     examples: { correct: 'function doSmth() {\n  var foo = 2;\n}\\n', incorrect: 'function doSmth() {\n  var foo = 2;\n}' },
@@ -2149,6 +2294,7 @@ export const rules = [
   {
     name: 'func-call-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow spacing between function identifiers and their invocations',
     longDescription: 'This rule requires or disallows spaces between the function name and the opening parenthesis that calls it.',
     examples: { correct: 'fn();', incorrect: 'fn ();\n\nfn\n();' },
@@ -2160,6 +2306,7 @@ export const rules = [
   {
     name: 'func-name-matching',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require function names to match the name of the variable or property to which they are assigned',
     longDescription:
       'This rule requires function names to match the name of the variable or property to which they are assigned. The rule will ignore property assignments where the property name is a literal that is not a valid identifier in the ECMAScript version specified in your configuration (default ES5).',
@@ -2177,6 +2324,7 @@ export const rules = [
   {
     name: 'func-names',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow named function expressions',
     longDescription: 'This rule can enforce or disallow the use of named function expressions.',
     examples: {
@@ -2191,6 +2339,7 @@ export const rules = [
   {
     name: 'func-style',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce the consistent use of either function declarations or expressions',
     longDescription:
       'This rule enforces a particular type of function style throughout a JavaScript file, either declarations or expressions. You can specify which you prefer in the configuration.',
@@ -2203,6 +2352,7 @@ export const rules = [
   {
     name: 'function-paren-newline',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent line breaks inside function parentheses',
     longDescription: 'This rule enforces consistent line breaks inside parentheses of function parameters or arguments.',
     examples: {
@@ -2218,6 +2368,7 @@ export const rules = [
   {
     name: 'id-blacklist',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow specified identifiers',
     longDescription: 'This rule disallows specified identifiers in assignments and function definitions.',
     examples: {
@@ -2234,6 +2385,7 @@ export const rules = [
   {
     name: 'id-length',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce minimum and maximum identifier lengths',
     longDescription: 'This rule enforces a minimum and/or maximum identifier length convention.',
     examples: {
@@ -2250,6 +2402,7 @@ export const rules = [
   {
     name: 'id-match',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require identifiers to match a specified regular expression',
     longDescription: 'This rule requires identifiers in assignments and function definitions to match a specified regular expression.',
     examples: {
@@ -2266,6 +2419,7 @@ export const rules = [
   {
     name: 'implicit-arrow-linebreak',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce the location of arrow function bodies',
     longDescription: 'This rule aims to enforce a consistent location for an arrow function containing an implicit return.',
     examples: {
@@ -2281,6 +2435,7 @@ export const rules = [
   {
     name: 'indent',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent indentation',
     longDescription: 'This rule enforces a consistent indentation style. The default style is 4 spaces.',
     examples: {
@@ -2295,6 +2450,7 @@ export const rules = [
   {
     name: 'jsx-quotes',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce the consistent use of either double or single quotes in JSX attributes',
     longDescription: 'This rule enforces the consistent use of either double or single quotes in JSX attributes.',
     examples: { correct: 'No example :(', incorrect: 'No example :(' },
@@ -2306,6 +2462,7 @@ export const rules = [
   {
     name: 'key-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing between keys and values in object literal properties',
     longDescription:
       'This rule enforces consistent spacing between keys and values in object literal properties. In the case of long lines, it is acceptable to add a new line wherever whitespace is allowed.',
@@ -2318,6 +2475,7 @@ export const rules = [
   {
     name: 'keyword-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing before and after keywords',
     longDescription:
       'This rule enforces consistent spacing around keywords and keyword-like tokens: as (in module declarations), async (of async functions), await (of await expressions), break, case, catch, class, const, continue, debugger, default, delete, do, else, export, extends, finally, for, from (in module declarations), function, get (of getters), if, import, in, instanceof, let, new, of (in for-of statements), return, set (of setters), static, super, switch, this, throw, try, typeof, var, void, while, with, and yield. This rule is designed carefully not to conflict with other spacing rules: it does not apply to spacing where other rules report problems.',
@@ -2334,6 +2492,7 @@ export const rules = [
   {
     name: 'line-comment-position',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce position of line comments',
     longDescription:
       'This rule enforces consistent position of line comments. Block comments are not affected by this rule. By default, this rule ignores comments starting with the following words: eslint, jshint, jslint, istanbul, global, exported, jscs, falls through.',
@@ -2346,6 +2505,7 @@ export const rules = [
   {
     name: 'linebreak-style',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent linebreak style',
     longDescription: 'This rule enforces consistent line endings independent of operating system, VCS, or editor used across your codebase.',
     examples: {
@@ -2360,6 +2520,7 @@ export const rules = [
   {
     name: 'lines-around-comment',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require empty lines around comments',
     longDescription:
       'This rule requires empty lines before and/or after comments. It can be enabled separately for both block (/*) and line (//) comments. This rule does not apply to comments that appear on the same line as code and does not require empty lines at the beginning or end of a file.',
@@ -2375,6 +2536,7 @@ export const rules = [
   {
     name: 'lines-between-class-members',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow an empty line between class members',
     longDescription: 'Examples of incorrect code for this rule:.',
     examples: {
@@ -2389,6 +2551,7 @@ export const rules = [
   {
     name: 'max-depth',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce a maximum depth that blocks can be nested',
     longDescription: 'This rule enforces a maximum depth that blocks can be nested to reduce code complexity.',
     examples: {
@@ -2405,6 +2568,7 @@ export const rules = [
   {
     name: 'max-len',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce a maximum line length',
     longDescription:
       'This rule enforces a maximum line length to increase code readability and maintainability. The length of a line is defined as the number of Unicode characters in the line.',
@@ -2420,6 +2584,7 @@ export const rules = [
   {
     name: 'max-lines',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce a maximum number of lines per file',
     longDescription: 'This rule enforces a maximum number of lines per file, in order to aid in maintainability and reduce complexity.',
     examples: { correct: 'var a,\n    b, c;', incorrect: 'var a,\n    b,\n    c;' },
@@ -2431,6 +2596,7 @@ export const rules = [
   {
     name: 'max-lines-per-function',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce a maximum number of line of code in a function',
     longDescription: 'This rule enforces a maximum number of lines per function, in order to aid in maintainability and reduce complexity.',
     examples: { correct: 'function foo() {\n    var x = 0;\n}', incorrect: 'function foo() {\n    var x = 0;\n}' },
@@ -2442,6 +2608,7 @@ export const rules = [
   {
     name: 'max-nested-callbacks',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce a maximum depth that callbacks can be nested',
     longDescription: 'This rule enforces a maximum depth that callbacks can be nested to increase code clarity.',
     examples: {
@@ -2458,6 +2625,7 @@ export const rules = [
   {
     name: 'max-params',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce a maximum number of parameters in function definitions',
     longDescription: 'This rule enforces a maximum number of parameters allowed in function definitions.',
     examples: {
@@ -2472,6 +2640,7 @@ export const rules = [
   {
     name: 'max-statements',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce a maximum number of statements allowed in function blocks',
     longDescription: 'This rule enforces a maximum number of statements allowed in function blocks.',
     examples: {
@@ -2488,6 +2657,7 @@ export const rules = [
   {
     name: 'max-statements-per-line',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce a maximum number of statements allowed per line',
     longDescription: 'This rule enforces a maximum number of statements allowed per line.',
     examples: {
@@ -2504,6 +2674,7 @@ export const rules = [
   {
     name: 'multiline-comment-style',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce a particular style for multiline comments',
     longDescription: 'This rule aims to enforce a particular style for multiline comments.',
     examples: {
@@ -2519,6 +2690,7 @@ export const rules = [
   {
     name: 'multiline-ternary',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce newlines between operands of ternary expressions',
     longDescription:
       'This rule enforces or disallows newlines between operands of a ternary expression.\nNote: The location of the operators is not enforced by this rule. Please see the operator-linebreak rule if you are interested in enforcing the location of the operators themselves.',
@@ -2534,6 +2706,7 @@ export const rules = [
   {
     name: 'new-cap',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require constructor names to begin with a capital letter',
     longDescription:
       'This rule requires constructor names to begin with a capital letter. Certain built-in identifiers are exempt from this rule. These identifiers are:.',
@@ -2546,6 +2719,7 @@ export const rules = [
   {
     name: 'new-parens',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require parentheses when invoking a constructor with no arguments',
     longDescription:
       'This rule requires parentheses when invoking a constructor with no arguments using the new keyword in order to increase code clarity.',
@@ -2561,6 +2735,7 @@ export const rules = [
   {
     name: 'newline-per-chained-call',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require a newline after each call in a method chain',
     longDescription:
       'This rule requires a newline after each call in a method chain or deep member access. Computed property accesses such as instance[something] are excluded.',
@@ -2578,6 +2753,7 @@ export const rules = [
   {
     name: 'no-array-constructor',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow Array constructors',
     longDescription: 'This rule disallows Array constructors.',
     examples: { correct: 'Array(500)', incorrect: 'Array(0, 1, 2)' },
@@ -2589,6 +2765,7 @@ export const rules = [
   {
     name: 'no-bitwise',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow bitwise operators',
     longDescription: 'This rule disallows bitwise operators.',
     examples: {
@@ -2604,6 +2781,7 @@ export const rules = [
   {
     name: 'no-continue',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow continue statements',
     longDescription: 'This rule disallows continue statements.',
     examples: {
@@ -2618,6 +2796,7 @@ export const rules = [
   {
     name: 'no-inline-comments',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow inline comments after code',
     longDescription: 'This rule disallows comments on the same line as code.',
     examples: {
@@ -2633,6 +2812,7 @@ export const rules = [
   {
     name: 'no-lonely-if',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow if statements as the only statement in else blocks',
     longDescription: 'This rule disallows if statements as the only statement in else blocks.',
     examples: {
@@ -2649,6 +2829,7 @@ export const rules = [
   {
     name: 'no-mixed-operators',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow mixed binary operators',
     longDescription: 'This rule checks BinaryExpression and LogicalExpression.',
     examples: {
@@ -2664,6 +2845,7 @@ export const rules = [
   {
     name: 'no-mixed-spaces-and-tabs',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow mixed spaces and tabs for indentation',
     longDescription: 'This rule disallows mixed spaces and tabs for indentation.',
     examples: {
@@ -2679,6 +2861,7 @@ export const rules = [
   {
     name: 'no-multi-assign',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow use of chained assignment expressions',
     longDescription: 'This rule disallows using multiple assignments within a single statement.',
     examples: {
@@ -2693,6 +2876,7 @@ export const rules = [
   {
     name: 'no-multiple-empty-lines',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow multiple empty lines',
     longDescription:
       'This rule aims to reduce the scrolling required when reading through your code. It will warn when the maximum amount of empty lines has been exceeded.',
@@ -2705,6 +2889,7 @@ export const rules = [
   {
     name: 'no-negated-condition',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow negated conditions',
     longDescription: 'This rule disallows negated conditions in either of the following:.',
     examples: {
@@ -2721,6 +2906,7 @@ export const rules = [
   {
     name: 'no-nested-ternary',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow nested ternary expressions',
     longDescription: 'The no-nested-ternary rule disallows nested ternary expressions.',
     examples: {
@@ -2736,6 +2922,7 @@ export const rules = [
   {
     name: 'no-new-object',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow Object constructors',
     longDescription: 'This rule disallows Object constructors.',
     examples: {
@@ -2750,6 +2937,7 @@ export const rules = [
   {
     name: 'no-plusplus',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow the unary operators ++ and --',
     longDescription: 'This rule disallows the unary operators ++ and --.',
     examples: {
@@ -2764,6 +2952,7 @@ export const rules = [
   {
     name: 'no-restricted-syntax',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow specified syntax',
     longDescription: 'This rule disallows specified (that is, user-defined) syntax.',
     examples: {
@@ -2778,6 +2967,7 @@ export const rules = [
   {
     name: 'no-tabs',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow all tabs',
     longDescription: 'This rule looks for tabs anywhere inside a file: code, comments or anything else.',
     examples: {
@@ -2792,6 +2982,7 @@ export const rules = [
   {
     name: 'no-ternary',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow ternary operators',
     longDescription: 'This rule disallows ternary operators.',
     examples: {
@@ -2807,6 +2998,7 @@ export const rules = [
   {
     name: 'no-trailing-spaces',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow trailing whitespace at the end of lines',
     longDescription: 'This rule disallows trailing whitespace (spaces, tabs, and other Unicode whitespace characters) at the end of lines.',
     examples: { correct: 'var foo = 0;\nvar baz = 5;', incorrect: 'var foo = 0;//•••••\nvar baz = 5;//••\n//•••••' },
@@ -2818,6 +3010,7 @@ export const rules = [
   {
     name: 'no-underscore-dangle',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow dangling underscores in identifiers',
     longDescription: 'This rule disallows dangling underscores in identifiers.',
     examples: {
@@ -2832,6 +3025,7 @@ export const rules = [
   {
     name: 'no-unneeded-ternary',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow ternary operators when simpler alternatives exist',
     longDescription: 'This rule disallow ternary operators when simpler alternatives exist.',
     examples: {
@@ -2847,6 +3041,7 @@ export const rules = [
   {
     name: 'no-whitespace-before-property',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow whitespace before properties',
     longDescription:
       'This rule disallows whitespace around the dot or before the opening bracket before properties of objects if they are on the same line. This rule allows whitespace when the object and property are on separate lines, as it is common to add newlines to longer chains of properties:.',
@@ -2862,6 +3057,7 @@ export const rules = [
   {
     name: 'nonblock-statement-body-position',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce the location of single-line statements',
     longDescription: 'This rule aims to enforce a consistent location for single-line statements.',
     examples: {
@@ -2878,6 +3074,7 @@ export const rules = [
   {
     name: 'object-curly-newline',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent line breaks inside braces',
     longDescription: 'This rule enforces consistent line breaks inside braces of object literals or destructuring assignments.',
     examples: {
@@ -2894,6 +3091,7 @@ export const rules = [
   {
     name: 'object-curly-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing inside braces',
     longDescription:
       'This rule enforce consistent spacing inside braces of object literals, destructuring assignments, and import/export specifiers.',
@@ -2911,6 +3109,7 @@ export const rules = [
   {
     name: 'object-property-newline',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce placing object properties on separate lines',
     longDescription: null,
     examples: {
@@ -2927,6 +3126,7 @@ export const rules = [
   {
     name: 'one-var',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce variables to be declared either together or separately in functions',
     longDescription:
       'This rule enforces variables to be declared either together or separately per function ( for var) or block (for let and const) scope.',
@@ -2944,6 +3144,7 @@ export const rules = [
   {
     name: 'one-var-declaration-per-line',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow newlines around variable declarations',
     longDescription:
       'This rule enforces a consistent newlines around variable declarations. This rule ignores variable declarations inside for loop conditionals.',
@@ -2956,6 +3157,7 @@ export const rules = [
   {
     name: 'operator-assignment',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow assignment operator shorthand where possible',
     longDescription: 'This rule requires or disallows assignment operator shorthand where possible.',
     examples: {
@@ -2971,6 +3173,7 @@ export const rules = [
   {
     name: 'operator-linebreak',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent linebreak style for operators',
     longDescription: 'This rule enforces a consistent linebreak style for operators.',
     examples: {
@@ -2987,6 +3190,7 @@ export const rules = [
   {
     name: 'padded-blocks',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow padding within blocks',
     longDescription: 'This rule enforces consistent empty line padding within blocks.',
     examples: {
@@ -3002,6 +3206,7 @@ export const rules = [
   {
     name: 'padding-line-between-statements',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow padding lines between statements',
     longDescription: 'This rule does nothing if no configurations are provided.',
     examples: {
@@ -3018,6 +3223,7 @@ export const rules = [
   {
     name: 'prefer-object-spread',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead',
     longDescription: 'Examples of incorrect code for this rule:.',
     examples: {
@@ -3034,6 +3240,7 @@ export const rules = [
   {
     name: 'quote-props',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require quotes around object literal property names',
     longDescription: 'This rule requires quotes around object literal property names.',
     examples: {
@@ -3049,6 +3256,7 @@ export const rules = [
   {
     name: 'quotes',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce the consistent use of either backticks, double, or single quotes',
     longDescription: 'This rule enforces the consistent use of either backticks, double, or single quotes.',
     examples: {
@@ -3065,6 +3273,7 @@ export const rules = [
   {
     name: 'require-jsdoc',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require JSDoc comments',
     longDescription: 'This rule requires JSDoc comments for specified nodes. Supported nodes:.',
     examples: {
@@ -3081,6 +3290,7 @@ export const rules = [
   {
     name: 'semi',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow semicolons instead of ASI',
     longDescription: 'This rule enforces consistent use of semicolons.',
     examples: {
@@ -3095,6 +3305,7 @@ export const rules = [
   {
     name: 'semi-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing before and after semicolons',
     longDescription: 'This rule aims to enforce spacing around a semicolon. This rule prevents the use of spaces before a semicolon in expressions.',
     examples: {
@@ -3111,6 +3322,7 @@ export const rules = [
   {
     name: 'semi-style',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce location of semicolons',
     longDescription: 'This rule reports line terminators around semicolons.',
     examples: {
@@ -3125,6 +3337,7 @@ export const rules = [
   {
     name: 'sort-keys',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require object keys to be sorted',
     longDescription: 'This rule checks all property definitions of object expressions and verifies that all variables are sorted alphabetically.',
     examples: {
@@ -3141,6 +3354,7 @@ export const rules = [
   {
     name: 'sort-vars',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require variables within the same declaration block to be sorted',
     longDescription:
       'This rule checks all variable declaration blocks and verifies that all variables are sorted alphabetically.\nThe default configuration of the rule is case-sensitive.',
@@ -3156,6 +3370,7 @@ export const rules = [
   {
     name: 'space-before-blocks',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing before blocks',
     longDescription: 'This rule will enforce consistency of spacing before blocks. It is only applied on blocks that don’t begin on a new line.',
     examples: {
@@ -3171,6 +3386,7 @@ export const rules = [
   {
     name: 'space-before-function-paren',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing before function definition opening parenthesis',
     longDescription:
       'This rule aims to enforce consistent spacing before function parentheses and as such, will warn whenever whitespace doesn’t match the preferences specified.',
@@ -3188,6 +3404,7 @@ export const rules = [
   {
     name: 'space-in-parens',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing inside parentheses',
     longDescription:
       'This rule will enforce consistency of spacing directly inside of parentheses, by disallowing or requiring one or more spaces to the right of ( and to the left of ). In either case, () will still be allowed.',
@@ -3203,6 +3420,7 @@ export const rules = [
   {
     name: 'space-infix-ops',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require spacing around infix operators',
     longDescription: 'This rule is aimed at ensuring there are spaces around infix operators.',
     examples: {
@@ -3217,6 +3435,7 @@ export const rules = [
   {
     name: 'space-unary-ops',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing before or after unary operators',
     longDescription: 'This rule enforces consistency regarding the spaces after words unary operators and after/before nonwords unary operators.',
     examples: {
@@ -3232,6 +3451,7 @@ export const rules = [
   {
     name: 'spaced-comment',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce consistent spacing after the // or /* in a comment',
     longDescription:
       'This rule will enforce consistency of spacing after the start of a comment // or /*. It also provides several\nexceptions for various documentation styles.',
@@ -3248,6 +3468,7 @@ export const rules = [
   {
     name: 'switch-colon-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Enforce spacing around colons of switch statements',
     longDescription:
       'This rule controls spacing around colons of case and default clauses in switch statements.\nThis rule does the check only if the consecutive tokens exist on the same line.',
@@ -3264,6 +3485,7 @@ export const rules = [
   {
     name: 'template-tag-spacing',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow spacing between template tags and their literals',
     longDescription: 'This rule aims to maintain consistency around the spacing between template tag functions and their template literals.',
     examples: { correct: 'func`Hello world`;', incorrect: 'func `Hello world`;' },
@@ -3275,6 +3497,7 @@ export const rules = [
   {
     name: 'unicode-bom',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require or disallow Unicode byte order mark (BOM)',
     longDescription:
       'If the "always" option is used, this rule requires that files always begin\nwith the Unicode BOM character U+FEFF. If "never" is used, files must never\nbegin with U+FEFF.',
@@ -3287,6 +3510,7 @@ export const rules = [
   {
     name: 'wrap-regex',
     value: 'warn',
+    category: 'Stylistic Issues',
     shortDescription: 'Require parenthesis around regex literals',
     longDescription: 'This is used to disambiguate the slash operator and facilitates more readable code.',
     examples: { correct: 'function a() {\n    return (/foo/).test("bar");\n}', incorrect: 'function a() {\n    return /foo/.test("bar");\n}' },
@@ -3298,6 +3522,7 @@ export const rules = [
   {
     name: 'arrow-body-style',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require braces around arrow function bodies',
     longDescription: 'This rule can enforce or disallow the use of braces around arrow function body.',
     examples: {
@@ -3312,6 +3537,7 @@ export const rules = [
   {
     name: 'arrow-parens',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require parentheses around arrow function arguments',
     longDescription: 'This rule enforces parentheses around arrow function parameters regardless of arity. For example:.',
     examples: {
@@ -3326,6 +3552,7 @@ export const rules = [
   {
     name: 'arrow-spacing',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Enforce consistent spacing before and after the arrow in arrow functions',
     longDescription: 'This rule takes an object argument with before and after properties, each with a Boolean value.',
     examples: {
@@ -3340,6 +3567,7 @@ export const rules = [
   {
     name: 'constructor-super',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require super() calls in constructors',
     longDescription: 'This rule is aimed to flag invalid/missing super() calls.',
     examples: {
@@ -3355,6 +3583,7 @@ export const rules = [
   {
     name: 'generator-star-spacing',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Enforce consistent spacing around * operators in generator functions',
     longDescription: 'This rule aims to enforce spacing around the * of generator functions.',
     examples: {
@@ -3370,6 +3599,7 @@ export const rules = [
   {
     name: 'no-class-assign',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow reassigning class members',
     longDescription: 'This rule is aimed to flag modifying variables of class declarations.',
     examples: { correct: 'let A = class A { }\nA = 0; // A is a variable.', incorrect: 'class A { }\nA = 0;' },
@@ -3381,6 +3611,7 @@ export const rules = [
   {
     name: 'no-confusing-arrow',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow arrow functions where they could be confused with comparisons',
     longDescription: 'Examples of incorrect code for this rule:.',
     examples: {
@@ -3395,6 +3626,7 @@ export const rules = [
   {
     name: 'no-const-assign',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow reassigning const variables',
     longDescription: 'This rule is aimed to flag modifying variables that are declared using const keyword.',
     examples: { correct: 'const a = 0;\nconsole.log(a);', incorrect: 'const a = 0;\na = 1;' },
@@ -3406,6 +3638,7 @@ export const rules = [
   {
     name: 'no-dupe-class-members',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow duplicate class members',
     longDescription: 'This rule is aimed to flag the use of duplicate names in class members.',
     examples: {
@@ -3422,6 +3655,7 @@ export const rules = [
   {
     name: 'no-duplicate-imports',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow duplicate module imports',
     longDescription: 'This rules requires that all imports from a single module exists in a single import statement.',
     examples: {
@@ -3436,6 +3670,7 @@ export const rules = [
   {
     name: 'no-new-symbol',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow new operators with the Symbol object',
     longDescription: 'This rule is aimed at preventing the accidental calling of Symbol with the new operator.',
     examples: {
@@ -3450,6 +3685,7 @@ export const rules = [
   {
     name: 'no-restricted-imports',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow specified modules when loaded by import',
     longDescription: 'This rule allows you to specify imports that you don’t want to use in your application.',
     examples: { correct: 'import crypto from \'crypto\';\nexport { foo } from "bar";', incorrect: "import fs from 'fs';" },
@@ -3461,6 +3697,7 @@ export const rules = [
   {
     name: 'no-this-before-super',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow this/super before calling super() in constructors',
     longDescription: 'This rule is aimed to flag this/super keywords before super() callings.',
     examples: {
@@ -3477,6 +3714,7 @@ export const rules = [
   {
     name: 'no-useless-computed-key',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow unnecessary computed property keys in object literals',
     longDescription: 'This rule disallows unnecessary usage of computed property keys.',
     examples: {
@@ -3491,6 +3729,7 @@ export const rules = [
   {
     name: 'no-useless-constructor',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow unnecessary constructors',
     longDescription: 'This rule flags class constructors that can be safely removed without changing how the class works.',
     examples: {
@@ -3506,6 +3745,7 @@ export const rules = [
   {
     name: 'no-useless-rename',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow renaming import, export, and destructured assignments to the same name',
     longDescription: 'This rule disallows the renaming of import, export, and destructured assignments to the same name.',
     examples: {
@@ -3522,6 +3762,7 @@ export const rules = [
   {
     name: 'no-var',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require let or const instead of var',
     longDescription: 'This rule is aimed at discouraging the use of var and encouraging the use of const or let instead.',
     examples: { correct: 'let x = "y";\nconst CONFIG = {};', incorrect: 'var x = "y";\nvar CONFIG = {};' },
@@ -3533,6 +3774,7 @@ export const rules = [
   {
     name: 'object-shorthand',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require or disallow method and property shorthand syntax for object literals',
     longDescription:
       'This rule enforces the use of the shorthand syntax. This applies\nto all methods (including generators) defined in object literals and any\nproperties defined where the key name matches name of the assigned variable.',
@@ -3545,6 +3787,7 @@ export const rules = [
   {
     name: 'prefer-arrow-callback',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require using arrow functions for callbacks',
     longDescription:
       'This rule locates function expressions used as callbacks or function arguments. An error will be produced for any that could be replaced by an arrow function without changing the result.',
@@ -3557,6 +3800,7 @@ export const rules = [
   {
     name: 'prefer-const',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require const declarations for variables that are never reassigned after declared',
     longDescription:
       'This rule is aimed at flagging variables that are declared using let keyword, but never reassigned after the initial assignment.',
@@ -3574,6 +3818,7 @@ export const rules = [
   {
     name: 'prefer-destructuring',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require destructuring from arrays and/or objects',
     longDescription: null,
     examples: { correct: 'No example :(', incorrect: 'No example :(' },
@@ -3585,6 +3830,7 @@ export const rules = [
   {
     name: 'prefer-numeric-literals',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Disallow parseInt() and Number.parseInt() in favor of binary, octal, and hexadecimal literals',
     longDescription:
       'This rule disallows calls to parseInt() or Number.parseInt() if called with two arguments: a string; and a radix option of 2 (binary), 8 (octal), or 16 (hexadecimal).',
@@ -3602,6 +3848,7 @@ export const rules = [
   {
     name: 'prefer-rest-params',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require rest parameters instead of arguments',
     longDescription: 'This rule is aimed to flag usage of arguments variables.',
     examples: {
@@ -3618,6 +3865,7 @@ export const rules = [
   {
     name: 'prefer-spread',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require spread operators instead of .apply()',
     longDescription: 'This rule is aimed to flag usage of Function.prototype.apply() in situations where the spread operator could be used instead.',
     examples: {
@@ -3633,6 +3881,7 @@ export const rules = [
   {
     name: 'prefer-template',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require template literals instead of string concatenation',
     longDescription: 'This rule is aimed to flag usage of + operators with strings.',
     examples: {
@@ -3648,6 +3897,7 @@ export const rules = [
   {
     name: 'require-yield',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require generator functions to contain yield',
     longDescription: 'This rule generates warnings for generator functions that do not have the yield keyword.',
     examples: {
@@ -3663,6 +3913,7 @@ export const rules = [
   {
     name: 'rest-spread-spacing',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Enforce spacing between rest and spread operators and their expressions',
     longDescription:
       'This rule aims to enforce consistent spacing between rest and spread operators and their expressions. The rule also supports object rest and spread properties in ES2018:.',
@@ -3680,6 +3931,7 @@ export const rules = [
   {
     name: 'sort-imports',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Enforce sorted import declarations within modules',
     longDescription:
       'This rule checks all import declarations and verifies that all imports are first sorted by the used member syntax and then alphabetically by the first member or alias name.',
@@ -3697,6 +3949,7 @@ export const rules = [
   {
     name: 'symbol-description',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require symbol descriptions',
     longDescription: 'This rules requires a description when creating symbols.',
     examples: {
@@ -3711,6 +3964,7 @@ export const rules = [
   {
     name: 'template-curly-spacing',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require or disallow spacing around embedded expressions of template strings',
     longDescription: 'This rule aims to maintain consistency around the spacing inside of template literals.',
     examples: {
@@ -3725,6 +3979,7 @@ export const rules = [
   {
     name: 'yield-star-spacing',
     value: 'warn',
+    category: 'ECMAScript 6',
     shortDescription: 'Require or disallow spacing around the * in yield* expressions',
     longDescription: 'This rule enforces spacing around the * in yield* expressions.',
     examples: { correct: 'function* generator() {\n  yield* other();\n}', incorrect: 'No example :(' },
