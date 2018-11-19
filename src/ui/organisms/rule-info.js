@@ -136,9 +136,6 @@ const Wrapper = styled.div`
 export class RuleInfo extends React.Component {
 
   render = () => {
-    let examples = this.props.rule.options ? this.props.rule.examples.find((example) => {
-      return this.props.rule.options.every((option) => example.options[option.name] === option.value);
-    }) : this.props.rule.examples;
 
     return (
       <Wrapper className={ this.props.rule.className }>
@@ -228,18 +225,8 @@ export class RuleInfo extends React.Component {
         <Section isAllowedToGrow={ true }>
           <Heading as={ 'h2' }>Rule examples</Heading>
           <RuleExamples>
-            {
-              this.props.rule.options ?
-                <React.Fragment>
-                  <StyledRuleExample code={ examples && examples.examples.correct } theme={ 'correct' }/>
-                  <StyledRuleExample code={ examples && examples.examples.incorrect } theme={ 'incorrect' }/>
-                </React.Fragment>
-                :
-                <React.Fragment>
-                  <StyledRuleExample code={ examples && examples.correct } theme={ 'correct' }/>
-                  <StyledRuleExample code={ examples && examples.incorrect } theme={ 'incorrect' }/>
-                </React.Fragment>
-            }
+            <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.correct } theme={ 'correct' }/>
+            <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.incorrect } theme={ 'incorrect' }/>
           </RuleExamples>
         </Section>
 

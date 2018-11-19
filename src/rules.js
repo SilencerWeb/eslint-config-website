@@ -33,13 +33,8 @@ for (var i = 10; i >= 0; i++) {}`,
     category: 'Possible Errors',
     shortDescription: 'Enforce return statements in getters',
     longDescription: 'This rule enforces that a return statement is present in property getters.',
-    examples: [
-      {
-        options: {
-          allowImplicit: false,
-        },
-        examples: {
-          correct: `var person = {
+    examples: {
+      correct: `var person = {
   get name() {
    return "Nicholas";
   }
@@ -56,48 +51,7 @@ class Person {
     return "Nicholas";
   }
 }`,
-          incorrect: `var person = {
-  get name() {
-    return; // Returning undefined is not allowed because the option "allowImplicit" is turned off
-  }
-};
-
-Object.defineProperty(person, "age", {
-  get: function() {
-    // No return
-  }
-});
-
-class Person {
-  get name() {
-    // No return
-  }
-}`,
-        },
-      },
-      {
-        options: {
-          allowImplicit: true,
-        },
-        examples: {
-          correct: `var person = {
-  get name() {
-   return; // Returning undefined is allowed because the option "allowImplicit" is turned on
-  }
-};
-
-Object.defineProperty(person, "age", {
-  get: function() {
-    return 18;
-  }
-});
-
-class Person {
-  get name() {
-    return "Nicholas";
-  }
-}`,
-          incorrect: `var person = {
+      incorrect: `var person = {
   get name() {
     // No return
   }
@@ -114,9 +68,7 @@ class Person {
     // No return
   }
 }`,
-        },
-      },
-    ],
+    },
     isActive: false,
     isRecommended: true,
     isFixable: false,
@@ -180,7 +132,7 @@ const result = new Promise(async(resolve, reject) => {
   const results = [];
   
   for (const thing of things) {
-    // Bad: each loop iteration is delayed until the entire asynchronous operation completes
+    // Bad: each loop iteration is delayed until the entire asynchronous operation completes.
     results.push(await bar(thing));
   }
   
@@ -200,7 +152,9 @@ const result = new Promise(async(resolve, reject) => {
     longDescription: 'The rule should warn against code that tries to compare against -0, since that will not work as intended. That is, code like x === -0 will pass for both +0 and -0. The author probably intended Object.is(x, -0).',
     examples: {
       correct: `if (Object.is(x, -0)) {}`,
-      incorrect: `if (x === -0) {}`,
+      incorrect: `if (x == -0) {}
+      
+if (x === -0) {}`,
     },
     isActive: false,
     isRecommended: true,
