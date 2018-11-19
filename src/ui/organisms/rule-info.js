@@ -54,6 +54,29 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const OptionName = styled(Heading)`
+  font-size: 16px;
+  margin-right: 10px;
+  margin-bottom: 0;
+`;
+
+const OptionHeader = styled.div`
+  flex-grow: 0;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+const Option = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
 const StyledRuleExample = styled(RuleExample)`
   flex-grow: 1;
   max-width: 50%;
@@ -71,6 +94,7 @@ const HeaderSection = styled.div`
 `;
 
 const Section = styled.div`
+  flex-shrink: 0;
   margin-bottom: 30px;
   
   &:last-child {
@@ -109,9 +133,13 @@ const Wrapper = styled.div`
 `;
 
 
-export class RuleInfo extends React.PureComponent {
+export class RuleInfo extends React.Component {
 
   render = () => {
+    let examples = this.props.rule.options ? this.props.rule.examples.find((example) => {
+      return this.props.rule.options.every((option) => example.options[option.name] === option.value);
+    }) : this.props.rule.examples;
+
     return (
       <Wrapper className={ this.props.rule.className }>
         <Section>
@@ -155,7 +183,7 @@ export class RuleInfo extends React.PureComponent {
         </Section>
 
         <Section>
-          <Heading>What ESLint should do when it catches the rule break</Heading>
+          <Heading as={ 'h2' }>What ESLint should do when it catches the rule break</Heading>
           <Select
             classNamePrefix={ 'react-select' }
             value={
@@ -172,11 +200,46 @@ export class RuleInfo extends React.PureComponent {
           />
         </Section>
 
+        {
+          this.props.rule.options &&
+          <Section>
+            <Heading as={ 'h2' }>Options</Heading>
+            {
+              this.props.rule.options.map((option) => {
+                if (option.type === 'boolean') {
+                  return (
+                    <Option key={ option.name }>
+                      <OptionHeader>
+                        <OptionName as={ 'h3' }>{ option.name }</OptionName>
+                        <Switcher
+                          isActive={ option.value }
+                          onClick={ () => this.props.onOptionSwitcherClick(this.props.rule.name, option.name, !option.value) }
+                        />
+                      </OptionHeader>
+                      <Paragraph>{ option.description }</Paragraph>
+                    </Option>
+                  );
+                }
+              })
+            }
+          </Section>
+        }
+
         <Section isAllowedToGrow={ true }>
-          <Heading>Rule examples</Heading>
+          <Heading as={ 'h2' }>Rule examples</Heading>
           <RuleExamples>
-            <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.correct } theme={ 'correct' }/>
-            <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.incorrect } theme={ 'incorrect' }/>
+            {
+              this.props.rule.options ?
+                <React.Fragment>
+                  <StyledRuleExample code={ examples && examples.examples.correct } theme={ 'correct' }/>
+                  <StyledRuleExample code={ examples && examples.examples.incorrect } theme={ 'incorrect' }/>
+                </React.Fragment>
+                :
+                <React.Fragment>
+                  <StyledRuleExample code={ examples && examples.correct } theme={ 'correct' }/>
+                  <StyledRuleExample code={ examples && examples.incorrect } theme={ 'incorrect' }/>
+                </React.Fragment>
+            }
           </RuleExamples>
         </Section>
 

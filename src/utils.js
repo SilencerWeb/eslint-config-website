@@ -15,7 +15,21 @@ export const generateConfig = (rules) => {
   const filteredRules = fast.filter(rules, ((rule) => rule.isTurnedOn));
 
   fast.forEach(filteredRules, (rule, i, rules) => {
-    rulesAsString += `    "${rule.name}": "${rule.value}"`;
+    let options = '';
+
+    if (rule.options) {
+      rule.options.forEach((option) => {
+        if (option.value !== option.defaultValue) {
+          options += `"${option.name}": ${option.value}`;
+        }
+      });
+    }
+
+    if (options.length) {
+      rulesAsString += `    "${rule.name}": ["${rule.value}", { ${options} }]`;
+    } else {
+      rulesAsString += `    "${rule.name}": "${rule.value}"`;
+    }
 
     if (i !== rules.length - 1) {
       rulesAsString += ',\n';

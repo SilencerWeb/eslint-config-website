@@ -103,7 +103,6 @@ class App extends React.Component {
       const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
 
       rules[changingRuleIndex].value = value;
-      rules[changingRuleIndex].isTurnedOn = true;
 
       return {
         ...prevState,
@@ -119,6 +118,22 @@ class App extends React.Component {
       const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
 
       rules[changingRuleIndex].isTurnedOn = value;
+
+      return {
+        ...prevState,
+        rules: rules,
+      };
+    });
+  };
+
+  changeRuleOptionValue = (ruleName, optionName, value) => {
+    this.setState((prevState) => {
+      const rules = [...prevState.rules];
+
+      const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
+      const changingRuleOptionIndex = rules[changingRuleIndex].options.findIndex((option) => option.name === optionName);
+
+      rules[changingRuleIndex].options[changingRuleOptionIndex].value = value;
 
       return {
         ...prevState,
@@ -169,6 +184,7 @@ class App extends React.Component {
                 onSelectChange={ this.changeRuleValue }
                 onPreviousOrNextButtonClick={ this.setActiveRule }
                 onSwitcherClick={ this.changeRuleTurnOnValue }
+                onOptionSwitcherClick={ this.changeRuleOptionValue }
               />
           }
         </Wrapper>

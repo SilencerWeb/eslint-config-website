@@ -4,11 +4,14 @@ export const rules = [
     value: 'warn',
     category: 'Possible Errors',
     shortDescription: 'Enforce “for” loop update clause moving the counter in the right direction',
-    longDescription:
-      'A for loop with a stop condition that can never be reached, such as one with a counter that moves in the wrong direction, will run infinitely. While there are occasions when an infinite loop is intended, the convention is to construct such loops as while loops. More typically, an infinite for loop is a bug.',
+    longDescription: 'A for loop with a stop condition that can never be reached, such as one with a counter that moves in the wrong direction, will run infinitely. While there are occasions when an infinite loop is intended, the convention is to construct such loops as while loops. More typically, an infinite for loop is a bug.',
     examples: {
-      correct: 'for (var i = 0; i &lt; 10; i++) {\n}',
-      incorrect: 'for (var i = 0; i &lt; 10; i--) {\n}\n\nfor (var i = 10; i &gt;= 0; i++) {\n}',
+      correct: `for (var i = 0; i < 10; i++) {}
+
+for (var i = 10; i >= 0; i--) {}`,
+      incorrect: `for (var i = 0; i < 10; i--) {}
+
+for (var i = 10; i >= 0; i++) {}`,
     },
     isActive: true,
     isRecommended: true,
@@ -17,16 +20,103 @@ export const rules = [
   },
   {
     name: 'getter-return',
+    options: [
+      {
+        name: 'allowImplicit',
+        type: 'boolean',
+        defaultValue: false,
+        value: false,
+        description: 'Disallows implicitly returning undefined with a return statement.',
+      },
+    ],
     value: 'warn',
     category: 'Possible Errors',
     shortDescription: 'Enforce return statements in getters',
     longDescription: 'This rule enforces that a return statement is present in property getters.',
-    examples: {
-      correct:
-        'p = {\n    get name(){\n        return "nicholas";\n    }\n};\n\nObject.defineProperty(p, "age", {\n    get: function (){\n        return 18;\n    }\n});\n\nclass P{\n    get name(){\n        return "nicholas";\n    }\n}',
-      incorrect:
-        'p = {\n    get name(){\n        // no returns.\n    }\n};\n\nObject.defineProperty(p, "age", {\n    get: function (){\n        // no returns.\n    }\n});\n\nclass P{\n    get name(){\n        // no returns.\n    }\n}',
-    },
+    examples: [
+      {
+        options: {
+          allowImplicit: false,
+        },
+        examples: {
+          correct: `var person = {
+  get name() {
+   return "Nicholas";
+  }
+};
+
+Object.defineProperty(person, "age", {
+  get: function() {
+    return 18;
+  }
+});
+
+class Person {
+  get name() {
+    return "Nicholas";
+  }
+}`,
+          incorrect: `var person = {
+  get name() {
+    return; // Returning undefined is not allowed because the option "allowImplicit" is turned off
+  }
+};
+
+Object.defineProperty(person, "age", {
+  get: function() {
+    // No return
+  }
+});
+
+class Person {
+  get name() {
+    // No return
+  }
+}`,
+        },
+      },
+      {
+        options: {
+          allowImplicit: true,
+        },
+        examples: {
+          correct: `var person = {
+  get name() {
+   return; // Returning undefined is allowed because the option "allowImplicit" is turned on
+  }
+};
+
+Object.defineProperty(person, "age", {
+  get: function() {
+    return 18;
+  }
+});
+
+class Person {
+  get name() {
+    return "Nicholas";
+  }
+}`,
+          incorrect: `var person = {
+  get name() {
+    // No return
+  }
+};
+
+Object.defineProperty(person, "age", {
+  get: function() {
+    // No return
+  }
+});
+
+class Person {
+  get name() {
+    // No return
+  }
+}`,
+        },
+      },
+    ],
     isActive: false,
     isRecommended: true,
     isFixable: false,
@@ -40,9 +130,9 @@ export const rules = [
     longDescription: 'This rule aims to disallow async Promise executor functions.',
     examples: {
       correct:
-        "const result = new Promise((resolve, reject) =&gt; {\n  readFile('foo.txt', function(err, result) {\n    if (err) {\n      reject(err);\n    } else {\n      resolve(result);\n    }\n  });\n});\n\nconst result = Promise.resolve(foo);",
+        'const result = new Promise((resolve, reject) =&gt; {\n  readFile(\'foo.txt\', function(err, result) {\n    if (err) {\n      reject(err);\n    } else {\n      resolve(result);\n    }\n  });\n});\n\nconst result = Promise.resolve(foo);',
       incorrect:
-        "const result = new Promise(async (resolve, reject) =&gt; {\n  readFile('foo.txt', function(err, result) {\n    if (err) {\n      reject(err);\n    } else {\n      resolve(result);\n    }\n  });\n});\n\nconst result = new Promise(async (resolve, reject) =&gt; {\n  resolve(await foo);\n});",
+        'const result = new Promise(async (resolve, reject) =&gt; {\n  readFile(\'foo.txt\', function(err, result) {\n    if (err) {\n      reject(err);\n    } else {\n      resolve(result);\n    }\n  });\n});\n\nconst result = new Promise(async (resolve, reject) =&gt; {\n  resolve(await foo);\n});',
     },
     isActive: false,
     isRecommended: false,
@@ -73,7 +163,10 @@ export const rules = [
     shortDescription: 'Disallow comparing against -0',
     longDescription:
       'The rule should warn against code that tries to compare against -0, since that will not work as intended. That is, code like x === -0 will pass for both +0 and -0. The author probably intended Object.is(x, -0).',
-    examples: { correct: 'if (x === 0) {\n    // doSomething()...\n}', incorrect: 'if (x === -0) {\n    // doSomething()...\n}' },
+    examples: {
+      correct: 'if (x === 0) {\n    // doSomething()...\n}',
+      incorrect: 'if (x === -0) {\n    // doSomething()...\n}',
+    },
     isActive: false,
     isRecommended: true,
     isFixable: false,
@@ -248,7 +341,10 @@ export const rules = [
     category: 'Possible Errors',
     shortDescription: 'Disallow reassigning exceptions in catch clauses',
     longDescription: 'This rule disallows reassigning exceptions in catch clauses.',
-    examples: { correct: 'try {\n    // code\n} catch (e) {\n    var foo = 10;\n}', incorrect: 'try {\n    // code\n} catch (e) {\n    e = 10;\n}' },
+    examples: {
+      correct: 'try {\n    // code\n} catch (e) {\n    var foo = 10;\n}',
+      incorrect: 'try {\n    // code\n} catch (e) {\n    e = 10;\n}',
+    },
     isActive: false,
     isRecommended: true,
     isFixable: false,
@@ -293,7 +389,10 @@ export const rules = [
     category: 'Possible Errors',
     shortDescription: 'Disallow unnecessary semicolons',
     longDescription: 'This rule disallows unnecessary semicolons.',
-    examples: { correct: 'var x = 5;\n\nvar foo = function() {\n    // code\n};', incorrect: 'var x = 5;;\n\nfunction foo() {\n    // code\n};' },
+    examples: {
+      correct: 'var x = 5;\n\nvar foo = function() {\n    // code\n};',
+      incorrect: 'var x = 5;;\n\nfunction foo() {\n    // code\n};',
+    },
     isActive: false,
     isRecommended: true,
     isFixable: true,
@@ -339,7 +438,10 @@ export const rules = [
     category: 'Possible Errors',
     shortDescription: 'Disallow invalid regular expression strings in RegExp constructors',
     longDescription: 'This rule disallows invalid regular expression strings in RegExp constructors.',
-    examples: { correct: "RegExp('.')\n\nnew RegExp\n\nthis.RegExp('[')", incorrect: "RegExp('[')\n\nRegExp('.', 'z')\n\nnew RegExp('\\\\')" },
+    examples: {
+      correct: 'RegExp(\'.\')\n\nnew RegExp\n\nthis.RegExp(\'[\')',
+      incorrect: 'RegExp(\'[\')\n\nRegExp(\'.\', \'z\')\n\nnew RegExp(\'\\\\\')',
+    },
     isActive: false,
     isRecommended: true,
     isFixable: false,
@@ -354,9 +456,9 @@ export const rules = [
       'This rule is aimed at catching invalid whitespace that is not a normal tab and space. Some of these characters may cause issues in modern browsers and others will be a debugging issue to spot.',
     examples: {
       correct:
-        "function thing() {\n    return '&nbsp;&lt;NBSP&gt;thing';\n}\n\nfunction thing() {\n    return '​&lt;ZWSP&gt;thing';\n}\n\nfunction thing() {\n    return 'th&nbsp;&lt;NBSP&gt;ing';\n}",
+        'function thing() {\n    return \'&nbsp;&lt;NBSP&gt;thing\';\n}\n\nfunction thing() {\n    return \'​&lt;ZWSP&gt;thing\';\n}\n\nfunction thing() {\n    return \'th&nbsp;&lt;NBSP&gt;ing\';\n}',
       incorrect:
-        "function thing()&nbsp;/*&lt;NBSP&gt;*/{\n    return 'test';\n}\n\nfunction thing(&nbsp;/*&lt;NBSP&gt;*/){\n    return 'test';\n}\n\nfunction thing&nbsp;/*&lt;NBSP&gt;*/(){\n    return 'test';\n}\n\nfunction thing᠎/*&lt;MVS&gt;*/(){\n    return 'test';\n}\n\nfunction thing() {\n    return 'test'; /*&lt;ENSP&gt;*/\n}\n\nfunction thing() {\n    return 'test';&nbsp;/*&lt;NBSP&gt;*/\n}\n\nfunction thing() {\n    // Description&nbsp;&lt;NBSP&gt;: some descriptive text\n}\n\n/*\nDescription&nbsp;&lt;NBSP&gt;: some descriptive text\n*/\n\nfunction thing() {\n    return /&nbsp;&lt;NBSP&gt;regexp/;\n}\n\n\nfunction thing() {\n    return `template &lt;NBSP&gt;string`;\n}",
+        'function thing()&nbsp;/*&lt;NBSP&gt;*/{\n    return \'test\';\n}\n\nfunction thing(&nbsp;/*&lt;NBSP&gt;*/){\n    return \'test\';\n}\n\nfunction thing&nbsp;/*&lt;NBSP&gt;*/(){\n    return \'test\';\n}\n\nfunction thing᠎/*&lt;MVS&gt;*/(){\n    return \'test\';\n}\n\nfunction thing() {\n    return \'test\'; /*&lt;ENSP&gt;*/\n}\n\nfunction thing() {\n    return \'test\';&nbsp;/*&lt;NBSP&gt;*/\n}\n\nfunction thing() {\n    // Description&nbsp;&lt;NBSP&gt;: some descriptive text\n}\n\n/*\nDescription&nbsp;&lt;NBSP&gt;: some descriptive text\n*/\n\nfunction thing() {\n    return /&nbsp;&lt;NBSP&gt;regexp/;\n}\n\n\nfunction thing() {\n    return `template &lt;NBSP&gt;string`;\n}',
     },
     isActive: false,
     isRecommended: true,
@@ -369,7 +471,10 @@ export const rules = [
     category: 'Possible Errors',
     shortDescription: 'Disallow characters which are made with multiple code points in character class syntax',
     longDescription: 'This rule reports the regular expressions which include multiple code point characters in character class syntax.',
-    examples: { correct: '/^[abc]$/\n/^[👍]$/u', incorrect: '/^[Á]$/u\n/^[❇️]$/u\n/^[👶🏻]$/u\n/^[🇯🇵]$/u\n/^[👨‍👩‍👦]$/u\n/^[👍]$/' },
+    examples: {
+      correct: '/^[abc]$/\n/^[👍]$/u',
+      incorrect: '/^[Á]$/u\n/^[❇️]$/u\n/^[👶🏻]$/u\n/^[🇯🇵]$/u\n/^[👨‍👩‍👦]$/u\n/^[👍]$/',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: false,
@@ -463,9 +568,9 @@ export const rules = [
     longDescription: 'This rule disallows confusing multiline expressions where a newline looks like it is ending a statement, but is not.',
     examples: {
       correct:
-        "var foo = bar;\n(1 || 2).baz();\n\nvar foo = bar\n;(1 || 2).baz()\n\nvar hello = 'world';\n[1, 2, 3].forEach(addNumber);\n\nvar hello = 'world'\nvoid [1, 2, 3].forEach(addNumber);\n\nlet x = function() {};\n`hello`\n\nlet tag = function() {}\ntag `hello`",
+        'var foo = bar;\n(1 || 2).baz();\n\nvar foo = bar\n;(1 || 2).baz()\n\nvar hello = \'world\';\n[1, 2, 3].forEach(addNumber);\n\nvar hello = \'world\'\nvoid [1, 2, 3].forEach(addNumber);\n\nlet x = function() {};\n`hello`\n\nlet tag = function() {}\ntag `hello`',
       incorrect:
-        "var foo = bar\n(1 || 2).baz();\n\nvar hello = 'world'\n[1, 2, 3].forEach(addNumber);\n\nlet x = function() {}\n`hello`\n\nlet x = function() {}\nx\n`hello`\n\nlet x = foo\n/regex/g.test(bar)",
+        'var foo = bar\n(1 || 2).baz();\n\nvar hello = \'world\'\n[1, 2, 3].forEach(addNumber);\n\nlet x = function() {}\n`hello`\n\nlet x = function() {}\nx\n`hello`\n\nlet x = foo\n/regex/g.test(bar)',
     },
     isActive: false,
     isRecommended: true,
@@ -596,9 +701,9 @@ export const rules = [
     longDescription: 'This rule enforces a style where it requires to have a getter for every property which has a setter defined.',
     examples: {
       correct:
-        "var o = {\n    set a(value) {\n        this.val = value;\n    },\n    get a() {\n        return this.val;\n    }\n};\n\nvar o = {d: 1};\nObject.defineProperty(o, 'c', {\n    set: function(value) {\n        this.val = value;\n    },\n    get: function() {\n        return this.val;\n    }\n});",
+        'var o = {\n    set a(value) {\n        this.val = value;\n    },\n    get a() {\n        return this.val;\n    }\n};\n\nvar o = {d: 1};\nObject.defineProperty(o, \'c\', {\n    set: function(value) {\n        this.val = value;\n    },\n    get: function() {\n        return this.val;\n    }\n});',
       incorrect:
-        "var o = {\n    set a(value) {\n        this.val = value;\n    }\n};\n\nvar o = {d: 1};\nObject.defineProperty(o, 'c', {\n    set: function(value) {\n        this.val = value;\n    }\n});",
+        'var o = {\n    set a(value) {\n        this.val = value;\n    }\n};\n\nvar o = {d: 1};\nObject.defineProperty(o, \'c\', {\n    set: function(value) {\n        this.val = value;\n    }\n});',
     },
     isActive: false,
     isRecommended: false,
@@ -650,7 +755,7 @@ export const rules = [
       correct:
         'class A {\n    foo() {\n        this.bar = "Hello World"; // OK, this is used\n    }\n}\n\nclass A {\n    constructor() {\n        // OK. constructor is exempt\n    }\n}\n\nclass A {\n    static foo() {\n        // OK. static methods aren\'t expected to use this.\n    }\n}',
       incorrect:
-        "class A {\n    foo() {\n        console.log(\"Hello World\");     /*error Expected 'this' to be used by class method 'foo'.*/\n    }\n}",
+        'class A {\n    foo() {\n        console.log("Hello World");     /*error Expected \'this\' to be used by class method \'foo\'.*/\n    }\n}',
     },
     isActive: false,
     isRecommended: false,
@@ -732,7 +837,10 @@ export const rules = [
     shortDescription: 'Enforce consistent newlines before and after dots',
     longDescription:
       'This rule aims to enforce newline consistency in member expressions. This rule prevents the use of mixed newlines around the dot in a member expression.',
-    examples: { correct: 'var foo = object.\nproperty;\nvar bar = object.property;', incorrect: 'var foo = object\n.property;' },
+    examples: {
+      correct: 'var foo = object.\nproperty;\nvar bar = object.property;',
+      incorrect: 'var foo = object\n.property;',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: true,
@@ -762,7 +870,7 @@ export const rules = [
     longDescription: 'This rule is aimed at eliminating the type-unsafe equality operators.',
     examples: {
       correct:
-        "a === b\nfoo === true\nbananas !== 1\nvalue === undefined\ntypeof foo === 'undefined'\n'hello' !== 'world'\n0 === 0\ntrue === true\nfoo === null",
+        'a === b\nfoo === true\nbananas !== 1\nvalue === undefined\ntypeof foo === \'undefined\'\n\'hello\' !== \'world\'\n0 === 0\ntrue === true\nfoo === null',
       incorrect: 'if (x == 42) { }\n\nif ("" == text) { }\n\nif (obj.getStuff() != undefined) { }',
     },
     isActive: false,
@@ -1022,7 +1130,10 @@ export const rules = [
     shortDescription: 'Disallow leading or trailing decimal points in numeric literals',
     longDescription:
       'This rule is aimed at eliminating floating decimal points and will warn whenever a numeric value has a decimal point but is missing a number either before or after it.',
-    examples: { correct: 'var num = 0.5;\nvar num = 2.0;\nvar num = -0.7;', incorrect: 'var num = .5;\nvar num = 2.;\nvar num = -.7;' },
+    examples: {
+      correct: 'var num = 0.5;\nvar num = 2.0;\nvar num = -0.7;',
+      incorrect: 'var num = .5;\nvar num = 2.;\nvar num = -.7;',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: true,
@@ -1168,7 +1279,7 @@ export const rules = [
       correct:
         'var a = function() {};\n\nfor (var i=10; i; i--) {\n    a();\n}\n\nfor (var i=10; i; i--) {\n    var a = function() {}; // OK, no references to variables in the outer scopes.\n    a();\n}\n\nfor (let i=10; i; i--) {\n    var a = function() { return i; }; // OK, all references are referring to block scoped variables in the loop.\n    a();\n}\n\nvar foo = 100;\nfor (let i=10; i; i--) {\n    var a = function() { return foo; }; // OK, all references are referring to never modified variables.\n    a();\n}\n//... no modifications of foo after this loop ...',
       incorrect:
-        "for (var i=10; i; i--) {\n    (function() { return i; })();\n}\n\nwhile(i) {\n    var a = function() { return i; };\n    a();\n}\n\ndo {\n    function a() { return i; };\n    a();\n} while (i);\n\nlet foo = 0;\nfor (let i = 0; i &lt; 10; ++i) {\n    //Bad, `foo` is not in the loop-block's scope and `foo` is modified in/after the loop\n    setTimeout(() =&gt; console.log(foo));\n    foo += 1;\n}\n\nfor (let i = 0; i &lt; 10; ++i) {\n    //Bad, `foo` is not in the loop-block's scope and `foo` is modified in/after the loop\n    setTimeout(() =&gt; console.log(foo));\n}\nfoo = 100;",
+        'for (var i=10; i; i--) {\n    (function() { return i; })();\n}\n\nwhile(i) {\n    var a = function() { return i; };\n    a();\n}\n\ndo {\n    function a() { return i; };\n    a();\n} while (i);\n\nlet foo = 0;\nfor (let i = 0; i &lt; 10; ++i) {\n    //Bad, `foo` is not in the loop-block\'s scope and `foo` is modified in/after the loop\n    setTimeout(() =&gt; console.log(foo));\n    foo += 1;\n}\n\nfor (let i = 0; i &lt; 10; ++i) {\n    //Bad, `foo` is not in the loop-block\'s scope and `foo` is modified in/after the loop\n    setTimeout(() =&gt; console.log(foo));\n}\nfoo = 100;',
     },
     isActive: false,
     isRecommended: false,
@@ -1213,7 +1324,10 @@ export const rules = [
     category: 'Best Practices',
     shortDescription: 'Disallow multiline strings',
     longDescription: 'This rule is aimed at preventing the use of multiline strings.',
-    examples: { correct: 'var x = "Line 1\\n" +\n        "Line 2";', incorrect: 'var x = "Line 1 \\\n         Line 2";' },
+    examples: {
+      correct: 'var x = "Line 1\\n" +\n        "Line 2";',
+      incorrect: 'var x = "Line 1 \\\n         Line 2";',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: false,
@@ -1314,7 +1428,10 @@ export const rules = [
     shortDescription: 'Disallow the use of the __proto__ property',
     longDescription:
       'When an object is created __proto__ is set to the original prototype property of the object’s constructor function. getPrototypeOf is the preferred method of getting “the prototype”.',
-    examples: { correct: 'var a = Object.getPrototypeOf(obj);', incorrect: 'var a = obj.__proto__;\n\nvar a = obj["__proto__"];' },
+    examples: {
+      correct: 'var a = Object.getPrototypeOf(obj);',
+      incorrect: 'var a = obj.__proto__;\n\nvar a = obj["__proto__"];',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: false,
@@ -1536,7 +1653,7 @@ export const rules = [
       correct:
         '// when a non string is included\nvar c = a + b;\nvar c = \'1\' + a;\nvar a = 1 + \'1\';\nvar c = 1 - 2;\n// when the string concatenation is multiline\nvar c = "foo" +\n    "bar";',
       incorrect:
-        "var a = `some` + `string`;\n\n// these are the same as \"10\"\nvar a = '1' + '0';\nvar a = '1' + `0`;\nvar a = `1` + '0';\nvar a = `1` + `0`;",
+        'var a = `some` + `string`;\n\n// these are the same as "10"\nvar a = \'1\' + \'0\';\nvar a = \'1\' + `0`;\nvar a = `1` + \'0\';\nvar a = `1` + `0`;',
     },
     isActive: false,
     isRecommended: false,
@@ -1844,7 +1961,10 @@ export const rules = [
     shortDescription: 'Disallow the use of undeclared variables unless mentioned in /*global */ comments',
     longDescription:
       'Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a /*global ...*/ comment, or specified in the globals key in the configuration file. A common use case for these is if you intentionally use globals that are defined elsewhere (e.g. in a script sourced from HTML).',
-    examples: { correct: '/*global someFunction b:true*/\n\n\nvar a = someFunction();\nb = 10;', incorrect: 'var a = someFunction();\nb = 10;' },
+    examples: {
+      correct: '/*global someFunction b:true*/\n\n\nvar a = someFunction();\nb = 10;',
+      incorrect: 'var a = someFunction();\nb = 10;',
+    },
     isActive: false,
     isRecommended: true,
     isFixable: false,
@@ -1856,7 +1976,10 @@ export const rules = [
     category: 'Variables',
     shortDescription: 'Disallow initializing variables to undefined',
     longDescription: 'This rule aims to eliminate variable declarations that initialize to undefined.',
-    examples: { correct: 'var foo;\nlet bar;\nconst baz = undefined;', incorrect: 'var foo = undefined;\nlet bar = undefined;' },
+    examples: {
+      correct: 'var foo;\nlet bar;\nconst baz = undefined;',
+      incorrect: 'var foo = undefined;\nlet bar = undefined;',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: true,
@@ -1936,9 +2059,9 @@ export const rules = [
       'This rule requires all calls to require() to be at the top level of the module, similar to ES6 import and export statements, which also can occur only at the top level.',
     examples: {
       correct:
-        "// all these variations of require() are ok\nrequire('x');\nvar y = require('y');\nvar z;\nz = require('z').initialize();\n\n// requiring a module and using it in a function is ok\nvar fs = require('fs');\nfunction readFile(filename, callback) {\n    fs.readFile(filename, callback)\n}\n\n// you can use a ternary to determine which module to require\nvar logger = DEBUG ? require('dev-logger') : require('logger');\n\n// if you want you can require() at the end of your module\nfunction doSomethingA() {}\nfunction doSomethingB() {}\nvar x = require(\"x\"),\n    z = require(\"z\");",
+        '// all these variations of require() are ok\nrequire(\'x\');\nvar y = require(\'y\');\nvar z;\nz = require(\'z\').initialize();\n\n// requiring a module and using it in a function is ok\nvar fs = require(\'fs\');\nfunction readFile(filename, callback) {\n    fs.readFile(filename, callback)\n}\n\n// you can use a ternary to determine which module to require\nvar logger = DEBUG ? require(\'dev-logger\') : require(\'logger\');\n\n// if you want you can require() at the end of your module\nfunction doSomethingA() {}\nfunction doSomethingB() {}\nvar x = require("x"),\n    z = require("z");',
       incorrect:
-        "// calling require() inside of a function is not allowed\nfunction readFile(filename, callback) {\n    var fs = require('fs');\n    fs.readFile(filename, callback)\n}\n\n// conditional requires like this are also not allowed\nif (DEBUG) { require('debug'); }\n\n// a require() in a switch statement is also flagged\nswitch(x) { case '1': require('1'); break; }\n\n// you may not require() inside an arrow function body\nvar getModule = (name) =&gt; require(name);\n\n// you may not require() inside of a function body as well\nfunction getModule(name) { return require(name); }\n\n// you may not require() inside of a try/catch block\ntry {\n    require(unsafeModule);\n} catch(e) {\n    console.log(e);\n}",
+        '// calling require() inside of a function is not allowed\nfunction readFile(filename, callback) {\n    var fs = require(\'fs\');\n    fs.readFile(filename, callback)\n}\n\n// conditional requires like this are also not allowed\nif (DEBUG) { require(\'debug\'); }\n\n// a require() in a switch statement is also flagged\nswitch(x) { case \'1\': require(\'1\'); break; }\n\n// you may not require() inside an arrow function body\nvar getModule = (name) =&gt; require(name);\n\n// you may not require() inside of a function body as well\nfunction getModule(name) { return require(name); }\n\n// you may not require() inside of a try/catch block\ntry {\n    require(unsafeModule);\n} catch(e) {\n    console.log(e);\n}',
     },
     isActive: false,
     isRecommended: false,
@@ -1985,9 +2108,9 @@ export const rules = [
     longDescription: 'When this rule is enabled, each var statement must satisfy the following conditions:.',
     examples: {
       correct:
-        "// only require declarations (grouping off)\nvar eventEmitter = require('events').EventEmitter,\n    myUtils = require('./utils'),\n    util = require('util'),\n    bar = require(getBarModuleName());\n\n// only non-require declarations\nvar foo = 42,\n    bar = 'baz';\n\n// always valid regardless of grouping because all declarations are of the same type\nvar foo = require('foo' + VERSION),\n    bar = require(getBarModuleName()),\n    baz = require();",
+        '// only require declarations (grouping off)\nvar eventEmitter = require(\'events\').EventEmitter,\n    myUtils = require(\'./utils\'),\n    util = require(\'util\'),\n    bar = require(getBarModuleName());\n\n// only non-require declarations\nvar foo = 42,\n    bar = \'baz\';\n\n// always valid regardless of grouping because all declarations are of the same type\nvar foo = require(\'foo\' + VERSION),\n    bar = require(getBarModuleName()),\n    baz = require();',
       incorrect:
-        "var fs = require('fs'),\n    i = 0;\n\nvar async = require('async'),\n    debug = require('diagnostics').someFunction('my-module'),\n    eslint = require('eslint');",
+        'var fs = require(\'fs\'),\n    i = 0;\n\nvar async = require(\'async\'),\n    debug = require(\'diagnostics\').someFunction(\'my-module\'),\n    eslint = require(\'eslint\');',
     },
     isActive: false,
     isRecommended: false,
@@ -2001,8 +2124,8 @@ export const rules = [
     shortDescription: 'Disallow new operators with calls to require',
     longDescription: 'This rule aims to eliminate use of the new require expression.',
     examples: {
-      correct: "var AppHeader = require('app-header');\nvar appHeader = new AppHeader();",
-      incorrect: "var appHeader = new require('app-header');",
+      correct: 'var AppHeader = require(\'app-header\');\nvar appHeader = new AppHeader();',
+      incorrect: 'var appHeader = new require(\'app-header\');',
     },
     isActive: false,
     isRecommended: false,
@@ -2059,7 +2182,10 @@ export const rules = [
     category: 'Node.js and CommonJS',
     shortDescription: 'Disallow specified modules when loaded by require',
     longDescription: 'This rule allows you to specify modules that you don’t want to use in your application.',
-    examples: { correct: "var crypto = require('crypto');", incorrect: "var fs = require('fs');\nvar cluster = require('cluster');" },
+    examples: {
+      correct: 'var crypto = require(\'crypto\');',
+      incorrect: 'var fs = require(\'fs\');\nvar cluster = require(\'cluster\');',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: false,
@@ -2105,9 +2231,9 @@ export const rules = [
     longDescription: 'This rule enforces consistent spacing inside array brackets.',
     examples: {
       correct:
-        "var arr = [];\nvar arr = ['foo', 'bar', 'baz'];\nvar arr = [['foo'], 'bar', 'baz'];\nvar arr = [\n  'foo',\n  'bar',\n  'baz'\n];\nvar arr = ['foo',\n  'bar'\n];\nvar arr = [\n  'foo',\n  'bar'];\n\nvar [x, y] = z;\nvar [x,y] = z;\nvar [x, ...y] = z;\nvar [,,x,] = z;",
+        'var arr = [];\nvar arr = [\'foo\', \'bar\', \'baz\'];\nvar arr = [[\'foo\'], \'bar\', \'baz\'];\nvar arr = [\n  \'foo\',\n  \'bar\',\n  \'baz\'\n];\nvar arr = [\'foo\',\n  \'bar\'\n];\nvar arr = [\n  \'foo\',\n  \'bar\'];\n\nvar [x, y] = z;\nvar [x,y] = z;\nvar [x, ...y] = z;\nvar [,,x,] = z;',
       incorrect:
-        "var arr = [ 'foo', 'bar' ];\nvar arr = ['foo', 'bar' ];\nvar arr = [ ['foo'], 'bar'];\nvar arr = [[ 'foo' ], 'bar'];\nvar arr = [ 'foo',\n  'bar'\n];\nvar [ x, y ] = z;\nvar [ x,y ] = z;\nvar [ x, ...y ] = z;\nvar [ ,,x, ] = z;",
+        'var arr = [ \'foo\', \'bar\' ];\nvar arr = [\'foo\', \'bar\' ];\nvar arr = [ [\'foo\'], \'bar\'];\nvar arr = [[ \'foo\' ], \'bar\'];\nvar arr = [ \'foo\',\n  \'bar\'\n];\nvar [ x, y ] = z;\nvar [ x,y ] = z;\nvar [ x, ...y ] = z;\nvar [ ,,x, ] = z;',
     },
     isActive: false,
     isRecommended: false,
@@ -2256,8 +2382,8 @@ export const rules = [
     shortDescription: 'Enforce consistent spacing inside computed property brackets',
     longDescription: 'This rule enforces consistent spacing inside computed property brackets.',
     examples: {
-      correct: "obj[foo]\nobj['foo']\nvar x = {[b]: a}\nobj[foo[bar]]",
-      incorrect: "obj[foo ]\nobj[ 'foo']\nvar x = {[ b ]: a}\nobj[foo[ bar ]]",
+      correct: 'obj[foo]\nobj[\'foo\']\nvar x = {[b]: a}\nobj[foo[bar]]',
+      incorrect: 'obj[foo ]\nobj[ \'foo\']\nvar x = {[ b ]: a}\nobj[foo[ bar ]]',
     },
     isActive: false,
     isRecommended: false,
@@ -2285,7 +2411,10 @@ export const rules = [
     category: 'Stylistic Issues',
     shortDescription: 'Require or disallow newline at the end of files',
     longDescription: 'This rule enforces at least one newline (or absence thereof) at the end\nof non-empty files.',
-    examples: { correct: 'function doSmth() {\n  var foo = 2;\n}\\n', incorrect: 'function doSmth() {\n  var foo = 2;\n}' },
+    examples: {
+      correct: 'function doSmth() {\n  var foo = 2;\n}\\n',
+      incorrect: 'function doSmth() {\n  var foo = 2;\n}',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: true,
@@ -2312,9 +2441,9 @@ export const rules = [
       'This rule requires function names to match the name of the variable or property to which they are assigned. The rule will ignore property assignments where the property name is a literal that is not a valid identifier in the ECMAScript version specified in your configuration (default ES5).',
     examples: {
       correct:
-        "// these are equivalent\n\n\nvar foo = function foo() {};\nvar foo = function() {};\nvar foo = () =&gt; {};\nfoo = function foo() {};\n\nobj.foo = function foo() {};\nobj['foo'] = function foo() {};\nobj['foo//bar'] = function foo() {};\nobj[foo] = function bar() {};\n\nvar obj = {foo: function foo() {}};\nvar obj = {[foo]: function bar() {}};\nvar obj = {'foo//bar': function foo() {}};\nvar obj = {foo: function() {}};\n\nobj['x' + 2] = function bar(){};\nvar [ bar ] = [ function bar(){} ];\n({[foo]: function bar() {}})\n\nmodule.exports = function foo(name) {};\nmodule['exports'] = function foo(name) {};",
+        '// these are equivalent\n\n\nvar foo = function foo() {};\nvar foo = function() {};\nvar foo = () =&gt; {};\nfoo = function foo() {};\n\nobj.foo = function foo() {};\nobj[\'foo\'] = function foo() {};\nobj[\'foo//bar\'] = function foo() {};\nobj[foo] = function bar() {};\n\nvar obj = {foo: function foo() {}};\nvar obj = {[foo]: function bar() {}};\nvar obj = {\'foo//bar\': function foo() {}};\nvar obj = {foo: function() {}};\n\nobj[\'x\' + 2] = function bar(){};\nvar [ bar ] = [ function bar(){} ];\n({[foo]: function bar() {}})\n\nmodule.exports = function foo(name) {};\nmodule[\'exports\'] = function foo(name) {};',
       incorrect:
-        "var foo = function bar() {};\nfoo = function bar() {};\nobj.foo = function bar() {};\nobj['foo'] = function bar() {};\nvar obj = {foo: function bar() {}};\n({['foo']: function bar() {}});",
+        'var foo = function bar() {};\nfoo = function bar() {};\nobj.foo = function bar() {};\nobj[\'foo\'] = function bar() {};\nvar obj = {foo: function bar() {}};\n({[\'foo\']: function bar() {}});',
     },
     isActive: false,
     isRecommended: false,
@@ -2509,8 +2638,8 @@ export const rules = [
     shortDescription: 'Enforce consistent linebreak style',
     longDescription: 'This rule enforces consistent line endings independent of operating system, VCS, or editor used across your codebase.',
     examples: {
-      correct: "var a = 'a', // \\n\n    b = 'b'; // \\n\n// \\n\nfunction foo(params) { // \\n\n    // do stuff \\n\n}// \\n",
-      incorrect: "var a = 'a'; // \\r\\n",
+      correct: 'var a = \'a\', // \\n\n    b = \'b\'; // \\n\n// \\n\nfunction foo(params) { // \\n\n    // do stuff \\n\n}// \\n',
+      incorrect: 'var a = \'a\'; // \\r\\n',
     },
     isActive: false,
     isRecommended: false,
@@ -2971,8 +3100,8 @@ export const rules = [
     shortDescription: 'Disallow all tabs',
     longDescription: 'This rule looks for tabs anywhere inside a file: code, comments or anything else.',
     examples: {
-      correct: "var a = 2;\n\n/**\n* it's a test function\n*/\nfunction test(){}\n\nvar x = 1; // test",
-      incorrect: "var a \\t= 2;\n\n/**\n* \\t\\t it's a test function\n*/\nfunction test(){}\n\nvar x = 1; // \\t test",
+      correct: 'var a = 2;\n\n/**\n* it\'s a test function\n*/\nfunction test(){}\n\nvar x = 1; // test',
+      incorrect: 'var a \\t= 2;\n\n/**\n* \\t\\t it\'s a test function\n*/\nfunction test(){}\n\nvar x = 1; // \\t test',
     },
     isActive: false,
     isRecommended: false,
@@ -3014,7 +3143,7 @@ export const rules = [
     shortDescription: 'Disallow dangling underscores in identifiers',
     longDescription: 'This rule disallows dangling underscores in identifiers.',
     examples: {
-      correct: "var _ = require('underscore');\nvar obj = _.contains(items, item);\nobj.__proto__ = {};\nvar file = __filename;",
+      correct: 'var _ = require(\'underscore\');\nvar obj = _.contains(items, item);\nobj.__proto__ = {};\nvar file = __filename;',
       incorrect: 'var foo_;\nvar __proto__ = {};\nfoo._bar();',
     },
     isActive: false,
@@ -3097,9 +3226,9 @@ export const rules = [
       'This rule enforce consistent spacing inside braces of object literals, destructuring assignments, and import/export specifiers.',
     examples: {
       correct:
-        "var obj = {'foo': 'bar'};\nvar obj = {'foo': {'bar': 'baz'}, 'qux': 'quxx'};\nvar obj = {\n  'foo': 'bar'\n};\nvar obj = {'foo': 'bar'\n};\nvar obj = {\n  'foo':'bar'};\nvar obj = {};\nvar {x} = y;\nimport {foo} from 'bar';",
+        'var obj = {\'foo\': \'bar\'};\nvar obj = {\'foo\': {\'bar\': \'baz\'}, \'qux\': \'quxx\'};\nvar obj = {\n  \'foo\': \'bar\'\n};\nvar obj = {\'foo\': \'bar\'\n};\nvar obj = {\n  \'foo\':\'bar\'};\nvar obj = {};\nvar {x} = y;\nimport {foo} from \'bar\';',
       incorrect:
-        "var obj = { 'foo': 'bar' };\nvar obj = {'foo': 'bar' };\nvar obj = { baz: {'foo': 'qux'}, bar};\nvar obj = {baz: { 'foo': 'qux'}, bar};\nvar {x } = y;\nimport { foo } from 'bar';",
+        'var obj = { \'foo\': \'bar\' };\nvar obj = {\'foo\': \'bar\' };\nvar obj = { baz: {\'foo\': \'qux\'}, bar};\nvar obj = {baz: { \'foo\': \'qux\'}, bar};\nvar {x } = y;\nimport { foo } from \'bar\';',
     },
     isActive: false,
     isRecommended: false,
@@ -3148,7 +3277,10 @@ export const rules = [
     shortDescription: 'Require or disallow newlines around variable declarations',
     longDescription:
       'This rule enforces a consistent newlines around variable declarations. This rule ignores variable declarations inside for loop conditionals.',
-    examples: { correct: 'var a, b;\n\nlet a,\n    b;\n\nlet a,\n    b = 0;', incorrect: 'var a, b, c = 0;\n\nlet a,\n    b = 0, c;' },
+    examples: {
+      correct: 'var a, b;\n\nlet a,\n    b;\n\nlet a,\n    b = 0;',
+      incorrect: 'var a, b, c = 0;\n\nlet a,\n    b = 0, c;',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: true,
@@ -3230,7 +3362,7 @@ export const rules = [
       correct:
         'Object.assign(...foo);\n\n// Any Object.assign call without an object literal as the first argument\nObject.assign(foo, { bar: baz });\n\nObject.assign(foo, Object.assign(bar));\n\nObject.assign(foo, { bar, baz })\n\nObject.assign(foo, { ...baz });',
       incorrect:
-        "Object.assign({}, foo)\n\nObject.assign({}, {foo: 'bar'})\n\nObject.assign({ foo: 'bar'}, baz)\n\nObject.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }))\n\nObject.assign({}, { foo, bar, baz })\n\nObject.assign({}, { ...baz })\n\n// Object.assign with a single argument that is an object literal\nObject.assign({});\n\nObject.assign({ foo: bar });",
+        'Object.assign({}, foo)\n\nObject.assign({}, {foo: \'bar\'})\n\nObject.assign({ foo: \'bar\'}, baz)\n\nObject.assign({ foo: \'bar\' }, Object.assign({ bar: \'foo\' }))\n\nObject.assign({}, { foo, bar, baz })\n\nObject.assign({}, { ...baz })\n\n// Object.assign with a single argument that is an object literal\nObject.assign({});\n\nObject.assign({ foo: bar });',
     },
     isActive: false,
     isRecommended: false,
@@ -3263,7 +3395,7 @@ export const rules = [
       correct:
         'var double = "double";\nvar backtick = `back\ntick`;  // backticks are allowed due to newline\nvar backtick = tag`backtick`; // backticks are allowed due to tag',
       incorrect:
-        "var single = 'single';\nvar unescaped = 'a string containing \"double\" quotes';\nvar backtick = `back\\ntick`; // you can use \\n in single or double quoted strings",
+        'var single = \'single\';\nvar unescaped = \'a string containing "double" quotes\';\nvar backtick = `back\\ntick`; // you can use \\n in single or double quoted strings',
     },
     isActive: false,
     isRecommended: false,
@@ -3409,8 +3541,8 @@ export const rules = [
     longDescription:
       'This rule will enforce consistency of spacing directly inside of parentheses, by disallowing or requiring one or more spaces to the right of ( and to the left of ). In either case, () will still be allowed.',
     examples: {
-      correct: "foo();\n\nfoo('bar');\n\nvar foo = (1 + 2) * 3;\n(function () { return 'bar'; }());",
-      incorrect: "foo( 'bar');\nfoo('bar' );\nfoo( 'bar' );\n\nvar foo = ( 1 + 2 ) * 3;\n( function () { return 'bar'; }() );",
+      correct: 'foo();\n\nfoo(\'bar\');\n\nvar foo = (1 + 2) * 3;\n(function () { return \'bar\'; }());',
+      incorrect: 'foo( \'bar\');\nfoo(\'bar\' );\nfoo( \'bar\' );\n\nvar foo = ( 1 + 2 ) * 3;\n( function () { return \'bar\'; }() );',
     },
     isActive: false,
     isRecommended: false,
@@ -3513,7 +3645,10 @@ export const rules = [
     category: 'Stylistic Issues',
     shortDescription: 'Require parenthesis around regex literals',
     longDescription: 'This is used to disambiguate the slash operator and facilitates more readable code.',
-    examples: { correct: 'function a() {\n    return (/foo/).test("bar");\n}', incorrect: 'function a() {\n    return /foo/.test("bar");\n}' },
+    examples: {
+      correct: 'function a() {\n    return (/foo/).test("bar");\n}',
+      incorrect: 'function a() {\n    return /foo/.test("bar");\n}',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: true,
@@ -3541,8 +3676,8 @@ export const rules = [
     shortDescription: 'Require parentheses around arrow function arguments',
     longDescription: 'This rule enforces parentheses around arrow function parameters regardless of arity. For example:.',
     examples: {
-      correct: "() =&gt; {};\n(a) =&gt; {};\n(a) =&gt; a;\n(a) =&gt; {'\\n'}\na.then((foo) =&gt; {});\na.then((foo) =&gt; { if (true) {} });",
-      incorrect: "a =&gt; {};\na =&gt; a;\na =&gt; {'\\n'};\na.then(foo =&gt; {});\na.then(foo =&gt; a);\na(foo =&gt; { if (true) {} });",
+      correct: '() =&gt; {};\n(a) =&gt; {};\n(a) =&gt; a;\n(a) =&gt; {\'\\n\'}\na.then((foo) =&gt; {});\na.then((foo) =&gt; { if (true) {} });',
+      incorrect: 'a =&gt; {};\na =&gt; a;\na =&gt; {\'\\n\'};\na.then(foo =&gt; {});\na.then(foo =&gt; a);\na(foo =&gt; { if (true) {} });',
     },
     isActive: false,
     isRecommended: false,
@@ -3556,8 +3691,8 @@ export const rules = [
     shortDescription: 'Enforce consistent spacing before and after the arrow in arrow functions',
     longDescription: 'This rule takes an object argument with before and after properties, each with a Boolean value.',
     examples: {
-      correct: "() =&gt; {};\n(a) =&gt; {};\na =&gt; a;\n() =&gt; {'\\n'};",
-      incorrect: "()=&gt; {};\n() =&gt;{};\n(a)=&gt; {};\n(a) =&gt;{};\na =&gt;a;\na=&gt; a;\n()=&gt; {'\\n'};\n() =&gt;{'\\n'};",
+      correct: '() =&gt; {};\n(a) =&gt; {};\na =&gt; a;\n() =&gt; {\'\\n\'};',
+      incorrect: '()=&gt; {};\n() =&gt;{};\n(a)=&gt; {};\n(a) =&gt;{};\na =&gt;a;\na=&gt; a;\n()=&gt; {\'\\n\'};\n() =&gt;{\'\\n\'};',
     },
     isActive: false,
     isRecommended: false,
@@ -3659,8 +3794,8 @@ export const rules = [
     shortDescription: 'Disallow duplicate module imports',
     longDescription: 'This rules requires that all imports from a single module exists in a single import statement.',
     examples: {
-      correct: "import { merge, find } from 'module';\nimport something from 'another-module';",
-      incorrect: "import { merge } from 'module';\nimport something from 'another-module';\nimport { find } from 'module';",
+      correct: 'import { merge, find } from \'module\';\nimport something from \'another-module\';',
+      incorrect: 'import { merge } from \'module\';\nimport something from \'another-module\';\nimport { find } from \'module\';',
     },
     isActive: false,
     isRecommended: false,
@@ -3675,7 +3810,7 @@ export const rules = [
     longDescription: 'This rule is aimed at preventing the accidental calling of Symbol with the new operator.',
     examples: {
       correct: 'var foo = Symbol(\'foo\');\n\n\n// Ignores shadowed Symbol.\nfunction bar(Symbol) {\n    const baz = new Symbol("baz");\n}',
-      incorrect: "var foo = new Symbol('foo');",
+      incorrect: 'var foo = new Symbol(\'foo\');',
     },
     isActive: false,
     isRecommended: true,
@@ -3688,7 +3823,10 @@ export const rules = [
     category: 'ECMAScript 6',
     shortDescription: 'Disallow specified modules when loaded by import',
     longDescription: 'This rule allows you to specify imports that you don’t want to use in your application.',
-    examples: { correct: 'import crypto from \'crypto\';\nexport { foo } from "bar";', incorrect: "import fs from 'fs';" },
+    examples: {
+      correct: 'import crypto from \'crypto\';\nexport { foo } from "bar";',
+      incorrect: 'import fs from \'fs\';',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: false,
@@ -3702,7 +3840,7 @@ export const rules = [
     longDescription: 'This rule is aimed to flag this/super keywords before super() callings.',
     examples: {
       correct:
-        "class A {\n    constructor() {\n        this.a = 0; // OK, this class doesn't have an `extends` clause.\n    }\n}\n\nclass A extends B {\n    constructor() {\n        super();\n        this.a = 0; // OK, this is after `super()`.\n    }\n}\n\nclass A extends B {\n    foo() {\n        this.a = 0; // OK. this is not in a constructor.\n    }\n}",
+        'class A {\n    constructor() {\n        this.a = 0; // OK, this class doesn\'t have an `extends` clause.\n    }\n}\n\nclass A extends B {\n    constructor() {\n        super();\n        this.a = 0; // OK, this is after `super()`.\n    }\n}\n\nclass A extends B {\n    foo() {\n        this.a = 0; // OK. this is not in a constructor.\n    }\n}',
       incorrect:
         'class A extends B {\n    constructor() {\n        this.a = 0;\n        super();\n    }\n}\n\nclass A extends B {\n    constructor() {\n        this.foo();\n        super();\n    }\n}\n\nclass A extends B {\n    constructor() {\n        super.foo();\n        super();\n    }\n}\n\nclass A extends B {\n    constructor() {\n        super(this.foo());\n    }\n}',
     },
@@ -3718,8 +3856,8 @@ export const rules = [
     shortDescription: 'Disallow unnecessary computed property keys in object literals',
     longDescription: 'This rule disallows unnecessary usage of computed property keys.',
     examples: {
-      correct: "var c = { 'a': 0 };\nvar c = { 0: 0 };\nvar a = { x() {} };\nvar c = { a: 0 };\nvar c = { '0+1,234': 0 };",
-      incorrect: "var a = { ['0']: 0 };\nvar a = { ['0+1,234']: 0 };\nvar a = { [0]: 0 };\nvar a = { ['x']: 0 };\nvar a = { ['x']() {} };",
+      correct: 'var c = { \'a\': 0 };\nvar c = { 0: 0 };\nvar a = { x() {} };\nvar c = { a: 0 };\nvar c = { \'0+1,234\': 0 };',
+      incorrect: 'var a = { [\'0\']: 0 };\nvar a = { [\'0+1,234\']: 0 };\nvar a = { [0]: 0 };\nvar a = { [\'x\']: 0 };\nvar a = { [\'x\']() {} };',
     },
     isActive: false,
     isRecommended: false,
@@ -3734,7 +3872,7 @@ export const rules = [
     longDescription: 'This rule flags class constructors that can be safely removed without changing how the class works.',
     examples: {
       correct:
-        "class A { }\n\nclass A {\n    constructor () {\n        doSomething();\n    }\n}\n\nclass A extends B {\n    constructor() {\n        super('foo');\n    }\n}\n\nclass A extends B {\n    constructor() {\n        super();\n        doSomething();\n    }\n}",
+        'class A { }\n\nclass A {\n    constructor () {\n        doSomething();\n    }\n}\n\nclass A extends B {\n    constructor() {\n        super(\'foo\');\n    }\n}\n\nclass A extends B {\n    constructor() {\n        super();\n        doSomething();\n    }\n}',
       incorrect: 'class A {\n    constructor () {\n    }\n}\n\nclass A extends B {\n    constructor (...args) {\n      super(...args);\n    }\n}',
     },
     isActive: false,
@@ -3778,7 +3916,10 @@ export const rules = [
     shortDescription: 'Require or disallow method and property shorthand syntax for object literals',
     longDescription:
       'This rule enforces the use of the shorthand syntax. This applies\nto all methods (including generators) defined in object literals and any\nproperties defined where the key name matches name of the assigned variable.',
-    examples: { correct: 'var foo = {\n    "bar-baz": function() {},\n    "qux": qux\n};', incorrect: 'var foo = {\n    "bar-baz"() {}\n};' },
+    examples: {
+      correct: 'var foo = {\n    "bar-baz": function() {},\n    "qux": qux\n};',
+      incorrect: 'var foo = {\n    "bar-baz"() {}\n};',
+    },
     isActive: false,
     isRecommended: false,
     isFixable: true,
@@ -3806,9 +3947,9 @@ export const rules = [
       'This rule is aimed at flagging variables that are declared using let keyword, but never reassigned after the initial assignment.',
     examples: {
       correct:
-        "// using const.\nconst a = 0;\n\n// it's never initialized.\nlet a;\nconsole.log(a);\n\n// it's reassigned after initialized.\nlet a;\na = 0;\na = 1;\nconsole.log(a);\n\n// it's initialized in a different block from the declaration.\nlet a;\nif (true) {\n    a = 0;\n}\nconsole.log(a);\n\n// it's initialized at a place that we cannot write a variable declaration.\nlet a;\nif (true) a = 0;\nconsole.log(a);\n\n// `i` gets a new binding each iteration\nfor (const i in [1, 2, 3]) {\n  console.log(i);\n}\n\n// `a` gets a new binding each iteration\nfor (const a of [1, 2, 3]) {\n  console.log(a);\n}\n\n// `end` is never reassigned, but we cannot separate the declarations without modifying the scope.\nfor (let i = 0, end = 10; i &lt; end; ++i) {\n    console.log(a);\n}\n\n// `predicate` is only assigned once but cannot be separately declared as `const`\nlet predicate;\n[object.type, predicate] = foo();\n\n// `a` is only assigned once but cannot be separately declared as `const`\nlet a;\nconst b = {};\n({ a, c: b.c } = func());\n\n// suggest to use `no-var` rule.\nvar b = 3;\nconsole.log(b);",
+        '// using const.\nconst a = 0;\n\n// it\'s never initialized.\nlet a;\nconsole.log(a);\n\n// it\'s reassigned after initialized.\nlet a;\na = 0;\na = 1;\nconsole.log(a);\n\n// it\'s initialized in a different block from the declaration.\nlet a;\nif (true) {\n    a = 0;\n}\nconsole.log(a);\n\n// it\'s initialized at a place that we cannot write a variable declaration.\nlet a;\nif (true) a = 0;\nconsole.log(a);\n\n// `i` gets a new binding each iteration\nfor (const i in [1, 2, 3]) {\n  console.log(i);\n}\n\n// `a` gets a new binding each iteration\nfor (const a of [1, 2, 3]) {\n  console.log(a);\n}\n\n// `end` is never reassigned, but we cannot separate the declarations without modifying the scope.\nfor (let i = 0, end = 10; i &lt; end; ++i) {\n    console.log(a);\n}\n\n// `predicate` is only assigned once but cannot be separately declared as `const`\nlet predicate;\n[object.type, predicate] = foo();\n\n// `a` is only assigned once but cannot be separately declared as `const`\nlet a;\nconst b = {};\n({ a, c: b.c } = func());\n\n// suggest to use `no-var` rule.\nvar b = 3;\nconsole.log(b);',
       incorrect:
-        "// it's initialized and never reassigned.\nlet a = 3;\nconsole.log(a);\n\nlet a;\na = 0;\nconsole.log(a);\n\n// `i` is redefined (not reassigned) on each loop step.\nfor (let i in [1, 2, 3]) {\n    console.log(i);\n}\n\n// `a` is redefined (not reassigned) on each loop step.\nfor (let a of [1, 2, 3]) {\n    console.log(a);\n}",
+        '// it\'s initialized and never reassigned.\nlet a = 3;\nconsole.log(a);\n\nlet a;\na = 0;\nconsole.log(a);\n\n// `i` is redefined (not reassigned) on each loop step.\nfor (let i in [1, 2, 3]) {\n    console.log(i);\n}\n\n// `a` is redefined (not reassigned) on each loop step.\nfor (let a of [1, 2, 3]) {\n    console.log(a);\n}',
     },
     isActive: false,
     isRecommended: false,
@@ -3937,9 +4078,9 @@ export const rules = [
       'This rule checks all import declarations and verifies that all imports are first sorted by the used member syntax and then alphabetically by the first member or alias name.',
     examples: {
       correct:
-        "import 'module-without-export.js';\nimport * as bar from 'bar.js';\nimport * as foo from 'foo.js';\nimport {alpha, beta} from 'alpha.js';\nimport {delta, gamma} from 'delta.js';\nimport a from 'baz.js';\nimport b from 'qux.js';\n\n\nimport a from 'foo.js';\nimport b from 'bar.js';\nimport c from 'baz.js';\n\n\nimport 'foo.js'\nimport * as bar from 'bar.js';\nimport {a, b} from 'baz.js';\nimport c from 'qux.js';\n\n\nimport {a, b, c} from 'foo.js'",
+        'import \'module-without-export.js\';\nimport * as bar from \'bar.js\';\nimport * as foo from \'foo.js\';\nimport {alpha, beta} from \'alpha.js\';\nimport {delta, gamma} from \'delta.js\';\nimport a from \'baz.js\';\nimport b from \'qux.js\';\n\n\nimport a from \'foo.js\';\nimport b from \'bar.js\';\nimport c from \'baz.js\';\n\n\nimport \'foo.js\'\nimport * as bar from \'bar.js\';\nimport {a, b} from \'baz.js\';\nimport c from \'qux.js\';\n\n\nimport {a, b, c} from \'foo.js\'',
       incorrect:
-        "import b from 'foo.js';\nimport a from 'bar.js';\n\n\nimport a from 'foo.js';\nimport A from 'bar.js';\n\n\nimport {b, c} from 'foo.js';\nimport {a, b} from 'bar.js';\n\n\nimport a from 'foo.js';\nimport {b, c} from 'bar.js';\n\n\nimport a from 'foo.js';\nimport * as b from 'bar.js';\n\n\nimport {b, a, c} from 'foo.js'",
+        'import b from \'foo.js\';\nimport a from \'bar.js\';\n\n\nimport a from \'foo.js\';\nimport A from \'bar.js\';\n\n\nimport {b, c} from \'foo.js\';\nimport {a, b} from \'bar.js\';\n\n\nimport a from \'foo.js\';\nimport {b, c} from \'bar.js\';\n\n\nimport a from \'foo.js\';\nimport * as b from \'bar.js\';\n\n\nimport {b, a, c} from \'foo.js\'',
     },
     isActive: false,
     isRecommended: false,
