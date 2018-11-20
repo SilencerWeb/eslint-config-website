@@ -102,6 +102,10 @@ class App extends React.Component {
 
       const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
 
+      if (rules[changingRuleIndex].value !== value) {
+        rules[changingRuleIndex].isTurnedOn = true;
+      }
+
       rules[changingRuleIndex].value = value;
 
       return {
@@ -134,6 +138,10 @@ class App extends React.Component {
       const changingRuleOptionIndex = rules[changingRuleIndex].options.findIndex((option) => option.name === optionName);
 
       rules[changingRuleIndex].options[changingRuleOptionIndex].value = value;
+
+      if (!rules[changingRuleIndex].options.every((option) => option.value === option.defaultValue)) {
+        rules[changingRuleIndex].isTurnedOn = true;
+      }
 
       return {
         ...prevState,
