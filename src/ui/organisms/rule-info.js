@@ -137,7 +137,7 @@ const Footer = styled.div`
   bottom: 0;
   left: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   background-color: #ffffff;
   border-top: 1px solid ${color.tertiary};
@@ -294,14 +294,8 @@ export class RuleInfo extends React.Component {
         </SectionsWrapper>
 
         <Footer>
-          <div>
-            <StyledButton>Reset rule settings</StyledButton>
-          </div>
-
-          <div>
-            <StyledButton onClick={ () => this.props.onPreviousOrNextButtonClick('previous') }>Previous rule</StyledButton>
-            <StyledButton onClick={ () => this.props.onPreviousOrNextButtonClick('next') }>Next rule</StyledButton>
-          </div>
+          <StyledButton onClick={ () => this.props.onPreviousOrNextButtonClick('previous') }>Previous rule</StyledButton>
+          <StyledButton onClick={ () => this.props.onPreviousOrNextButtonClick('next') }>Next rule</StyledButton>
         </Footer>
       </Wrapper>
     );
