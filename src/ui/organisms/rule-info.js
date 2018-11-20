@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import Select from 'react-select';
 import ReactTooltip from 'react-tooltip';
 
-import { Heading, Button, Switcher } from 'ui/atoms';
+import { Heading, Button, Switcher, Input } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
 import { Check, Wrench } from 'ui/outlines';
 import { color } from 'ui/theme';
@@ -58,6 +58,10 @@ const OptionName = styled(Heading)`
   font-size: 16px;
   margin-right: 10px;
   margin-bottom: 0;
+  
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 const OptionHeader = styled.div`
@@ -65,6 +69,10 @@ const OptionHeader = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 5px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 const Option = styled.div`
@@ -198,22 +206,61 @@ export class RuleInfo extends React.Component {
         </Section>
 
         {
-          this.props.rule.options &&
+          this.props.rule.options && this.props.rule.options.length > 0 &&
           <Section>
             <Heading as={ 'h2' }>Options</Heading>
             {
-              this.props.rule.options.map((option) => {
+              this.props.rule.options.map((option, i) => {
                 if (option.type === 'boolean') {
                   return (
-                    <Option key={ option.name }>
+                    <Option key={ option.name || i }>
                       <OptionHeader>
-                        <OptionName as={ 'h3' }>{ option.name }</OptionName>
+                        { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                         <Switcher
                           isActive={ option.value }
-                          onClick={ () => this.props.onOptionSwitcherClick(this.props.rule.name, option.name, !option.value) }
+                          onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, !option.value) }
                         />
                       </OptionHeader>
-                      <Paragraph>{ option.description }</Paragraph>
+                    </Option>
+                  );
+                } else if (option.type === 'select') {
+                  return (
+                    <Option key={ option.name || i }>
+                      <OptionHeader>
+                        { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
+                      </OptionHeader>
+                      <Select
+                        classNamePrefix={ 'react-select' }
+                        value={ { label: option.value, value: option.value } }
+                        options={
+                          option.options.map((optionOption) => ({
+                            label: optionOption,
+                            value: optionOption,
+                          }))
+                        }
+                        onChange={ ({ value }) => this.props.onOptionChange(this.props.rule.name, option.name, value) }
+                      />
+                    </Option>
+                  );
+                } else if (option.type === 'string') {
+                  return (
+                    <Option key={ option.name || i }>
+                      <OptionHeader>
+                        {
+                          option.name &&
+                          <OptionName as={ 'h3' }>
+                            <label htmlFor={ option.name }>
+                              { option.name }
+                            </label>
+                          </OptionName>
+                        }
+                      </OptionHeader>
+
+                      <Input
+                        id={ option.name }
+                        value={ option.value }
+                        onChange={ (e) => this.props.onOptionChange(this.props.rule.name, option.name, e.currentTarget.value) }
+                      />
                     </Option>
                   );
                 }

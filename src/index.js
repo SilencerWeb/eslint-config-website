@@ -184,7 +184,7 @@ class App extends React.Component {
                 onSelectChange={ this.changeRuleValue }
                 onPreviousOrNextButtonClick={ this.setActiveRule }
                 onSwitcherClick={ this.changeRuleTurnOnValue }
-                onOptionSwitcherClick={ this.changeRuleOptionValue }
+                onOptionChange={ this.changeRuleOptionValue }
               />
           }
         </Wrapper>

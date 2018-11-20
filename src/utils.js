@@ -15,18 +15,36 @@ export const generateConfig = (rules) => {
   const filteredRules = fast.filter(rules, ((rule) => rule.isTurnedOn));
 
   fast.forEach(filteredRules, (rule, i, rules) => {
-    let options = '';
+    let optionsAsObject = '';
+    let optionsAsArray = '';
 
     if (rule.options) {
       rule.options.forEach((option) => {
         if (option.value !== option.defaultValue) {
-          options += `"${option.name}": ${option.value}`;
+
+          if (option.name) {
+            if (optionsAsObject.length > 0) {
+              optionsAsObject += ', ';
+            }
+
+            optionsAsObject += `"${option.name}": ${option.type === 'string' ? `"${option.value}"` : option.value}`;
+          } else {
+            if (optionsAsArray.length > 0) {
+              optionsAsArray += ', ';
+            }
+
+            optionsAsArray += `"${option.value}"`;
+          }
         }
       });
     }
 
-    if (options.length) {
-      rulesAsString += `    "${rule.name}": ["${rule.value}", { ${options} }]`;
+    if (optionsAsObject.length > 0 && optionsAsArray.length > 0) {
+      rulesAsString += `    "${rule.name}": ["${rule.value}", ${optionsAsArray}, { ${optionsAsObject} }]`;
+    } else if (optionsAsObject.length > 0) {
+      rulesAsString += `    "${rule.name}": ["${rule.value}", { ${optionsAsObject} }]`;
+    } else if (optionsAsArray.length > 0) {
+      rulesAsString += `    "${rule.name}": ["${rule.value}", ${optionsAsArray}]`;
     } else {
       rulesAsString += `    "${rule.name}": "${rule.value}"`;
     }
