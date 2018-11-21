@@ -598,7 +598,14 @@ export const rules = [
   },
   {
     name: 'valid-jsdoc',
-    options: [],
+    options: [
+      { name: 'requireReturn', type: 'boolean', defaultValue: false, value: false },
+      { name: 'requireParamDescription', type: 'boolean', defaultValue: false, value: false },
+      { name: 'requireReturnDescription', type: 'boolean', defaultValue: false, value: false },
+      { name: 'matchDescription', type: 'string', defaultValue: '', value: '' },
+      { name: 'requireReturnType', type: 'boolean', defaultValue: false, value: false },
+      { name: 'requireParamType', type: 'boolean', defaultValue: false, value: false },
+    ],
     value: 'warn',
     category: 'Possible Errors',
     shortDescription: 'Enforce valid JSDoc comments',
@@ -1289,7 +1296,7 @@ export const rules = [
   },
   {
     name: 'no-multi-spaces',
-    options: [],
+    options: [{ name: 'ignoreEOLComments', type: 'boolean', defaultValue: false, value: false }],
     value: 'warn',
     category: 'Best Practices',
     shortDescription: 'Disallow multiple spaces',
