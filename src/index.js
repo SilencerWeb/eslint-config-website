@@ -1,14 +1,16 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import { ApolloProvider } from 'react-apollo';
 import fast from 'fast.js';
 
 import { ConfigPreviewer } from 'ui/molecules';
 import { Sidebar, RuleInfo } from 'ui/organisms';
 import { GlobalStyles } from 'ui/theme';
 
-import { rules } from 'rules';
+import { client } from 'client';
 import { generateConfig } from 'utils';
+import { rules } from 'rules';
 
 
 const Wrapper = styled.div`
@@ -170,7 +172,7 @@ class App extends React.Component {
   render = () => {
 
     return (
-      <React.Fragment>
+      <ApolloProvider client={ client }>
         <GlobalStyles/>
 
         <Wrapper>
@@ -196,7 +198,7 @@ class App extends React.Component {
               />
           }
         </Wrapper>
-      </React.Fragment>
+      </ApolloProvider>
     );
   };
 }
