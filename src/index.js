@@ -26,6 +26,7 @@ class App extends React.Component {
     searchingString: '',
     isConfigPreviewerVisible: false,
     isEditingModeEnabled: false,
+    didRulesQueryMount: false,
   };
 
   filterRules = () => {
@@ -229,6 +230,7 @@ class App extends React.Component {
                     onPreviousOrNextButtonClick={ this.setActiveRule }
                     onSwitcherClick={ this.changeRuleTurnOnValue }
                     onOptionChange={ this.changeRuleOptionValue }
+                    isEditingModeEnabled={ this.state.isEditingModeEnabled }
                   />
               }
             </Wrapper>

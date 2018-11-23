@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/styles/hljs';
 
+import { Input } from 'ui/atoms';
 import { color } from 'ui/theme';
 
 
@@ -46,6 +47,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 300px;
+  
+  ${Input} {
+    flex-grow: 1;
+    border-radius: 0;
+  }
 
   pre {
     flex-grow: 1;
@@ -60,7 +66,12 @@ export const RuleExample = (props) => {
   return (
     <Wrapper className={ props.className }>
       <Header theme={ props.theme }>{ props.theme === 'correct' ? 'Correct code' : 'Incorrect code' }</Header>
-      <SyntaxHighlighter language='javascript' style={ tomorrow }>{ props.code }</SyntaxHighlighter>
+      {
+        !props.isEditingModeEnabled ?
+          <SyntaxHighlighter language='javascript' style={ tomorrow }>{ props.code }</SyntaxHighlighter>
+          :
+          <Input { ...props.inputAttributes }/>
+      }
     </Wrapper>
   );
 };

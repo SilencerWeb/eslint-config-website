@@ -2,6 +2,8 @@ import * as React from 'react';
 import styled, { css } from 'styled-components';
 import Select from 'react-select';
 import ReactTooltip from 'react-tooltip';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 import { Heading, Button, Switcher, Input } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
@@ -95,10 +97,14 @@ const RuleExamples = styled.div`
   display: flex;
 `;
 
-const HeaderSection = styled.div`
+const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  
+  ${Heading} {
+    margin-bottom: 0;
+  }
 `;
 
 const Section = styled.div`
@@ -161,140 +167,242 @@ export class RuleInfo extends React.Component {
 
     return (
       <Wrapper className={ this.props.className }>
-        <SectionsWrapper>
-          <Section>
-            <HeaderSection>
-              <Title>
-                <Name>{ this.props.rule.name }</Name>
-                <ShortDescription>- { this.props.rule.shortDescription }</ShortDescription>
-                {
-                  this.props.rule.isRecommended &&
-                  <React.Fragment>
-                    <Check data-tip data-for={ `rule-info-check-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                    <ReactTooltip id={ `rule-info-check-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
-                      <span>Recommended</span>
-                    </ReactTooltip>
-                  </React.Fragment>
-                }
-                {
-                  this.props.rule.isFixable &&
-                  <React.Fragment>
-                    <Wrench data-tip data-for={ `rule-info-wrench-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                    <ReactTooltip id={ `rule-info-wrench-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
-                      <span>Fixable</span>
-                    </ReactTooltip>
-                  </React.Fragment>
-                }
-              </Title>
+        {
+          !this.props.isEditingModeEnabled ?
+            <SectionsWrapper>
+              <Section>
+                <SectionHeader>
+                  <Title>
+                    <Name>{ this.props.rule.name }</Name>
+                    <ShortDescription>- { this.props.rule.shortDescription }</ShortDescription>
+                    {
+                      this.props.rule.isRecommended &&
+                      <React.Fragment>
+                        <Check data-tip data-for={ `rule-info-check-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+                        <ReactTooltip id={ `rule-info-check-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                          <span>Recommended</span>
+                        </ReactTooltip>
+                      </React.Fragment>
+                    }
+                    {
+                      this.props.rule.isFixable &&
+                      <React.Fragment>
+                        <Wrench data-tip data-for={ `rule-info-wrench-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+                        <ReactTooltip id={ `rule-info-wrench-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                          <span>Fixable</span>
+                        </ReactTooltip>
+                      </React.Fragment>
+                    }
+                  </Title>
 
-              <StyledSwitcher
-                data-tip
-                data-for={ `rule-info-switcher-${this.props.rule.name}` }
-                size={ 'large' }
-                isActive={ this.props.rule.isTurnedOn }
-                onClick={ () => this.props.onSwitcherClick(this.props.rule.name, !this.props.rule.isTurnedOn) }
-              />
-              <ReactTooltip id={ `rule-info-switcher-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                <span>{ this.props.rule.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
-              </ReactTooltip>
-            </HeaderSection>
+                  <StyledSwitcher
+                    data-tip
+                    data-for={ `rule-info-switcher-${this.props.rule.name}` }
+                    size={ 'large' }
+                    isActive={ this.props.rule.isTurnedOn }
+                    onClick={ () => this.props.onSwitcherClick(this.props.rule.name, !this.props.rule.isTurnedOn) }
+                  />
+                  <ReactTooltip id={ `rule-info-switcher-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
+                    <span>{ this.props.rule.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
+                  </ReactTooltip>
+                </SectionHeader>
 
-            <Paragraph>{ this.props.rule.longDescription }</Paragraph>
-          </Section>
+                <Paragraph>{ this.props.rule.longDescription }</Paragraph>
+              </Section>
 
-          <Section>
-            <Heading as={ 'h2' }>What ESLint should do when it catches the rule break</Heading>
-            <Select
-              classNamePrefix={ 'react-select' }
-              value={
-                this.props.rule.value === 'warn' ?
-                  { label: 'Show a warning', value: 'warn' }
-                  :
-                  { label: 'Throw an error', value: 'error' }
-              }
-              options={ [
-                { label: 'Show a warning', value: 'warn' },
-                { label: 'Throw an error', value: 'error' },
-              ] }
-              onChange={ ({ value }) => this.props.onSelectChange(this.props.rule.name, value) }
-            />
-          </Section>
-
-          {
-            this.props.rule.options && this.props.rule.options.length > 0 &&
-            <Section>
-              <Heading as={ 'h2' }>Options</Heading>
-              {
-                this.props.rule.options.map((option, i) => {
-                  if (option.type === 'boolean') {
-                    return (
-                      <Option key={ option.name || i }>
-                        <OptionHeader>
-                          { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
-                          <Switcher
-                            isActive={ option.value }
-                            onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, !option.value) }
-                          />
-                        </OptionHeader>
-                      </Option>
-                    );
-                  } else if (option.type === 'select') {
-                    return (
-                      <Option key={ option.name || i }>
-                        <OptionHeader>
-                          { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
-                        </OptionHeader>
-                        <Select
-                          classNamePrefix={ 'react-select' }
-                          value={ { label: option.value, value: option.value } }
-                          options={
-                            option.options.map((optionOption) => ({
-                              label: optionOption,
-                              value: optionOption,
-                            }))
-                          }
-                          onChange={ ({ value }) => this.props.onOptionChange(this.props.rule.name, option.name, value) }
-                        />
-                      </Option>
-                    );
-                  } else if (option.type === 'string') {
-                    return (
-                      <Option key={ option.name || i }>
-                        <OptionHeader>
-                          {
-                            option.name &&
-                            <OptionName as={ 'h3' }>
-                              <label htmlFor={ option.name }>
-                                { option.name }
-                              </label>
-                            </OptionName>
-                          }
-                        </OptionHeader>
-
-                        <Input
-                          id={ option.name }
-                          value={ option.value }
-                          onChange={ (e) => this.props.onOptionChange(this.props.rule.name, option.name, e.currentTarget.value) }
-                        />
-                      </Option>
-                    );
+              <Section>
+                <Heading as={ 'h2' }>What ESLint should do when it catches the rule break</Heading>
+                <Select
+                  classNamePrefix={ 'react-select' }
+                  value={
+                    this.props.rule.value === 'warn' ?
+                      { label: 'Show a warning', value: 'warn' }
+                      :
+                      { label: 'Throw an error', value: 'error' }
                   }
-                })
-              }
-            </Section>
-          }
+                  options={ [
+                    { label: 'Show a warning', value: 'warn' },
+                    { label: 'Throw an error', value: 'error' },
+                  ] }
+                  onChange={ ({ value }) => this.props.onSelectChange(this.props.rule.name, value) }
+                />
+              </Section>
 
-          {
-            this.props.rule.examples && this.props.rule.options.length > 0 &&
-            <Section isAllowedToGrow={ true }>
-              <Heading as={ 'h2' }>Rule examples</Heading>
-              <RuleExamples>
-                <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.correct } theme={ 'correct' }/>
-                <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.incorrect } theme={ 'incorrect' }/>
-              </RuleExamples>
-            </Section>
-          }
-        </SectionsWrapper>
+              {
+                this.props.rule.options && this.props.rule.options.length > 0 &&
+                <Section>
+                  <Heading as={ 'h2' }>Options</Heading>
+                  {
+                    this.props.rule.options.map((option, i) => {
+                      if (option.type === 'boolean') {
+                        return (
+                          <Option key={ option.name || i }>
+                            <OptionHeader>
+                              { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
+                              <Switcher
+                                isActive={ option.value }
+                                onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, !option.value) }
+                              />
+                            </OptionHeader>
+                          </Option>
+                        );
+                      } else if (option.type === 'select') {
+                        return (
+                          <Option key={ option.name || i }>
+                            <OptionHeader>
+                              { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
+                            </OptionHeader>
+                            <Select
+                              classNamePrefix={ 'react-select' }
+                              value={ { label: option.value, value: option.value } }
+                              options={
+                                option.options.map((optionOption) => ({
+                                  label: optionOption,
+                                  value: optionOption,
+                                }))
+                              }
+                              onChange={ ({ value }) => this.props.onOptionChange(this.props.rule.name, option.name, value) }
+                            />
+                          </Option>
+                        );
+                      } else if (option.type === 'string') {
+                        return (
+                          <Option key={ option.name || i }>
+                            <OptionHeader>
+                              {
+                                option.name &&
+                                <OptionName as={ 'h3' }>
+                                  <label htmlFor={ option.name }>
+                                    { option.name }
+                                  </label>
+                                </OptionName>
+                              }
+                            </OptionHeader>
+
+                            <Input
+                              id={ option.name }
+                              value={ option.value }
+                              onChange={ (e) => this.props.onOptionChange(this.props.rule.name, option.name, e.currentTarget.value) }
+                            />
+                          </Option>
+                        );
+                      }
+                    })
+                  }
+                </Section>
+              }
+
+              {
+                this.props.rule.examples && this.props.rule.options.length > 0 &&
+                <Section isAllowedToGrow={ true }>
+                  <Heading as={ 'h2' }>Rule examples</Heading>
+                  <RuleExamples>
+                    <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.correct } theme={ 'correct' }/>
+                    <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.incorrect } theme={ 'incorrect' }/>
+                  </RuleExamples>
+                </Section>
+              }
+            </SectionsWrapper>
+            :
+            <SectionsWrapper>
+              <Section>
+                <SectionHeader>
+                  <Title>
+                    <Name>{ this.props.rule.name }</Name>
+                    <ShortDescription>- { this.props.rule.shortDescription }</ShortDescription>
+                    {
+                      this.props.rule.isRecommended &&
+                      <React.Fragment>
+                        <Check data-tip data-for={ `rule-info-check-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+                        <ReactTooltip id={ `rule-info-check-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                          <span>Recommended</span>
+                        </ReactTooltip>
+                      </React.Fragment>
+                    }
+                    {
+                      this.props.rule.isFixable &&
+                      <React.Fragment>
+                        <Wrench data-tip data-for={ `rule-info-wrench-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+                        <ReactTooltip id={ `rule-info-wrench-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                          <span>Fixable</span>
+                        </ReactTooltip>
+                      </React.Fragment>
+                    }
+                  </Title>
+
+                  <StyledSwitcher
+                    data-tip
+                    data-for={ `rule-info-switcher-${this.props.rule.name}` }
+                    size={ 'large' }
+                    isActive={ this.props.rule.isTurnedOn }
+                    onClick={ () => this.props.onSwitcherClick(this.props.rule.name, !this.props.rule.isTurnedOn) }
+                  />
+                  <ReactTooltip id={ `rule-info-switcher-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
+                    <span>{ this.props.rule.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
+                  </ReactTooltip>
+                </SectionHeader>
+
+                <Paragraph>{ this.props.rule.longDescription }</Paragraph>
+              </Section>
+
+              <Section isAllowedToGrow={ true }>
+                <Formik
+                  initialValues={ { correct: '', incorrect: '' } }
+                  onSubmit={ (values) => {
+                    console.log(values);
+                  } }
+                  validationSchema={
+                    Yup.object().shape({
+                      correct: Yup.string().required('Required'),
+                      incorrect: Yup.string().required('Required'),
+                    })
+                  }
+                >
+                  {
+                    ({
+                       values,
+                       touched,
+                       errors,
+                       handleChange,
+                       handleSubmit,
+                     }) => (
+                      <React.Fragment>
+                        <SectionHeader>
+                          <Heading as={ 'h2' }>Rule examples</Heading>
+                          <Button onClick={ handleSubmit }>Submit examples</Button>
+                        </SectionHeader>
+                        <RuleExamples as={ 'form' } onSubmit={ handleSubmit }>
+                          <StyledRuleExample
+                            inputAttributes={ {
+                              name: 'correct',
+                              value: values.correct,
+                              error: touched.correct && errors.correct,
+                              onChange: handleChange,
+                              as: 'textarea',
+                            } }
+                            theme={ 'correct' }
+                            isEditingModeEnabled={ true }
+                          />
+
+                          <StyledRuleExample
+                            inputAttributes={ {
+                              name: 'incorrect',
+                              value: values.incorrect,
+                              error: touched.incorrect && errors.incorrect,
+                              onChange: handleChange,
+                              as: 'textarea',
+                            } }
+                            theme={ 'incorrect' }
+                            isEditingModeEnabled={ true }
+                          />
+                        </RuleExamples>
+                      </React.Fragment>
+                    )
+                  }
+                </Formik>
+              </Section>
+            </SectionsWrapper>
+        }
 
         <Footer>
           <StyledButton onClick={ () => this.props.onPreviousOrNextButtonClick('previous') }>Previous rule</StyledButton>
