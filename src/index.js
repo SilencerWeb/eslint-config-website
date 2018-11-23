@@ -25,7 +25,7 @@ class App extends React.Component {
     activeRule: null,
     searchingString: '',
     isConfigPreviewerVisible: false,
-    didRulesQueryMount: false,
+    isEditingModeEnabled: false,
   };
 
   filterRules = () => {
@@ -52,7 +52,16 @@ class App extends React.Component {
   };
 
   changeSearchingString = (value) => {
-    this.setState({ searchingString: value }, this.filterRules);
+
+    if (value === 'TURN ON EDITING MODE' || value === 'TURN OFF EDITING MODE') {
+      this.setState({
+        isEditingModeEnabled: value === 'TURN ON EDITING MODE',
+      });
+    } else {
+      this.setState({
+        searchingString: value,
+      }, this.filterRules);
+    }
   };
 
   setActiveRule = (activeRuleName) => {
@@ -181,9 +190,9 @@ class App extends React.Component {
             <Query query={ RULES_QUERY }>
               { ({ error, loading, data }) => {
                 if (error) {
-                  return <div>query RULES got error: ${ error.message }</div>;
+                  return <div>Oops, error! ${ error.message }</div>;
                 } else if (loading) {
-                  return <div>query RULES is loading...</div>;
+                  return <div>Loading, please wait...</div>;
                 }
 
                 if (data.rules && data.rules.length) {
