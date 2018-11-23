@@ -1,16 +1,16 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider, Query } from 'react-apollo';
 import fast from 'fast.js';
 
 import { ConfigPreviewer } from 'ui/molecules';
 import { Sidebar, RuleInfo } from 'ui/organisms';
 import { GlobalStyles } from 'ui/theme';
 
+import { RULES_QUERY } from 'graphql/queries/rule';
 import { client } from 'client';
 import { generateConfig } from 'utils';
-import { rules } from 'rules';
 
 
 const Wrapper = styled.div`
@@ -20,11 +20,12 @@ const Wrapper = styled.div`
 
 class App extends React.Component {
   state = {
-    rules: rules,
-    filteredRules: rules,
-    activeRule: rules[0],
+    rules: [],
+    filteredRules: [],
+    activeRule: null,
     searchingString: '',
     isConfigPreviewerVisible: false,
+    didRulesQueryMount: false,
   };
 
   filterRules = () => {
@@ -175,29 +176,54 @@ class App extends React.Component {
       <ApolloProvider client={ client }>
         <GlobalStyles/>
 
-        <Wrapper>
-          <Sidebar
-            rules={ this.state.filteredRules }
-            onSearchEnterPress={ this.changeSearchingString }
-            onCategorySwitcherClick={ this.toggleAllRulesInCategory }
-            onRuleSwitcherClick={ this.changeRuleTurnOnValue }
-            onRuleClick={ this.setActiveRule }
-            onDownloadConfigButtonClick={ this.downloadConfig }
-            onPreviewConfigButtonClick={ this.openConfigPreviewer }
-          />
-          {
-            this.state.isConfigPreviewerVisible ?
-              <ConfigPreviewer rules={ this.state.rules } onCloseButtonClick={ this.closeConfigPreviewer }/>
-              :
-              <RuleInfo
-                rule={ this.state.activeRule }
-                onSelectChange={ this.changeRuleValue }
-                onPreviousOrNextButtonClick={ this.setActiveRule }
-                onSwitcherClick={ this.changeRuleTurnOnValue }
-                onOptionChange={ this.changeRuleOptionValue }
+        {
+          !this.state.didRulesQueryMount ?
+            <Query query={ RULES_QUERY }>
+              { ({ error, loading, data }) => {
+                if (error) {
+                  return <div>query RULES got error: ${ error.message }</div>;
+                } else if (loading) {
+                  return <div>query RULES is loading...</div>;
+                }
+
+                if (data.rules && data.rules.length) {
+                  this.setState({
+                    rules: data.rules,
+                    activeRule: data.rules[0],
+                    didRulesQueryMount: true,
+                  });
+
+                  this.filterRules();
+                }
+
+                return null;
+              } }
+            </Query>
+            :
+            <Wrapper>
+              <Sidebar
+                rules={ this.state.filteredRules }
+                onSearchEnterPress={ this.changeSearchingString }
+                onCategorySwitcherClick={ this.toggleAllRulesInCategory }
+                onRuleSwitcherClick={ this.changeRuleTurnOnValue }
+                onRuleClick={ this.setActiveRule }
+                onDownloadConfigButtonClick={ this.downloadConfig }
+                onPreviewConfigButtonClick={ this.openConfigPreviewer }
               />
-          }
-        </Wrapper>
+              {
+                this.state.isConfigPreviewerVisible ?
+                  <ConfigPreviewer rules={ this.state.rules } onCloseButtonClick={ this.closeConfigPreviewer }/>
+                  :
+                  <RuleInfo
+                    rule={ this.state.activeRule }
+                    onSelectChange={ this.changeRuleValue }
+                    onPreviousOrNextButtonClick={ this.setActiveRule }
+                    onSwitcherClick={ this.changeRuleTurnOnValue }
+                    onOptionChange={ this.changeRuleOptionValue }
+                  />
+              }
+            </Wrapper>
+        }
       </ApolloProvider>
     );
   };

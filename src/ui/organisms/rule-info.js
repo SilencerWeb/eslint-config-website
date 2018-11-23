@@ -160,7 +160,7 @@ export class RuleInfo extends React.Component {
   render = () => {
 
     return (
-      <Wrapper className={ this.props.rule.className }>
+      <Wrapper className={ this.props.className }>
         <SectionsWrapper>
           <Section>
             <HeaderSection>
@@ -284,13 +284,16 @@ export class RuleInfo extends React.Component {
             </Section>
           }
 
-          <Section isAllowedToGrow={ true }>
-            <Heading as={ 'h2' }>Rule examples</Heading>
-            <RuleExamples>
-              <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.correct } theme={ 'correct' }/>
-              <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.incorrect } theme={ 'incorrect' }/>
-            </RuleExamples>
-          </Section>
+          {
+            this.props.rule.examples && this.props.rule.options.length > 0 &&
+            <Section isAllowedToGrow={ true }>
+              <Heading as={ 'h2' }>Rule examples</Heading>
+              <RuleExamples>
+                <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.correct } theme={ 'correct' }/>
+                <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.incorrect } theme={ 'incorrect' }/>
+              </RuleExamples>
+            </Section>
+          }
         </SectionsWrapper>
 
         <Footer>
