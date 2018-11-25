@@ -20,21 +20,18 @@ export const generateConfig = (rules) => {
 
     if (rule.options) {
       rule.options.forEach((option) => {
-        if (option.value !== option.defaultValue) {
-
-          if (option.name) {
-            if (optionsAsObject.length > 0) {
-              optionsAsObject += ', ';
-            }
-
-            optionsAsObject += `"${option.name}": ${option.type === 'string' ? `"${option.value}"` : option.value}`;
-          } else {
-            if (optionsAsArray.length > 0) {
-              optionsAsArray += ', ';
-            }
-
-            optionsAsArray += `"${option.value}"`;
+        if (option.name) {
+          if (optionsAsObject.length > 0) {
+            optionsAsObject += ', ';
           }
+
+          optionsAsObject += `"${option.name}": ${option.type === 'string' ? `"${option.value}"` : option.value}`;
+        } else {
+          if (optionsAsArray.length > 0) {
+            optionsAsArray += ', ';
+          }
+
+          optionsAsArray += `"${option.value}"`;
         }
       });
     }
