@@ -197,6 +197,8 @@ class App extends React.Component {
                 }
 
                 if (data.rules && data.rules.length) {
+                  data.rules[0].isActive = true; // First element should be active by default
+
                   this.setState({
                     rules: data.rules,
                     activeRule: data.rules[0],
