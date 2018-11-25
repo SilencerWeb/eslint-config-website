@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { graphql } from 'react-apollo';
 import isEqual from 'fast-deep-equal';
 
-import { Heading, Button, Switcher, Input } from 'ui/atoms';
+import { Heading, Button, Switcher, Input, Link } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
 import { Check, Wrench } from 'ui/outlines';
 import { color } from 'ui/theme';
@@ -99,6 +99,11 @@ const StyledRuleExample = styled(RuleExample)`
 const RuleExamples = styled.div`
   flex-grow: 1;
   display: flex;
+`;
+
+const NoExamplesYet = styled.p`
+  margin-top: 0;
+  margin-bottom: 0;
 `;
 
 const SectionHeader = styled.div`
@@ -309,24 +314,30 @@ export class RuleInfoComponent extends React.Component {
                 </Section>
               }
 
-              {
-                examples &&
-                <Section isAllowedToGrow={ true }>
-                  <Heading as={ 'h2' }>Rule examples</Heading>
-                  <RuleExamples>
-                    <StyledRuleExample
-                      value={ examples.correct }
-                      theme={ 'correct' }
-                      isEditingModeEnabled={ false }
-                    />
-                    <StyledRuleExample
-                      value={ examples.incorrect }
-                      theme={ 'incorrect' }
-                      isEditingModeEnabled={ false }
-                    />
-                  </RuleExamples>
-                </Section>
-              }
+              <Section isAllowedToGrow={ true }>
+                <Heading as={ 'h2' }>Rule examples</Heading>
+                {
+                  examples ?
+                    <RuleExamples>
+                      <StyledRuleExample
+                        value={ examples.correct }
+                        theme={ 'correct' }
+                        isEditingModeEnabled={ false }
+                      />
+                      <StyledRuleExample
+                        value={ examples.incorrect }
+                        theme={ 'incorrect' }
+                        isEditingModeEnabled={ false }
+                      />
+                    </RuleExamples>
+                    :
+                    <NoExamplesYet>
+                      No examples yet. If you would love to help with adding it, please,&nbsp;
+                      <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link>&nbsp;
+                      and I will give you an instruction how to do it.
+                    </NoExamplesYet>
+                }
+              </Section>
             </SectionsWrapper>
             :
             <SectionsWrapper>
