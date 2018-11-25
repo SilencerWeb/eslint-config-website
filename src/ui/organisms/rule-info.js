@@ -5,6 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { graphql } from 'react-apollo';
+import isEqual from 'fast-deep-equal';
 
 import { Heading, Button, Switcher, Input } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
@@ -167,6 +168,19 @@ const Wrapper = styled.div`
 export class RuleInfoComponent extends React.Component {
 
   render = () => {
+    const examples = this.props.rule.examples && this.props.rule.examples.find((example) => {
+
+      return isEqual(
+        example.options.map((option) => ({
+          name: option.name,
+          value: option.value,
+        })),
+        this.props.rule.options.map((option) => ({
+          name: option.name,
+          value: option.value,
+        })),
+      );
+    });
 
     return (
       <Wrapper className={ this.props.className }>
@@ -296,12 +310,12 @@ export class RuleInfoComponent extends React.Component {
               }
 
               {
-                this.props.rule.examples &&
+                examples &&
                 <Section isAllowedToGrow={ true }>
                   <Heading as={ 'h2' }>Rule examples</Heading>
                   <RuleExamples>
-                    <StyledRuleExample code={ this.props.rule.examples[0].correct } theme={ 'correct' }/>
-                    <StyledRuleExample code={ this.props.rule.examples[0].incorrect } theme={ 'incorrect' }/>
+                    <StyledRuleExample code={ examples.correct } theme={ 'correct' }/>
+                    <StyledRuleExample code={ examples.incorrect } theme={ 'incorrect' }/>
                   </RuleExamples>
                 </Section>
               }
@@ -348,17 +362,85 @@ export class RuleInfoComponent extends React.Component {
                 <Paragraph>{ this.props.rule.longDescription }</Paragraph>
               </Section>
 
+              {
+                this.props.rule.options && this.props.rule.options.length > 0 &&
+                <Section>
+                  <Heading as={ 'h2' }>Options</Heading>
+                  {
+                    this.props.rule.options.map((option, i) => {
+                      if (option.type === 'boolean') {
+                        return (
+                          <Option key={ option.name || i }>
+                            <OptionHeader>
+                              { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
+                              <Switcher
+                                isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
+                                onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
+                              />
+                            </OptionHeader>
+                          </Option>
+                        );
+                      } else if (option.type === 'select') {
+                        return (
+                          <Option key={ option.name || i }>
+                            <OptionHeader>
+                              { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
+                            </OptionHeader>
+                            <Select
+                              classNamePrefix={ 'react-select' }
+                              value={ { label: option.value, value: option.value } }
+                              options={
+                                option.options.map((optionOption) => ({
+                                  label: optionOption,
+                                  value: optionOption,
+                                }))
+                              }
+                              onChange={ ({ value }) => this.props.onOptionChange(this.props.rule.name, option.name, value) }
+                            />
+                          </Option>
+                        );
+                      } else if (option.type === 'string') {
+                        return (
+                          <Option key={ option.name || i }>
+                            <OptionHeader>
+                              {
+                                option.name &&
+                                <OptionName as={ 'h3' }>
+                                  <label htmlFor={ option.name }>
+                                    { option.name }
+                                  </label>
+                                </OptionName>
+                              }
+                            </OptionHeader>
+
+                            <Input
+                              id={ option.name }
+                              value={ option.value }
+                              onChange={ (e) => this.props.onOptionChange(this.props.rule.name, option.name, e.currentTarget.value) }
+                            />
+                          </Option>
+                        );
+                      }
+                    })
+                  }
+                </Section>
+              }
+
               <Section isAllowedToGrow={ true }>
                 <Formik
                   initialValues={ {
-                    correct: this.props.rule.examples.correct,
-                    incorrect: this.props.rule.examples.incorrect,
+                    correct: examples ? examples.correct : '',
+                    incorrect: examples ? examples.incorrect : '',
                   } }
                   onSubmit={ (values) => {
                     this.props.updateRule({
                       variables: {
                         name: this.props.rule.name,
                         example: {
+                          options: this.props.rule.options ? this.props.rule.options.map((option) => ({
+                            name: option.name,
+                            value: option.value,
+                          })) : null,
                           correct: values.correct,
                           incorrect: values.incorrect,
                         },

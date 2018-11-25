@@ -17,6 +17,10 @@ export const RULE_QUERY = gql`
       shortDescription
       longDescription
       examples {
+        options {
+          name
+          value
+        }
         correct
         incorrect
       }
@@ -42,6 +46,10 @@ export const RULES_QUERY = gql`
       shortDescription
       longDescription
       examples {
+        options {
+          name
+          value
+        }
         correct
         incorrect
       }
