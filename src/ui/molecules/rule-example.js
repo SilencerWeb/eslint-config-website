@@ -1,7 +1,5 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { tomorrow } from 'react-syntax-highlighter/dist/styles/hljs';
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/tomorrow';
@@ -49,13 +47,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 300px;
-
-  pre {
-    flex-grow: 1;
-    border: 1px solid ${color.tertiary};
-    margin-top: 0;
-    margin-bottom: 0;
-  }
 `;
 
 
@@ -63,32 +54,29 @@ export const RuleExample = (props) => {
   return (
     <Wrapper className={ props.className }>
       <Header theme={ props.theme }>{ props.theme === 'correct' ? 'Correct code' : 'Incorrect code' }</Header>
-      {
-        !props.isEditingModeEnabled ?
-          <SyntaxHighlighter language='javascript' style={ tomorrow }>{ props.code }</SyntaxHighlighter>
-          :
-          <AceEditor
-            className={ 'ace-editor' }
-            mode={ 'javascript' }
-            theme={ 'tomorrow' }
-            width={ '100%' }
-            height={ '100%' }
-            fontSize={ 14 }
-            showPrintMargin={ false }
-            showGutter={ false }
-            highlightActiveLine={ true }
-            setOptions={ {
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showLineNumbers: false,
-              tabSize: 2,
-            } }
-            style={ { border: `1px solid ${props.error ? color.error : color.tertiary}` } }
-            { ...props.editorAttributes }
-          />
-
-      }
+      <AceEditor
+        name={ props.name }
+        value={ props.value }
+        mode={ 'javascript' }
+        theme={ 'tomorrow' }
+        width={ '100%' }
+        height={ '100%' }
+        fontSize={ 14 }
+        readOnly={ !props.isEditingModeEnabled }
+        wrapEnabled={ true }
+        showPrintMargin={ false }
+        showGutter={ false }
+        highlightActiveLine={ props.isEditingModeEnabled }
+        setOptions={ {
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
+          enableSnippets: true,
+          showLineNumbers: false,
+          tabSize: 2,
+        } }
+        style={ { border: `1px solid ${props.error ? color.error : color.tertiary}` } }
+        onChange={ props.onChange }
+      />
     </Wrapper>
   );
 };

@@ -314,8 +314,16 @@ export class RuleInfoComponent extends React.Component {
                 <Section isAllowedToGrow={ true }>
                   <Heading as={ 'h2' }>Rule examples</Heading>
                   <RuleExamples>
-                    <StyledRuleExample code={ examples.correct } theme={ 'correct' }/>
-                    <StyledRuleExample code={ examples.incorrect } theme={ 'incorrect' }/>
+                    <StyledRuleExample
+                      value={ examples.correct }
+                      theme={ 'correct' }
+                      isEditingModeEnabled={ false }
+                    />
+                    <StyledRuleExample
+                      value={ examples.incorrect }
+                      theme={ 'incorrect' }
+                      isEditingModeEnabled={ false }
+                    />
                   </RuleExamples>
                 </Section>
               }
@@ -428,6 +436,7 @@ export class RuleInfoComponent extends React.Component {
 
               <Section isAllowedToGrow={ true }>
                 <Formik
+                  enableReinitialize={ true }
                   initialValues={ {
                     correct: examples ? examples.correct : '',
                     incorrect: examples ? examples.incorrect : '',
@@ -469,22 +478,18 @@ export class RuleInfoComponent extends React.Component {
                         </SectionHeader>
                         <RuleExamples as={ 'form' } onSubmit={ handleSubmit }>
                           <StyledRuleExample
-                            editorAttributes={ {
-                              name: 'correct',
-                              value: values.correct,
-                              onChange: (value) => setFieldValue('correct', value),
-                            } }
+                            name={ 'correct' }
+                            value={ values.correct }
+                            onChange={ (value) => setFieldValue('correct', value) }
                             theme={ 'correct' }
                             error={ touched.correct && errors.correct }
                             isEditingModeEnabled={ true }
                           />
 
                           <StyledRuleExample
-                            editorAttributes={ {
-                              name: 'incorrect',
-                              value: values.incorrect,
-                              onChange: (value) => setFieldValue('incorrect', value),
-                            } }
+                            name={ 'incorrect' }
+                            value={ values.incorrect }
+                            onChange={ (value) => setFieldValue('incorrect', value) }
                             theme={ 'incorrect' }
                             error={ touched.incorrect && errors.incorrect }
                             isEditingModeEnabled={ true }

@@ -1,10 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { tomorrow } from 'react-syntax-highlighter/dist/styles/hljs';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import AceEditor from 'react-ace';
+import 'brace/mode/json';
+import 'brace/theme/tomorrow';
 
 import { Button } from 'ui/atoms';
+import { color } from 'ui/theme';
 
 import { generateConfig } from 'utils';
 
@@ -14,6 +16,14 @@ const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  border-top: 1px solid ${color.tertiary};
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  margin-top: 20px;
+  margin-right: -20px;
+  margin-left: -20px;
   
   ${Button} {
     margin-right: 15px;
@@ -31,20 +41,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding-top: 20px;
   padding-right: 20px;
-  padding-bottom: 20px;
   padding-left: 20px;
   overflow-x: hidden;
   overflow-y: auto;
-  
-  pre {
-    flex-grow: 1;
-    margin-top: 0;
-    margin-bottom: 20px;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-  }
 `;
 
 
@@ -53,9 +52,19 @@ export const ConfigPreviewer = (props) => {
 
   return (
     <Wrapper className={ props.className }>
-      <SyntaxHighlighter language='json' style={ tomorrow }>
-        { config }
-      </SyntaxHighlighter>
+      <AceEditor
+        value={ config }
+        mode={ 'json' }
+        theme={ 'tomorrow' }
+        width={ '100%' }
+        height={ '100%' }
+        fontSize={ 14 }
+        readOnly={ true }
+        wrapEnabled={ true }
+        showPrintMargin={ false }
+        showGutter={ false }
+        highlightActiveLine={ false }
+      />
 
       <Footer>
         <Button onClick={ props.onCloseButtonClick }>Close</Button>
