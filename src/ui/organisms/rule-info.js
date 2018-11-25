@@ -4,11 +4,14 @@ import Select from 'react-select';
 import ReactTooltip from 'react-tooltip';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { graphql } from 'react-apollo';
 
 import { Heading, Button, Switcher, Input } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
 import { Check, Wrench } from 'ui/outlines';
 import { color } from 'ui/theme';
+
+import { UPDATE_RULE } from 'graphql/mutations/rule';
 
 
 const Name = styled(Heading)`
@@ -161,7 +164,7 @@ const Wrapper = styled.div`
 `;
 
 
-export class RuleInfo extends React.Component {
+export class RuleInfoComponent extends React.Component {
 
   render = () => {
 
@@ -293,12 +296,12 @@ export class RuleInfo extends React.Component {
               }
 
               {
-                this.props.rule.examples && this.props.rule.options.length > 0 &&
+                this.props.rule.examples &&
                 <Section isAllowedToGrow={ true }>
                   <Heading as={ 'h2' }>Rule examples</Heading>
                   <RuleExamples>
-                    <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.correct } theme={ 'correct' }/>
-                    <StyledRuleExample code={ this.props.rule.examples && this.props.rule.examples.incorrect } theme={ 'incorrect' }/>
+                    <StyledRuleExample code={ this.props.rule.examples[0].correct } theme={ 'correct' }/>
+                    <StyledRuleExample code={ this.props.rule.examples[0].incorrect } theme={ 'incorrect' }/>
                   </RuleExamples>
                 </Section>
               }
@@ -347,9 +350,20 @@ export class RuleInfo extends React.Component {
 
               <Section isAllowedToGrow={ true }>
                 <Formik
-                  initialValues={ { correct: '', incorrect: '' } }
+                  initialValues={ {
+                    correct: this.props.rule.examples.correct,
+                    incorrect: this.props.rule.examples.incorrect,
+                  } }
                   onSubmit={ (values) => {
-                    console.log(values);
+                    this.props.updateRule({
+                      variables: {
+                        name: this.props.rule.name,
+                        example: {
+                          correct: values.correct,
+                          incorrect: values.incorrect,
+                        },
+                      },
+                    });
                   } }
                   validationSchema={
                     Yup.object().shape({
@@ -411,4 +425,7 @@ export class RuleInfo extends React.Component {
       </Wrapper>
     );
   };
-};
+}
+
+
+export const RuleInfo = graphql(UPDATE_RULE, { name: 'updateRule' })(RuleInfoComponent);
