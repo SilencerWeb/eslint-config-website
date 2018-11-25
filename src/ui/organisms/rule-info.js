@@ -243,8 +243,8 @@ export class RuleInfoComponent extends React.Component {
                             <OptionHeader>
                               { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                               <Switcher
-                                isActive={ option.value }
-                                onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, !option.value) }
+                                isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
+                                onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
                               />
                             </OptionHeader>
                           </Option>
