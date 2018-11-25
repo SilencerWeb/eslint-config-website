@@ -459,7 +459,7 @@ export class RuleInfoComponent extends React.Component {
                        values,
                        touched,
                        errors,
-                       handleChange,
+                       setFieldValue,
                        handleSubmit,
                      }) => (
                       <React.Fragment>
@@ -469,26 +469,24 @@ export class RuleInfoComponent extends React.Component {
                         </SectionHeader>
                         <RuleExamples as={ 'form' } onSubmit={ handleSubmit }>
                           <StyledRuleExample
-                            inputAttributes={ {
+                            editorAttributes={ {
                               name: 'correct',
                               value: values.correct,
-                              error: touched.correct && errors.correct,
-                              onChange: handleChange,
-                              as: 'textarea',
+                              onChange: (value) => setFieldValue('correct', value),
                             } }
                             theme={ 'correct' }
+                            error={ touched.correct && errors.correct }
                             isEditingModeEnabled={ true }
                           />
 
                           <StyledRuleExample
-                            inputAttributes={ {
+                            editorAttributes={ {
                               name: 'incorrect',
                               value: values.incorrect,
-                              error: touched.incorrect && errors.incorrect,
-                              onChange: handleChange,
-                              as: 'textarea',
+                              onChange: (value) => setFieldValue('incorrect', value),
                             } }
                             theme={ 'incorrect' }
+                            error={ touched.incorrect && errors.incorrect }
                             isEditingModeEnabled={ true }
                           />
                         </RuleExamples>

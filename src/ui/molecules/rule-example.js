@@ -2,8 +2,10 @@ import * as React from 'react';
 import styled, { css } from 'styled-components';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/styles/hljs';
+import AceEditor from 'react-ace';
+import 'brace/mode/javascript';
+import 'brace/theme/tomorrow';
 
-import { Input } from 'ui/atoms';
 import { color } from 'ui/theme';
 
 
@@ -47,11 +49,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 300px;
-  
-  ${Input} {
-    flex-grow: 1;
-    border-radius: 0;
-  }
 
   pre {
     flex-grow: 1;
@@ -70,7 +67,27 @@ export const RuleExample = (props) => {
         !props.isEditingModeEnabled ?
           <SyntaxHighlighter language='javascript' style={ tomorrow }>{ props.code }</SyntaxHighlighter>
           :
-          <Input { ...props.inputAttributes }/>
+          <AceEditor
+            className={ 'ace-editor' }
+            mode={ 'javascript' }
+            theme={ 'tomorrow' }
+            width={ '100%' }
+            height={ '100%' }
+            fontSize={ 14 }
+            showPrintMargin={ false }
+            showGutter={ false }
+            highlightActiveLine={ true }
+            setOptions={ {
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              enableSnippets: true,
+              showLineNumbers: false,
+              tabSize: 2,
+            } }
+            style={ { border: `1px solid ${props.error ? color.error : color.tertiary}` } }
+            { ...props.editorAttributes }
+          />
+
       }
     </Wrapper>
   );
