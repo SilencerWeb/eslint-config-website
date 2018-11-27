@@ -49,5 +49,7 @@ const requestLink = split(isSubscriptionOperation, wsLink, httpLinkWithAuthToken
 
 export const client = new ApolloClient({
   link: requestLink,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
 });
