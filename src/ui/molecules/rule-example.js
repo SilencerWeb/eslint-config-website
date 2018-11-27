@@ -1,10 +1,11 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import AceEditor from 'react-ace';
-import 'brace/mode/javascript';
-import 'brace/theme/tomorrow';
 
 import { color } from 'ui/theme';
+
+import 'brace/mode/javascript';
+import 'brace/theme/tomorrow';
 
 
 const Header = styled.div`

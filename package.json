@@ -24,6 +24,7 @@
     "react-list": "^0.8.10",
     "react-scripts": "2.1.1",
     "react-select": "^2.1.1",
+    "react-toastify": "^4.4.3",
     "react-tooltip": "^3.9.0",
     "styled-components": "^4.1.1",
     "subscriptions-transport-ws": "^0.9.15",

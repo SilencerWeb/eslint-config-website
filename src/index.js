@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { ApolloProvider, Query } from 'react-apollo';
 import fast from 'fast.js';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { Loader } from 'ui/atoms';
 import { ConfigPreviewer } from 'ui/molecules';
@@ -12,6 +13,8 @@ import { GlobalStyles } from 'ui/theme';
 import { RULES_QUERY } from 'graphql/queries/rule';
 import { client } from 'client';
 import { generateConfig } from 'utils';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Wrapper = styled.div`
@@ -58,7 +61,7 @@ class App extends React.Component {
     if (value === 'TURN ON EDITING MODE' || value === 'TURN OFF EDITING MODE') {
       this.setState({
         isEditingModeEnabled: value === 'TURN ON EDITING MODE',
-      });
+      }, () => toast(`Editing mode was successfully ${value === 'TURN ON EDITING MODE' ? 'enabled' : 'disabled'}`));
     } else {
       this.setState({
         searchingString: value,
@@ -238,6 +241,14 @@ class App extends React.Component {
               }
             </Wrapper>
         }
+
+        <ToastContainer
+          autoClose={ 5000 }
+          closeButton={ false }
+          hideProgressBar={ true }
+          newestOnTop={ true }
+          draggable={ false }
+        />
       </ApolloProvider>
     );
   };

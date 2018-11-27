@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { graphql } from 'react-apollo';
 import isEqual from 'fast-deep-equal';
+import { toast } from 'react-toastify';
 
 import { Heading, Button, Switcher, Input, Link } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
@@ -284,7 +285,7 @@ export class RuleInfoComponent extends React.Component {
                           <Option key={ option.name || i }>
                             <OptionHeader>
                               <OptionHeaderLeftSide>
-                                { option.name ? option.name : 'Nameless option' }
+                                <OptionName as={ 'h3' }>{ option.name ? option.name : 'Nameless option' }</OptionName>
                                 <Switcher
                                   isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
                                   onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
@@ -462,6 +463,10 @@ export class RuleInfoComponent extends React.Component {
                                     description: values[option.name ? option.name : 'Nameless option'],
                                   },
                                 },
+                              }).then(() => {
+                                toast.success('Option description was successfully saved. Thank you so much for contributing!');
+                              }).catch((error) => {
+                                toast.error(`Oops, error: ${error.graphQLErrors[0].message || error.message}`);
                               });
                             } }
                             validationSchema={
@@ -528,6 +533,10 @@ export class RuleInfoComponent extends React.Component {
                                     description: values[option.name ? option.name : 'Nameless option'],
                                   },
                                 },
+                              }).then(() => {
+                                toast.success('Option description was successfully saved. Thank you so much for contributing!');
+                              }).catch((error) => {
+                                toast.error(`Oops, error: ${error.graphQLErrors[0].message || error.message}`);
                               });
                             } }
                             validationSchema={
@@ -600,6 +609,10 @@ export class RuleInfoComponent extends React.Component {
                                     description: values[option.name ? option.name : 'Nameless option'],
                                   },
                                 },
+                              }).then(() => {
+                                toast.success('Option description was successfully saved. Thank you so much for contributing!');
+                              }).catch((error) => {
+                                toast.error(`Oops, error: ${error.graphQLErrors[0].message || error.message}`);
                               });
                             } }
                             validationSchema={
@@ -684,6 +697,10 @@ export class RuleInfoComponent extends React.Component {
                           incorrect: values.incorrect,
                         },
                       },
+                    }).then(() => {
+                      toast.success('Examples were successfully saved. Thank you so much for contributing!');
+                    }).catch((error) => {
+                      toast.error(`Oops, error: ${error.graphQLErrors[0].message || error.message}`);
                     });
                   } }
                   validationSchema={

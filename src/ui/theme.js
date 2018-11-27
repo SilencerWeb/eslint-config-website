@@ -98,6 +98,44 @@ const globalStyles = css`
       opacity: 1 !important;
     }
   }
+  
+  .Toastify {
+  
+    .Toastify__toast-container {
+      width: 350px;
+      color: #ffffff;
+      padding-top: 0;
+      padding-right: 0;
+      padding-bottom: 0;
+      padding-left: 0;
+      
+      &--top-right {
+        top: 10px;
+        right: 10px;
+      }
+    }
+    
+    .Toastify__toast {
+      min-height: initial;
+      color: ${color.secondary};
+      background-color: #ffffff;
+      border: 1px solid ${color.tertiary};
+      border-radius: 4px;
+      box-shadow: none;
+      padding-top: 10px;
+      padding-right: 20px;
+      padding-bottom: 10px;
+      padding-left: 20px;
+      
+      &--success {
+        border-color: ${color.success};
+      }
+      
+      &--error {
+        border-color: ${color.error};
+      }
+    }
+  }
 `;
 
 
