@@ -704,7 +704,10 @@ export class RuleInfoComponent extends React.Component {
                       <React.Fragment>
                         <SectionHeader>
                           <Heading as={ 'h2' }>Rule examples</Heading>
-                          <Button onClick={ handleSubmit }>Submit examples</Button>
+                          {
+                            !examples &&
+                            <Button onClick={ handleSubmit }>Submit examples</Button>
+                          }
                         </SectionHeader>
                         <RuleExamples as={ 'form' } onSubmit={ handleSubmit }>
                           <StyledRuleExample
@@ -713,7 +716,7 @@ export class RuleInfoComponent extends React.Component {
                             onChange={ (value) => setFieldValue('correct', value) }
                             theme={ 'correct' }
                             error={ touched.correct && errors.correct }
-                            isEditingModeEnabled={ true }
+                            isEditingModeEnabled={ !examples }
                           />
 
                           <StyledRuleExample
@@ -722,7 +725,7 @@ export class RuleInfoComponent extends React.Component {
                             onChange={ (value) => setFieldValue('incorrect', value) }
                             theme={ 'incorrect' }
                             error={ touched.incorrect && errors.incorrect }
-                            isEditingModeEnabled={ true }
+                            isEditingModeEnabled={ !examples }
                           />
                         </RuleExamples>
                       </React.Fragment>
