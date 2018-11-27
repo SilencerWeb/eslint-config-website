@@ -81,6 +81,15 @@ const OptionHeader = styled.div`
   }
 `;
 
+const OptionDescription = styled.p`
+  margin-top: 0;
+  margin-bottom: 10px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
 const Option = styled.div`
   display: flex;
   flex-direction: column;
@@ -101,7 +110,7 @@ const RuleExamples = styled.div`
   display: flex;
 `;
 
-const NoExamplesYet = styled.p`
+const NoExampleYet = styled.p`
   margin-top: 0;
   margin-bottom: 0;
 `;
@@ -266,6 +275,16 @@ export class RuleInfoComponent extends React.Component {
                                 onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
                               />
                             </OptionHeader>
+                            {
+                              option.description ?
+                                <OptionDescription>{ option.description }</OptionDescription>
+                                :
+                                <OptionDescription>
+                                  No option description yet. If you would love to help with adding it, please,&nbsp;
+                                  <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link>&nbsp;
+                                  and I will give you an instruction how to do it.
+                                </OptionDescription>
+                            }
                           </Option>
                         );
                       } else if (option.type === 'select') {
@@ -274,6 +293,18 @@ export class RuleInfoComponent extends React.Component {
                             <OptionHeader>
                               { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                             </OptionHeader>
+
+                            {
+                              option.description ?
+                                <OptionDescription>{ option.description }</OptionDescription>
+                                :
+                                <OptionDescription>
+                                  No option description yet. If you would love to help with adding it, please,&nbsp;
+                                  <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link>&nbsp;
+                                  and I will give you an instruction how to do it.
+                                </OptionDescription>
+                            }
+
                             <Select
                               classNamePrefix={ 'react-select' }
                               value={ { label: option.value, value: option.value } }
@@ -300,6 +331,17 @@ export class RuleInfoComponent extends React.Component {
                                 </OptionName>
                               }
                             </OptionHeader>
+
+                            {
+                              option.description ?
+                                <OptionDescription>{ option.description }</OptionDescription>
+                                :
+                                <OptionDescription>
+                                  No option description yet. If you would love to help with adding it, please,&nbsp;
+                                  <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link>&nbsp;
+                                  and I will give you an instruction how to do it.
+                                </OptionDescription>
+                            }
 
                             <Input
                               id={ option.name }
@@ -331,11 +373,11 @@ export class RuleInfoComponent extends React.Component {
                       />
                     </RuleExamples>
                     :
-                    <NoExamplesYet>
+                    <NoExampleYet>
                       No examples yet. If you would love to help with adding it, please,&nbsp;
                       <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link>&nbsp;
                       and I will give you an instruction how to do it.
-                    </NoExamplesYet>
+                    </NoExampleYet>
                 }
               </Section>
             </SectionsWrapper>
