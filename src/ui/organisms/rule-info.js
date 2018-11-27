@@ -70,9 +70,15 @@ const OptionName = styled(Heading)`
   }
 `;
 
+const OptionHeaderLeftSide = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const OptionHeader = styled.div`
   flex-grow: 0;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
   
@@ -83,6 +89,14 @@ const OptionHeader = styled.div`
 
 const OptionDescription = styled.p`
   margin-top: 0;
+  margin-bottom: 10px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const OptionDescriptionInput = styled(Input)`
   margin-bottom: 10px;
   
   &:last-child {
@@ -269,11 +283,13 @@ export class RuleInfoComponent extends React.Component {
                         return (
                           <Option key={ option.name || i }>
                             <OptionHeader>
-                              { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
-                              <Switcher
-                                isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
-                                onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
-                              />
+                              <OptionHeaderLeftSide>
+                                { option.name ? option.name : 'Nameless option' }
+                                <Switcher
+                                  isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
+                                  onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
+                                />
+                              </OptionHeaderLeftSide>
                             </OptionHeader>
                             {
                               option.description ?
@@ -291,7 +307,7 @@ export class RuleInfoComponent extends React.Component {
                         return (
                           <Option key={ option.name || i }>
                             <OptionHeader>
-                              { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
+                              <OptionName as={ 'h3' }>{ option.name ? option.name : 'Nameless option' }</OptionName>
                             </OptionHeader>
 
                             {
@@ -346,6 +362,7 @@ export class RuleInfoComponent extends React.Component {
                             <Input
                               id={ option.name }
                               value={ option.value }
+                              placeholder={ 'Enter value here' }
                               onChange={ (e) => this.props.onOptionChange(this.props.rule.name, option.name, e.currentTarget.value) }
                             />
                           </Option>
@@ -431,55 +448,215 @@ export class RuleInfoComponent extends React.Component {
                     this.props.rule.options.map((option, i) => {
                       if (option.type === 'boolean') {
                         return (
-                          <Option key={ option.name || i }>
-                            <OptionHeader>
-                              { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
-                              <Switcher
-                                isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
-                                onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
-                              />
-                            </OptionHeader>
-                          </Option>
+                          <Formik
+                            enableReinitialize={ true }
+                            initialValues={ {
+                              [option.name ? option.name : 'Nameless option']: '',
+                            } }
+                            onSubmit={ (values) => {
+                              this.props.updateRule({
+                                variables: {
+                                  name: this.props.rule.name,
+                                  option: {
+                                    id: option.id,
+                                    description: values[option.name ? option.name : 'Nameless option'],
+                                  },
+                                },
+                              });
+                            } }
+                            validationSchema={
+                              Yup.object().shape({
+                                [option.name ? option.name : 'Nameless option']: Yup.string().required('Required'),
+                              })
+                            }
+                            key={ option.name || i }
+                          >
+                            {
+                              ({
+                                 values,
+                                 touched,
+                                 errors,
+                                 handleChange,
+                                 handleSubmit,
+                               }) => (
+                                <Option>
+                                  <OptionHeader isSpaceBetween={ true }>
+                                    <OptionHeaderLeftSide>
+                                      <OptionName as={ 'h3' }>{ option.name ? option.name : 'Nameless option' }</OptionName>
+                                      <Switcher
+                                        isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
+                                        onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
+                                      />
+                                    </OptionHeaderLeftSide>
+
+                                    {
+                                      !option.description &&
+                                      <Button onClick={ handleSubmit }>Submit description</Button>
+                                    }
+                                  </OptionHeader>
+
+                                  {
+                                    option.description ?
+                                      <OptionDescription>{ option.description }</OptionDescription>
+                                      :
+                                      <OptionDescriptionInput
+                                        name={ option.name ? option.name : 'Nameless option' }
+                                        value={ values[option.name ? option.name : 'Nameless option'] }
+                                        error={ touched[option.name ? option.name : 'Nameless option'] && errors[option.name ? option.name : 'Nameless option'] }
+                                        placeholder={ 'Enter description here' }
+                                        onChange={ handleChange }
+                                      />
+                                  }
+                                </Option>
+                              )
+                            }
+                          </Formik>
                         );
                       } else if (option.type === 'select') {
                         return (
-                          <Option key={ option.name || i }>
-                            <OptionHeader>
-                              { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
-                            </OptionHeader>
-                            <Select
-                              classNamePrefix={ 'react-select' }
-                              value={ { label: option.value, value: option.value } }
-                              options={
-                                option.options.map((optionOption) => ({
-                                  label: optionOption,
-                                  value: optionOption,
-                                }))
-                              }
-                              onChange={ ({ value }) => this.props.onOptionChange(this.props.rule.name, option.name, value) }
-                            />
-                          </Option>
+                          <Formik
+                            enableReinitialize={ true }
+                            initialValues={ {
+                              [option.name ? option.name : 'Nameless option']: '',
+                            } }
+                            onSubmit={ (values) => {
+                              this.props.updateRule({
+                                variables: {
+                                  name: this.props.rule.name,
+                                  option: {
+                                    id: option.id,
+                                    description: values[option.name ? option.name : 'Nameless option'],
+                                  },
+                                },
+                              });
+                            } }
+                            validationSchema={
+                              Yup.object().shape({
+                                [option.name ? option.name : 'Nameless option']: Yup.string().required('Required'),
+                              })
+                            }
+                            key={ option.name || i }
+                          >
+                            {
+                              ({
+                                 values,
+                                 touched,
+                                 errors,
+                                 handleChange,
+                                 handleSubmit,
+                               }) => (
+                                <Option>
+                                  <OptionHeader isSpaceBetween={ true }>
+                                    <OptionName as={ 'h3' }>{ option.name ? option.name : 'Nameless option' }</OptionName>
+
+                                    {
+                                      !option.description &&
+                                      <Button onClick={ handleSubmit }>Submit description</Button>
+                                    }
+                                  </OptionHeader>
+
+                                  {
+                                    option.description ?
+                                      <OptionDescription>{ option.description }</OptionDescription>
+                                      :
+                                      <OptionDescriptionInput
+                                        name={ option.name ? option.name : 'Nameless option' }
+                                        value={ values[option.name ? option.name : 'Nameless option'] }
+                                        error={ touched[option.name ? option.name : 'Nameless option'] && errors[option.name ? option.name : 'Nameless option'] }
+                                        placeholder={ 'Enter description here' }
+                                        onChange={ handleChange }
+                                      />
+                                  }
+
+                                  <Select
+                                    classNamePrefix={ 'react-select' }
+                                    value={ { label: option.value, value: option.value } }
+                                    options={
+                                      option.options.map((optionOption) => ({
+                                        label: optionOption,
+                                        value: optionOption,
+                                      }))
+                                    }
+                                    onChange={ ({ value }) => this.props.onOptionChange(this.props.rule.name, option.name, value) }
+                                  />
+                                </Option>
+                              )
+                            }
+                          </Formik>
                         );
                       } else if (option.type === 'string') {
                         return (
-                          <Option key={ option.name || i }>
-                            <OptionHeader>
-                              {
-                                option.name &&
-                                <OptionName as={ 'h3' }>
-                                  <label htmlFor={ option.name }>
-                                    { option.name }
-                                  </label>
-                                </OptionName>
-                              }
-                            </OptionHeader>
+                          <Formik
+                            enableReinitialize={ true }
+                            initialValues={ {
+                              [option.name ? option.name : 'Nameless option']: '',
+                            } }
+                            onSubmit={ (values) => {
+                              this.props.updateRule({
+                                variables: {
+                                  name: this.props.rule.name,
+                                  option: {
+                                    id: option.id,
+                                    description: values[option.name ? option.name : 'Nameless option'],
+                                  },
+                                },
+                              });
+                            } }
+                            validationSchema={
+                              Yup.object().shape({
+                                [option.name ? option.name : 'Nameless option']: Yup.string().required('Required'),
+                              })
+                            }
+                            key={ option.name || i }
+                          >
+                            {
+                              ({
+                                 values,
+                                 touched,
+                                 errors,
+                                 handleChange,
+                                 handleSubmit,
+                               }) => (
+                                <Option>
+                                  <OptionHeader isSpaceBetween={ true }>
+                                    {
+                                      option.name &&
+                                      <OptionName as={ 'h3' }>
+                                        <label htmlFor={ option.name }>
+                                          { option.name }
+                                        </label>
+                                      </OptionName>
+                                    }
 
-                            <Input
-                              id={ option.name }
-                              value={ option.value }
-                              onChange={ (e) => this.props.onOptionChange(this.props.rule.name, option.name, e.currentTarget.value) }
-                            />
-                          </Option>
+                                    {
+                                      !option.description &&
+                                      <Button onClick={ handleSubmit }>Submit description</Button>
+                                    }
+                                  </OptionHeader>
+
+                                  {
+                                    option.description ?
+                                      <OptionDescription>{ option.description }</OptionDescription>
+                                      :
+                                      <OptionDescriptionInput
+                                        name={ option.name ? option.name : 'Nameless option' }
+                                        value={ values[option.name ? option.name : 'Nameless option'] }
+                                        error={ touched[option.name ? option.name : 'Nameless option'] && errors[option.name ? option.name : 'Nameless option'] }
+                                        placeholder={ 'Enter description here' }
+                                        onChange={ handleChange }
+                                      />
+                                  }
+
+                                  <Input
+                                    id={ option.name }
+                                    value={ option.value }
+                                    placeholder={ 'Enter value here' }
+                                    onChange={ (e) => this.props.onOptionChange(this.props.rule.name, option.name, e.currentTarget.value) }
+                                  />
+                                </Option>
+                              )
+                            }
+                          </Formik>
                         );
                       }
                     })

@@ -5,17 +5,16 @@ export const UPDATE_RULE = gql`
   mutation updateRule(
     $id: String
     $name: String
-    $example: RuleExampleCreateInput!
+    $option: RuleOptionUpdateInput
+    $example: RuleExampleCreateInput
   ) {
     updateRule(
       id: $id
       name: $name
+      option: $option
       example: $example
     ) {
-      examples {
-        correct
-        incorrect
-      }
+      id
     }
   }
 `;

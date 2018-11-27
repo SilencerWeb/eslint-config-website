@@ -6,10 +6,12 @@ export const RULE_QUERY = gql`
     rule(id: $id name: $name) {
       name
       options {
+        id
         type
         name
         value
         defaultValue
+        description
         options
       }
       value
@@ -35,10 +37,12 @@ export const RULES_QUERY = gql`
     rules {
       name
       options {
+        id
         type
         name
         value
         defaultValue
+        description
         options
       }
       value
