@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { ApolloProvider, Query } from 'react-apollo';
 import fast from 'fast.js';
 
+import { Loader } from 'ui/atoms';
 import { ConfigPreviewer } from 'ui/molecules';
 import { Sidebar, RuleInfo } from 'ui/organisms';
 import { GlobalStyles } from 'ui/theme';
@@ -191,9 +192,9 @@ class App extends React.Component {
             <Query query={ RULES_QUERY }>
               { ({ error, loading, data }) => {
                 if (error) {
-                  return <div>Oops, error! ${ error.message }</div>;
+                  return <div>Oops, error! { error.message }</div>;
                 } else if (loading) {
-                  return <div>Loading, please wait...</div>;
+                  return <Loader/>;
                 }
 
                 if (data.rules && data.rules.length) {
