@@ -8,6 +8,7 @@ const spinAnimation = keyframes`
   0% {
     transform: rotate(0deg);
   }
+  
   100% {
     transform: rotate(360deg);
   }
@@ -15,22 +16,16 @@ const spinAnimation = keyframes`
 
 const Spinner = styled.div`
   position: relative;
-  display: inline-block;
-  width: 96px;
-  height: 96px;
-  margin-bottom: 20px;
+  width: 76.5px;
+  height: 76.5px;
   
   span {
     position: absolute;
     width: 76.5px;
     height: 76.5px;
-    border: 9px solid ${color.primary};
+    border: 6px solid ${color.primary};
     border-color: ${color.primary} transparent transparent transparent;
     border-radius: 50%;
-    margin-top: 9px;
-    margin-right: 9px;
-    margin-bottom: 9px;
-    margin-left: 9px;
     animation: ${spinAnimation} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     
     &:nth-child(1) {
@@ -56,11 +51,8 @@ const Wrapper = styled.div`
   z-index: 999;
   background-color: #ffffff;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 35px;
-  font-weight: 500;
 `;
 
 
@@ -72,8 +64,6 @@ export const Loader = (props) => {
         <span/>
         <span/>
       </Spinner>
-      
-      <span>Loading, please wait...</span>
     </Wrapper>
   );
 };
