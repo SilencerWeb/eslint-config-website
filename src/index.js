@@ -61,7 +61,7 @@ class App extends React.Component {
     if (value === 'TURN ON EDITING MODE' || value === 'TURN OFF EDITING MODE') {
       this.setState({
         isEditingModeEnabled: value === 'TURN ON EDITING MODE',
-      }, () => toast(`Editing mode was successfully ${value === 'TURN ON EDITING MODE' ? 'enabled' : 'disabled'}`));
+      }, () => toast.success(`Editing mode was successfully ${value === 'TURN ON EDITING MODE' ? 'enabled' : 'disabled'}`));
     } else {
       this.setState({
         searchingString: value,
