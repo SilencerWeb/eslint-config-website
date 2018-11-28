@@ -441,6 +441,24 @@ export class RuleInfoComponent extends React.Component {
                 <Paragraph>{ this.props.rule.longDescription }</Paragraph>
               </Section>
 
+              <Section>
+                <Heading as={ 'h2' }>What ESLint should do when it catches the rule break</Heading>
+                <Select
+                  classNamePrefix={ 'react-select' }
+                  value={
+                    this.props.rule.value === 'warn' ?
+                      { label: 'Show a warning', value: 'warn' }
+                      :
+                      { label: 'Throw an error', value: 'error' }
+                  }
+                  options={ [
+                    { label: 'Show a warning', value: 'warn' },
+                    { label: 'Throw an error', value: 'error' },
+                  ] }
+                  onChange={ ({ value }) => this.props.onSelectChange(this.props.rule.name, value) }
+                />
+              </Section>
+
               {
                 this.props.rule.options && this.props.rule.options.length > 0 &&
                 <Section>
