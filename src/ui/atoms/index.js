@@ -5,3 +5,5 @@ export { Switcher } from './switcher';
 export { Input } from './input';
 export { Link } from './link';
 export { Loader } from './loader';
+export { Overlay } from './overlay';
+export { EditingModeModal } from './editing-mode-modal';

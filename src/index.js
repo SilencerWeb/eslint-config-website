@@ -5,7 +5,7 @@ import { ApolloProvider, Query } from 'react-apollo';
 import fast from 'fast.js';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { Loader } from 'ui/atoms';
+import { Loader, EditingModeModal } from 'ui/atoms';
 import { ConfigPreviewer } from 'ui/molecules';
 import { Sidebar, RuleInfo } from 'ui/organisms';
 import { GlobalStyles } from 'ui/theme';
@@ -30,6 +30,8 @@ class App extends React.Component {
     searchingString: '',
     isConfigPreviewerVisible: false,
     isEditingModeEnabled: false,
+    isEditingModeModalVisible: false,
+    wasEditingModeModalShowed: false,
     didRulesQueryMount: false,
   };
 
@@ -59,9 +61,12 @@ class App extends React.Component {
   changeSearchingString = (value) => {
 
     if (value === 'TURN ON EDITING MODE' || value === 'TURN OFF EDITING MODE') {
-      this.setState({
-        isEditingModeEnabled: value === 'TURN ON EDITING MODE',
-      }, () => toast.success(`Editing mode was successfully ${value === 'TURN ON EDITING MODE' ? 'enabled' : 'disabled'}`));
+      if (this.state.isEditingModeEnabled !== (value === 'TURN ON EDITING MODE')) {
+        this.setState({
+          isEditingModeEnabled: value === 'TURN ON EDITING MODE',
+          isEditingModeModalVisible: value === 'TURN ON EDITING MODE',
+        }, () => toast.success(`Editing mode was successfully ${value === 'TURN ON EDITING MODE' ? 'enabled' : 'disabled'}`));
+      }
     } else {
       this.setState({
         searchingString: value,
@@ -184,6 +189,13 @@ class App extends React.Component {
     this.setState({ isConfigPreviewerVisible: false });
   };
 
+  closeEditingModeModal = () => {
+    this.setState({
+      isEditingModeModalVisible: false,
+      wasEditingModeModalShowed: true,
+    });
+  };
+
   render = () => {
 
     return (
@@ -248,6 +260,11 @@ class App extends React.Component {
           hideProgressBar={ true }
           newestOnTop={ true }
           draggable={ false }
+        />
+
+        <EditingModeModal
+          isVisible={ this.state.isEditingModeModalVisible && !this.state.wasEditingModeModalShowed }
+          onCloseButtonClick={ this.closeEditingModeModal }
         />
       </ApolloProvider>
     );
