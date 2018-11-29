@@ -476,7 +476,7 @@ export class RuleInfoComponent extends React.Component {
                               this.props.updateRule({
                                 variables: {
                                   name: this.props.rule.name,
-                                  option: {
+                                  updatedOption: {
                                     id: option.id,
                                     description: values[option.name ? option.name : 'Nameless option'],
                                   },
@@ -546,7 +546,7 @@ export class RuleInfoComponent extends React.Component {
                               this.props.updateRule({
                                 variables: {
                                   name: this.props.rule.name,
-                                  option: {
+                                  updatedOption: {
                                     id: option.id,
                                     description: values[option.name ? option.name : 'Nameless option'],
                                   },
@@ -622,7 +622,7 @@ export class RuleInfoComponent extends React.Component {
                               this.props.updateRule({
                                 variables: {
                                   name: this.props.rule.name,
-                                  option: {
+                                  updatedOption: {
                                     id: option.id,
                                     description: values[option.name ? option.name : 'Nameless option'],
                                   },
