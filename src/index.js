@@ -213,11 +213,18 @@ class App extends React.Component {
                 }
 
                 if (data.rules && data.rules.length) {
-                  data.rules[0].isActive = true; // First element should be active by default
+                  const sortedRules = data.rules.sort((rule1, rule2) => {
+                    if (rule1.name < rule2.name) return -1;
+                    if (rule1.name > rule2.name) return 1;
+
+                    return 0;
+                  });
+
+                  sortedRules[0].isActive = true; // First element should be active by default
 
                   this.setState({
-                    rules: data.rules,
-                    activeRule: data.rules[0],
+                    rules: sortedRules,
+                    activeRule: sortedRules[0],
                     didRulesQueryMount: true,
                   });
 

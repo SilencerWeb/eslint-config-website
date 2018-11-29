@@ -285,42 +285,21 @@ export class RuleInfoComponent extends React.Component {
                           <Option key={ option.name || i }>
                             <OptionHeader>
                               <OptionHeaderLeftSide>
-                                <OptionName as={ 'h3' }>{ option.name ? option.name : 'Nameless option' }</OptionName>
+                                { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                                 <Switcher
                                   isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
                                   onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
                                 />
                               </OptionHeaderLeftSide>
                             </OptionHeader>
-                            {
-                              option.description ?
-                                <OptionDescription>{ option.description }</OptionDescription>
-                                :
-                                <OptionDescription>
-                                  No option description yet. If you would love to help with adding it, please,&nbsp;
-                                  <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link>&nbsp;
-                                  and I will give you an instruction how to do it.
-                                </OptionDescription>
-                            }
                           </Option>
                         );
                       } else if (option.type === 'select') {
                         return (
                           <Option key={ option.name || i }>
                             <OptionHeader>
-                              <OptionName as={ 'h3' }>{ option.name ? option.name : 'Nameless option' }</OptionName>
+                              { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                             </OptionHeader>
-
-                            {
-                              option.description ?
-                                <OptionDescription>{ option.description }</OptionDescription>
-                                :
-                                <OptionDescription>
-                                  No option description yet. If you would love to help with adding it, please,&nbsp;
-                                  <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link>&nbsp;
-                                  and I will give you an instruction how to do it.
-                                </OptionDescription>
-                            }
 
                             <Select
                               classNamePrefix={ 'react-select' }
@@ -348,17 +327,6 @@ export class RuleInfoComponent extends React.Component {
                                 </OptionName>
                               }
                             </OptionHeader>
-
-                            {
-                              option.description ?
-                                <OptionDescription>{ option.description }</OptionDescription>
-                                :
-                                <OptionDescription>
-                                  No option description yet. If you would love to help with adding it, please,&nbsp;
-                                  <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link>&nbsp;
-                                  and I will give you an instruction how to do it.
-                                </OptionDescription>
-                            }
 
                             <Input
                               id={ option.name }
@@ -505,7 +473,7 @@ export class RuleInfoComponent extends React.Component {
                                 <Option>
                                   <OptionHeader isSpaceBetween={ true }>
                                     <OptionHeaderLeftSide>
-                                      <OptionName as={ 'h3' }>{ option.name ? option.name : 'Nameless option' }</OptionName>
+                                      { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                                       <Switcher
                                         isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
                                         onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
@@ -574,7 +542,7 @@ export class RuleInfoComponent extends React.Component {
                                }) => (
                                 <Option>
                                   <OptionHeader isSpaceBetween={ true }>
-                                    <OptionName as={ 'h3' }>{ option.name ? option.name : 'Nameless option' }</OptionName>
+                                    { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
 
                                     {
                                       !option.description &&
