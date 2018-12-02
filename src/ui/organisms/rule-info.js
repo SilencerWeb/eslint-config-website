@@ -459,7 +459,7 @@ export class RuleInfoComponent extends React.Component {
                               }).then(() => {
                                 toast.success('Option description was successfully saved. Thank you so much for contributing!');
                               }).catch((error) => {
-                                toast.error(`Oops, error: ${error.graphQLErrors[0].message || error.message}`);
+                                toast.error(`Oops, error: ${(error.graphQLErrors && error.graphQLErrors[0] && error.graphQLErrors[0].message) || error.message}`);
                               });
                             } }
                             validationSchema={
@@ -529,7 +529,7 @@ export class RuleInfoComponent extends React.Component {
                               }).then(() => {
                                 toast.success('Option description was successfully saved. Thank you so much for contributing!');
                               }).catch((error) => {
-                                toast.error(`Oops, error: ${error.graphQLErrors[0].message || error.message}`);
+                                toast.error(`Oops, error: ${(error.graphQLErrors && error.graphQLErrors[0] && error.graphQLErrors[0].message) || error.message}`);
                               });
                             } }
                             validationSchema={
@@ -605,7 +605,7 @@ export class RuleInfoComponent extends React.Component {
                               }).then(() => {
                                 toast.success('Option description was successfully saved. Thank you so much for contributing!');
                               }).catch((error) => {
-                                toast.error(`Oops, error: ${error.graphQLErrors[0].message || error.message}`);
+                                toast.error(`Oops, error: ${(error.graphQLErrors && error.graphQLErrors[0] && error.graphQLErrors[0].message) || error.message}`);
                               });
                             } }
                             validationSchema={
@@ -682,7 +682,7 @@ export class RuleInfoComponent extends React.Component {
                     this.props.updateRule({
                       variables: {
                         name: this.props.rule.name,
-                        example: {
+                        newExample: {
                           options: this.props.rule.options ? this.props.rule.options.map((option) => ({
                             name: option.name,
                             value: option.value,
@@ -694,7 +694,7 @@ export class RuleInfoComponent extends React.Component {
                     }).then(() => {
                       toast.success('Examples were successfully saved. Thank you so much for contributing!');
                     }).catch((error) => {
-                      toast.error(`Oops, error: ${error.graphQLErrors[0].message || error.message}`);
+                      toast.error(`Oops, error: ${(error.graphQLErrors && error.graphQLErrors[0] && error.graphQLErrors[0].message) || error.message}`);
                     });
                   } }
                   validationSchema={

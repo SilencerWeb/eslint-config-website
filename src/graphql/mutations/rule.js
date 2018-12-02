@@ -6,13 +6,13 @@ export const UPDATE_RULE = gql`
     $id: String
     $name: String
     $updatedOption: RuleOptionUpdateInput
-    $example: RuleExampleCreateInput
+    $newExample: RuleExampleCreateInput
   ) {
     updateRule(
       id: $id
       name: $name
       updatedOption: $updatedOption
-      example: $example
+      newExample: $newExample
     ) {
       id
     }
