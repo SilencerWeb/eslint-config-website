@@ -220,11 +220,27 @@ class App extends React.Component {
                     return 0;
                   });
 
-                  sortedRules[0].isActive = true; // First element should be active by default
+                  const possibleErrorsRules = fast.filter(sortedRules, (rule) => rule.category === 'Possible Errors');
+                  const bestPracticesRules = fast.filter(sortedRules, (rule) => rule.category === 'Best Practices');
+                  const strictModeRules = fast.filter(sortedRules, (rule) => rule.category === 'Strict Mode');
+                  const variablesRules = fast.filter(sortedRules, (rule) => rule.category === 'Variables');
+                  const nodeJSAndCommonJSRules = fast.filter(sortedRules, (rule) => rule.category === 'Node.js and CommonJS');
+                  const stylisticIssuesRules = fast.filter(sortedRules, (rule) => rule.category === 'Stylistic Issues');
+                  const ECMAScript6Rules = fast.filter(sortedRules, (rule) => rule.category === 'ECMAScript 6');
+
+                  possibleErrorsRules[0].isActive = true; // First element should be active by default
 
                   this.setState({
-                    rules: sortedRules,
-                    activeRule: sortedRules[0],
+                    rules: [
+                      ...possibleErrorsRules,
+                      ...bestPracticesRules,
+                      ...strictModeRules,
+                      ...variablesRules,
+                      ...nodeJSAndCommonJSRules,
+                      ...stylisticIssuesRules,
+                      ...ECMAScript6Rules,
+                    ],
+                    activeRule: possibleErrorsRules[0],
                     didRulesQueryMount: true,
                   });
 
