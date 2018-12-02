@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components';
 
 import { Heading, Button, Overlay, Link } from 'ui/atoms';
 
+import exampleDemoScreenshot from 'assets/example-demo-screenshot.png';
+
 
 const StyledHeading = styled(Heading)`
   font-size: 25px;
@@ -68,7 +70,7 @@ export const EditingModeModal = (props) => {
         <Text>
           Please note, that every example should be divided by each other using 2 lines like this:
         </Text>
-        <img src={ 'https://image.prntscr.com/image/Gq7RxAgWRSa-Qd08zuPz8w.png' } alt={ '' }/>
+        <img src={ exampleDemoScreenshot } alt={ '' }/>
         <Text>
           For leaving this mode you need to type TURN OFF EDITING MODE in the search input and then press Enter.
         </Text>
