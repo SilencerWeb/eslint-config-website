@@ -78,21 +78,21 @@ class App extends React.Component {
 
     this.setState((prevState) => {
       if (activeRuleName === 'previous' || activeRuleName === 'next') {
-        const activeRuleIndex = prevState.rules.findIndex((rule) => rule.name === prevState.activeRule.name);
+        const activeRuleIndex = prevState.filteredRules.findIndex((rule) => rule.name === prevState.activeRule.name);
         let newActiveRuleIndex = activeRuleName === 'previous' ? activeRuleIndex - 1 : activeRuleIndex + 1;
 
         if (newActiveRuleIndex < 0) {
-          newActiveRuleIndex = prevState.rules.length - 1;
-        } else if (newActiveRuleIndex > prevState.rules.length - 1) {
+          newActiveRuleIndex = prevState.filteredRules.length - 1;
+        } else if (newActiveRuleIndex > prevState.filteredRules.length - 1) {
           newActiveRuleIndex = 0;
         }
 
-        activeRuleName = prevState.rules[newActiveRuleIndex].name;
+        activeRuleName = prevState.filteredRules[newActiveRuleIndex].name;
       }
 
       return {
         ...prevState,
-        rules: fast.map(prevState.rules, ((rule) => {
+        filteredRules: fast.map(prevState.filteredRules, ((rule) => {
           rule.isActive = rule.name === activeRuleName;
 
           return rule;
