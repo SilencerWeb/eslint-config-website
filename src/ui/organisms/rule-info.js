@@ -202,11 +202,11 @@ export class RuleInfoComponent extends React.Component {
       return isEqual(
         example.options.map((option) => ({
           name: option.name,
-          value: option.value,
+          value: option.type === 'string' || option.type === 'number' ? '' : option.value, // Because options with type string or string should not effect on examples since they have too many results
         })),
         this.props.rule.options.map((option) => ({
           name: option.name,
-          value: option.value,
+          value: option.type === 'string' || option.type === 'number' ? '' : option.value, // Because options with type string or string should not effect on examples since they have too many results
         })),
       );
     });
@@ -685,7 +685,7 @@ export class RuleInfoComponent extends React.Component {
                         newExample: {
                           options: this.props.rule.options ? this.props.rule.options.map((option) => ({
                             name: option.name,
-                            value: option.value,
+                            value: option.type === 'string' || option.type === 'number' ? '' : option.value, // Because options with type string or string should not effect on examples since they have too many results
                           })) : null,
                           correct: values.correct,
                           incorrect: values.incorrect,
