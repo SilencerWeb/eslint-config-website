@@ -143,7 +143,6 @@ export const Sidebar = (props) => {
                         isRecommended={ possibleErrorsRules[i].isRecommended }
                         isFixable={ possibleErrorsRules[i].isFixable }
                         isTurnedOn={ possibleErrorsRules[i].isTurnedOn }
-                        onClick={ props.onRuleClick }
                         onSwitcherClick={ props.onRuleSwitcherClick }
                         key={ possibleErrorsRules[i].name }
                       />
@@ -179,7 +178,6 @@ export const Sidebar = (props) => {
                         isRecommended={ bestPracticesRules[i].isRecommended }
                         isFixable={ bestPracticesRules[i].isFixable }
                         isTurnedOn={ bestPracticesRules[i].isTurnedOn }
-                        onClick={ props.onRuleClick }
                         onSwitcherClick={ props.onRuleSwitcherClick }
                         key={ bestPracticesRules[i].name }
                       />
@@ -215,7 +213,6 @@ export const Sidebar = (props) => {
                         isRecommended={ strictModeRules[i].isRecommended }
                         isFixable={ strictModeRules[i].isFixable }
                         isTurnedOn={ strictModeRules[i].isTurnedOn }
-                        onClick={ props.onRuleClick }
                         onSwitcherClick={ props.onRuleSwitcherClick }
                         key={ strictModeRules[i].name }
                       />
@@ -251,7 +248,6 @@ export const Sidebar = (props) => {
                         isRecommended={ variablesRules[i].isRecommended }
                         isFixable={ variablesRules[i].isFixable }
                         isTurnedOn={ variablesRules[i].isTurnedOn }
-                        onClick={ props.onRuleClick }
                         onSwitcherClick={ props.onRuleSwitcherClick }
                         key={ variablesRules[i].name }
                       />
@@ -287,7 +283,6 @@ export const Sidebar = (props) => {
                         isRecommended={ nodeJSAndCommonJSRules[i].isRecommended }
                         isFixable={ nodeJSAndCommonJSRules[i].isFixable }
                         isTurnedOn={ nodeJSAndCommonJSRules[i].isTurnedOn }
-                        onClick={ props.onRuleClick }
                         onSwitcherClick={ props.onRuleSwitcherClick }
                         key={ nodeJSAndCommonJSRules[i].name }
                       />
@@ -323,7 +318,6 @@ export const Sidebar = (props) => {
                         isRecommended={ stylisticIssuesRules[i].isRecommended }
                         isFixable={ stylisticIssuesRules[i].isFixable }
                         isTurnedOn={ stylisticIssuesRules[i].isTurnedOn }
-                        onClick={ props.onRuleClick }
                         onSwitcherClick={ props.onRuleSwitcherClick }
                         key={ stylisticIssuesRules[i].name }
                       />
@@ -359,7 +353,6 @@ export const Sidebar = (props) => {
                         isRecommended={ ECMAScript6Rules[i].isRecommended }
                         isFixable={ ECMAScript6Rules[i].isFixable }
                         isTurnedOn={ ECMAScript6Rules[i].isTurnedOn }
-                        onClick={ props.onRuleClick }
                         onSwitcherClick={ props.onRuleSwitcherClick }
                         key={ ECMAScript6Rules[i].name }
                       />

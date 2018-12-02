@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { graphql } from 'react-apollo';
 import isEqual from 'fast-deep-equal';
 import { toast } from 'react-toastify';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Heading, Button, Switcher, Input, Link } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
@@ -51,14 +52,6 @@ const StyledSwitcher = styled(Switcher)`
 const Paragraph = styled.p`
   margin-top: 0;
   margin-bottom: 0;
-`;
-
-const StyledButton = styled(Button)`
-  margin-right: 15px;
-  
-  &:last-child {
-    margin-right: 0;
-  }
 `;
 
 const OptionName = styled(Heading)`
@@ -176,7 +169,7 @@ const Footer = styled.div`
   bottom: 0;
   left: 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   background-color: #ffffff;
   border-top: 1px solid ${color.tertiary};
@@ -197,14 +190,14 @@ const Wrapper = styled.div`
 export class RuleInfoComponent extends React.Component {
 
   render = () => {
-    const examples = this.props.rule.examples && this.props.rule.examples.find((example) => {
+    const examples = this.props.activeRule.examples && this.props.activeRule.examples.find((example) => {
 
       return isEqual(
         example.options.map((option) => ({
           name: option.name,
           value: option.type === 'string' || option.type === 'number' ? '' : option.value, // Because options with type string or string should not effect on examples since they have too many results
         })),
-        this.props.rule.options.map((option) => ({
+        this.props.activeRule.options.map((option) => ({
           name: option.name,
           value: option.type === 'string' || option.type === 'number' ? '' : option.value, // Because options with type string or string should not effect on examples since they have too many results
         })),
@@ -219,22 +212,22 @@ export class RuleInfoComponent extends React.Component {
               <Section>
                 <SectionHeader>
                   <Title>
-                    <Name>{ this.props.rule.name }</Name>
-                    <ShortDescription>- { this.props.rule.shortDescription }</ShortDescription>
+                    <Name>{ this.props.activeRule.name }</Name>
+                    <ShortDescription>- { this.props.activeRule.shortDescription }</ShortDescription>
                     {
-                      this.props.rule.isRecommended &&
+                      this.props.activeRule.isRecommended &&
                       <React.Fragment>
-                        <Check data-tip data-for={ `rule-info-check-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                        <ReactTooltip id={ `rule-info-check-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                        <Check data-tip data-for={ `rule-info-check-icon-${ this.props.activeRule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+                        <ReactTooltip id={ `rule-info-check-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
                           <span>Recommended</span>
                         </ReactTooltip>
                       </React.Fragment>
                     }
                     {
-                      this.props.rule.isFixable &&
+                      this.props.activeRule.isFixable &&
                       <React.Fragment>
-                        <Wrench data-tip data-for={ `rule-info-wrench-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                        <ReactTooltip id={ `rule-info-wrench-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                        <Wrench data-tip data-for={ `rule-info-wrench-icon-${ this.props.activeRule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+                        <ReactTooltip id={ `rule-info-wrench-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
                           <span>Fixable</span>
                         </ReactTooltip>
                       </React.Fragment>
@@ -243,17 +236,17 @@ export class RuleInfoComponent extends React.Component {
 
                   <StyledSwitcher
                     data-tip
-                    data-for={ `rule-info-switcher-${this.props.rule.name}` }
+                    data-for={ `rule-info-switcher-${this.props.activeRule.name}` }
                     size={ 'large' }
-                    isActive={ this.props.rule.isTurnedOn }
-                    onClick={ () => this.props.onSwitcherClick(this.props.rule.name, !this.props.rule.isTurnedOn) }
+                    isActive={ this.props.activeRule.isTurnedOn }
+                    onClick={ () => this.props.onSwitcherClick(this.props.activeRule.name, !this.props.activeRule.isTurnedOn) }
                   />
-                  <ReactTooltip id={ `rule-info-switcher-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                    <span>{ this.props.rule.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
+                  <ReactTooltip id={ `rule-info-switcher-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
+                    <span>{ this.props.activeRule.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
                   </ReactTooltip>
                 </SectionHeader>
 
-                <Paragraph>{ this.props.rule.longDescription }</Paragraph>
+                <Paragraph>{ this.props.activeRule.longDescription }</Paragraph>
               </Section>
 
               <Section>
@@ -261,7 +254,7 @@ export class RuleInfoComponent extends React.Component {
                 <Select
                   classNamePrefix={ 'react-select' }
                   value={
-                    this.props.rule.value === 'warn' ?
+                    this.props.activeRule.value === 'warn' ?
                       { label: 'Show a warning', value: 'warn' }
                       :
                       { label: 'Throw an error', value: 'error' }
@@ -270,16 +263,16 @@ export class RuleInfoComponent extends React.Component {
                     { label: 'Show a warning', value: 'warn' },
                     { label: 'Throw an error', value: 'error' },
                   ] }
-                  onChange={ ({ value }) => this.props.onSelectChange(this.props.rule.name, value) }
+                  onChange={ ({ value }) => this.props.onSelectChange(this.props.activeRule.name, value) }
                 />
               </Section>
 
               {
-                this.props.rule.options && this.props.rule.options.length > 0 &&
+                this.props.activeRule.options && this.props.activeRule.options.length > 0 &&
                 <Section>
                   <Heading as={ 'h2' }>Options</Heading>
                   {
-                    this.props.rule.options.map((option, i) => {
+                    this.props.activeRule.options.map((option, i) => {
                       if (option.type === 'boolean') {
                         return (
                           <Option key={ option.name || i }>
@@ -288,7 +281,7 @@ export class RuleInfoComponent extends React.Component {
                                 { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                                 <Switcher
                                   isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
-                                  onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
+                                  onClick={ () => this.props.onOptionChange(this.props.activeRule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
                                 />
                               </OptionHeaderLeftSide>
                             </OptionHeader>
@@ -312,7 +305,7 @@ export class RuleInfoComponent extends React.Component {
                                   value: optionOption,
                                 }))
                               }
-                              onChange={ ({ value }) => this.props.onOptionChange(this.props.rule.name, option.name, value) }
+                              onChange={ ({ value }) => this.props.onOptionChange(this.props.activeRule.name, option.name, value) }
                             />
                           </Option>
                         );
@@ -337,7 +330,7 @@ export class RuleInfoComponent extends React.Component {
                               id={ option.name }
                               value={ option.value }
                               placeholder={ 'Enter value here' }
-                              onChange={ (e) => this.props.onOptionChange(this.props.rule.name, option.name, e.currentTarget.value) }
+                              onChange={ (e) => this.props.onOptionChange(this.props.activeRule.name, option.name, e.currentTarget.value) }
                             />
                           </Option>
                         );
@@ -377,22 +370,22 @@ export class RuleInfoComponent extends React.Component {
               <Section>
                 <SectionHeader>
                   <Title>
-                    <Name>{ this.props.rule.name }</Name>
-                    <ShortDescription>- { this.props.rule.shortDescription }</ShortDescription>
+                    <Name>{ this.props.activeRule.name }</Name>
+                    <ShortDescription>- { this.props.activeRule.shortDescription }</ShortDescription>
                     {
-                      this.props.rule.isRecommended &&
+                      this.props.activeRule.isRecommended &&
                       <React.Fragment>
-                        <Check data-tip data-for={ `rule-info-check-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                        <ReactTooltip id={ `rule-info-check-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                        <Check data-tip data-for={ `rule-info-check-icon-${ this.props.activeRule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+                        <ReactTooltip id={ `rule-info-check-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
                           <span>Recommended</span>
                         </ReactTooltip>
                       </React.Fragment>
                     }
                     {
-                      this.props.rule.isFixable &&
+                      this.props.activeRule.isFixable &&
                       <React.Fragment>
-                        <Wrench data-tip data-for={ `rule-info-wrench-icon-${ this.props.rule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                        <ReactTooltip id={ `rule-info-wrench-icon-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                        <Wrench data-tip data-for={ `rule-info-wrench-icon-${ this.props.activeRule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
+                        <ReactTooltip id={ `rule-info-wrench-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
                           <span>Fixable</span>
                         </ReactTooltip>
                       </React.Fragment>
@@ -401,17 +394,17 @@ export class RuleInfoComponent extends React.Component {
 
                   <StyledSwitcher
                     data-tip
-                    data-for={ `rule-info-switcher-${this.props.rule.name}` }
+                    data-for={ `rule-info-switcher-${this.props.activeRule.name}` }
                     size={ 'large' }
-                    isActive={ this.props.rule.isTurnedOn }
-                    onClick={ () => this.props.onSwitcherClick(this.props.rule.name, !this.props.rule.isTurnedOn) }
+                    isActive={ this.props.activeRule.isTurnedOn }
+                    onClick={ () => this.props.onSwitcherClick(this.props.activeRule.name, !this.props.activeRule.isTurnedOn) }
                   />
-                  <ReactTooltip id={ `rule-info-switcher-${this.props.rule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                    <span>{ this.props.rule.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
+                  <ReactTooltip id={ `rule-info-switcher-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
+                    <span>{ this.props.activeRule.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
                   </ReactTooltip>
                 </SectionHeader>
 
-                <Paragraph>{ this.props.rule.longDescription }</Paragraph>
+                <Paragraph>{ this.props.activeRule.longDescription }</Paragraph>
               </Section>
 
               <Section>
@@ -419,7 +412,7 @@ export class RuleInfoComponent extends React.Component {
                 <Select
                   classNamePrefix={ 'react-select' }
                   value={
-                    this.props.rule.value === 'warn' ?
+                    this.props.activeRule.value === 'warn' ?
                       { label: 'Show a warning', value: 'warn' }
                       :
                       { label: 'Throw an error', value: 'error' }
@@ -428,16 +421,16 @@ export class RuleInfoComponent extends React.Component {
                     { label: 'Show a warning', value: 'warn' },
                     { label: 'Throw an error', value: 'error' },
                   ] }
-                  onChange={ ({ value }) => this.props.onSelectChange(this.props.rule.name, value) }
+                  onChange={ ({ value }) => this.props.onSelectChange(this.props.activeRule.name, value) }
                 />
               </Section>
 
               {
-                this.props.rule.options && this.props.rule.options.length > 0 &&
+                this.props.activeRule.options && this.props.activeRule.options.length > 0 &&
                 <Section>
                   <Heading as={ 'h2' }>Options</Heading>
                   {
-                    this.props.rule.options.map((option, i) => {
+                    this.props.activeRule.options.map((option, i) => {
                       if (option.type === 'boolean') {
                         return (
                           <Formik
@@ -448,7 +441,7 @@ export class RuleInfoComponent extends React.Component {
                             onSubmit={ (values) => {
                               this.props.updateRule({
                                 variables: {
-                                  name: this.props.rule.name,
+                                  name: this.props.activeRule.name,
                                   updatedOption: {
                                     id: option.id,
                                     description: values[option.name ? option.name : 'Nameless option'],
@@ -481,7 +474,7 @@ export class RuleInfoComponent extends React.Component {
                                       { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                                       <Switcher
                                         isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
-                                        onClick={ () => this.props.onOptionChange(this.props.rule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
+                                        onClick={ () => this.props.onOptionChange(this.props.activeRule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
                                       />
                                     </OptionHeaderLeftSide>
 
@@ -518,7 +511,7 @@ export class RuleInfoComponent extends React.Component {
                             onSubmit={ (values) => {
                               this.props.updateRule({
                                 variables: {
-                                  name: this.props.rule.name,
+                                  name: this.props.activeRule.name,
                                   updatedOption: {
                                     id: option.id,
                                     description: values[option.name ? option.name : 'Nameless option'],
@@ -559,7 +552,7 @@ export class RuleInfoComponent extends React.Component {
                                         value: optionOption,
                                       }))
                                     }
-                                    onChange={ ({ value }) => this.props.onOptionChange(this.props.rule.name, option.name, value) }
+                                    onChange={ ({ value }) => this.props.onOptionChange(this.props.activeRule.name, option.name, value) }
                                   />
                                 </Option>
                               )
@@ -576,7 +569,7 @@ export class RuleInfoComponent extends React.Component {
                             onSubmit={ (values) => {
                               this.props.updateRule({
                                 variables: {
-                                  name: this.props.rule.name,
+                                  name: this.props.activeRule.name,
                                   updatedOption: {
                                     id: option.id,
                                     description: values[option.name ? option.name : 'Nameless option'],
@@ -638,7 +631,7 @@ export class RuleInfoComponent extends React.Component {
                                     id={ option.name }
                                     value={ option.value }
                                     placeholder={ 'Enter value here' }
-                                    onChange={ (e) => this.props.onOptionChange(this.props.rule.name, option.name, e.currentTarget.value) }
+                                    onChange={ (e) => this.props.onOptionChange(this.props.activeRule.name, option.name, e.currentTarget.value) }
                                   />
                                 </Option>
                               )
@@ -661,9 +654,9 @@ export class RuleInfoComponent extends React.Component {
                   onSubmit={ (values) => {
                     this.props.updateRule({
                       variables: {
-                        name: this.props.rule.name,
+                        name: this.props.activeRule.name,
                         newExample: {
-                          options: this.props.rule.options ? this.props.rule.options.map((option) => ({
+                          options: this.props.activeRule.options ? this.props.activeRule.options.map((option) => ({
                             name: option.name,
                             value: option.type === 'string' || option.type === 'number' ? '' : option.value, // Because options with type string or string should not effect on examples since they have too many results
                           })) : null,
@@ -727,10 +720,17 @@ export class RuleInfoComponent extends React.Component {
             </SectionsWrapper>
         }
 
-        <Footer>
-          <StyledButton onClick={ () => this.props.onPreviousOrNextButtonClick('previous') }>Previous rule</StyledButton>
-          <StyledButton onClick={ () => this.props.onPreviousOrNextButtonClick('next') }>Next rule</StyledButton>
-        </Footer>
+        {
+          this.props.previousRule && this.props.nextRule &&
+          <Footer>
+            <Button to={ `/rules/${this.props.previousRule.name}` } as={ RouterLink }>
+              { '<' } Previous rule: { this.props.previousRule.name }
+            </Button>
+            <Button to={ `/rules/${this.props.nextRule.name}` } as={ RouterLink }>
+              Next rule: { this.props.nextRule.name } >
+            </Button>
+          </Footer>
+        }
       </Wrapper>
     );
   };

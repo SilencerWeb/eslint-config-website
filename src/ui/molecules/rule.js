@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import ReactTooltip from 'react-tooltip';
+import { Link } from 'react-router-dom';
 
 import { Switcher } from 'ui/atoms';
 import { Check, Wrench } from 'ui/outlines';
@@ -21,6 +22,7 @@ const Name = styled.h3`
 
 const Description = styled.p`
   font-size: 14px;
+  text-decoration: none;
   color: ${rgba(color.secondary, 0.7)};
   margin-top: 0;
   margin-bottom: 0;
@@ -29,6 +31,7 @@ const Description = styled.p`
 
 const HeaderSide = styled.div`
   flex-grow: 1;
+  text-decoration: none;
   padding-right: 10px;
   padding-bottom: 5px;
     
@@ -126,7 +129,7 @@ export class Rule extends React.Component {
     return (
       <Wrapper className={ this.props.className } isActive={ this.props.isActive }>
         <Header>
-          <HeaderSide onClick={ () => this.props.onClick(this.props.name) }>
+          <HeaderSide to={ `/rules/${this.props.name}` } as={ Link }>
             <Name>{ this.props.name }</Name>
             {
               this.props.isRecommended &&
@@ -158,7 +161,8 @@ export class Rule extends React.Component {
             <span>{ this.props.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
           </ReactTooltip>
         </Header>
-        <Description onClick={ () => this.props.onClick(this.props.name) }>{ this.props.description }</Description>
+
+        <Description to={ `/rules/${this.props.name}` } as={ Link }>{ this.props.description }</Description>
       </Wrapper>
     );
   };
