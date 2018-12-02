@@ -303,8 +303,6 @@ export class RuleInfoComponent extends React.Component {
                               { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                             </OptionHeader>
 
-                            { option.description && <OptionDescription>{ option.description }</OptionDescription> }
-
                             <Select
                               classNamePrefix={ 'react-select' }
                               value={ { label: option.value, value: option.value } }
@@ -550,25 +548,7 @@ export class RuleInfoComponent extends React.Component {
                                 <Option>
                                   <OptionHeader isSpaceBetween={ true }>
                                     { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
-
-                                    {
-                                      !option.description &&
-                                      <Button onClick={ handleSubmit }>Submit description</Button>
-                                    }
                                   </OptionHeader>
-
-                                  {
-                                    option.description ?
-                                      <OptionDescription>{ option.description }</OptionDescription>
-                                      :
-                                      <OptionDescriptionInput
-                                        name={ option.name ? option.name : 'Nameless option' }
-                                        value={ values[option.name ? option.name : 'Nameless option'] }
-                                        error={ touched[option.name ? option.name : 'Nameless option'] && errors[option.name ? option.name : 'Nameless option'] }
-                                        placeholder={ 'Enter description here' }
-                                        onChange={ handleChange }
-                                      />
-                                  }
 
                                   <Select
                                     classNamePrefix={ 'react-select' }
