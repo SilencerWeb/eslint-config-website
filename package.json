@@ -34,7 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:local": "REACT_APP_NODE_ENV=local react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp _redirects build/_redirects",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
