@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import ReactList from 'react-list';
 import ReactTooltip from 'react-tooltip';
+import fast from 'fast.js';
 
 import { Search, Heading, Button, Switcher } from 'ui/atoms';
 import { Rule } from 'ui/molecules';
@@ -81,21 +82,21 @@ const Wrapper = styled.div`
 
 
 export const Sidebar = (props) => {
-  const possibleErrorsRules = props.rules && props.rules.filter((rule) => rule.category === 'Possible Errors');
-  const bestPracticesRules = props.rules && props.rules.filter((rule) => rule.category === 'Best Practices');
-  const strictModeRules = props.rules && props.rules.filter((rule) => rule.category === 'Strict Mode');
-  const variablesRules = props.rules && props.rules.filter((rule) => rule.category === 'Variables');
-  const nodeJSAndCommonJSRules = props.rules && props.rules.filter((rule) => rule.category === 'Node.js and CommonJS');
-  const stylisticIssuesRules = props.rules && props.rules.filter((rule) => rule.category === 'Stylistic Issues');
-  const ECMAScript6Rules = props.rules && props.rules.filter((rule) => rule.category === 'ECMAScript 6');
+  const possibleErrorsRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Possible Errors');
+  const bestPracticesRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Best Practices');
+  const strictModeRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Strict Mode');
+  const variablesRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Variables');
+  const nodeJSAndCommonJSRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Node.js and CommonJS');
+  const stylisticIssuesRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Stylistic Issues');
+  const ECMAScript6Rules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'ECMAScript 6');
 
-  const areAllPossibleErrorsRulesTurnedOn = possibleErrorsRules && possibleErrorsRules.every((rule) => rule.isTurnedOn);
-  const areAllBestPracticesRules = bestPracticesRules && bestPracticesRules.every((rule) => rule.isTurnedOn);
-  const areAllStrictModeRules = strictModeRules && strictModeRules.every((rule) => rule.isTurnedOn);
-  const areAllVariablesRules = variablesRules && variablesRules.every((rule) => rule.isTurnedOn);
-  const areAllNodeJSAndCommonJSRules = nodeJSAndCommonJSRules && nodeJSAndCommonJSRules.every((rule) => rule.isTurnedOn);
-  const areAllStylisticIssuesRules = stylisticIssuesRules && stylisticIssuesRules.every((rule) => rule.isTurnedOn);
-  const areAllECMAScript6Rules = ECMAScript6Rules && ECMAScript6Rules.every((rule) => rule.isTurnedOn);
+  const areAllPossibleErrorsRulesTurnedOn = possibleErrorsRules && fast.every(possibleErrorsRules, (rule) => rule.isTurnedOn);
+  const areAllBestPracticesRules = bestPracticesRules && fast.every(bestPracticesRules, (rule) => rule.isTurnedOn);
+  const areAllStrictModeRules = strictModeRules && fast.every(strictModeRules, (rule) => rule.isTurnedOn);
+  const areAllVariablesRules = variablesRules && fast.every(variablesRules, (rule) => rule.isTurnedOn);
+  const areAllNodeJSAndCommonJSRules = nodeJSAndCommonJSRules && fast.every(nodeJSAndCommonJSRules, (rule) => rule.isTurnedOn);
+  const areAllStylisticIssuesRules = stylisticIssuesRules && fast.every(stylisticIssuesRules, (rule) => rule.isTurnedOn);
+  const areAllECMAScript6Rules = ECMAScript6Rules && fast.every(ECMAScript6Rules, (rule) => rule.isTurnedOn);
 
   const handleSearchKeyPress = (e) => {
     if (e.key === 'Enter') {
