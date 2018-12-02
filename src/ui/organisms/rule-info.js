@@ -292,6 +292,8 @@ export class RuleInfoComponent extends React.Component {
                                 />
                               </OptionHeaderLeftSide>
                             </OptionHeader>
+
+                            { option.description && <OptionDescription>{ option.description }</OptionDescription> }
                           </Option>
                         );
                       } else if (option.type === 'select') {
@@ -300,6 +302,8 @@ export class RuleInfoComponent extends React.Component {
                             <OptionHeader>
                               { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
                             </OptionHeader>
+
+                            { option.description && <OptionDescription>{ option.description }</OptionDescription> }
 
                             <Select
                               classNamePrefix={ 'react-select' }
@@ -327,6 +331,8 @@ export class RuleInfoComponent extends React.Component {
                                 </OptionName>
                               }
                             </OptionHeader>
+
+                            { option.description && <OptionDescription>{ option.description }</OptionDescription> }
 
                             <Input
                               id={ option.name }
