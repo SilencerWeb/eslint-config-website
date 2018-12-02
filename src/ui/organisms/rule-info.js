@@ -318,7 +318,7 @@ export class RuleInfoComponent extends React.Component {
                             />
                           </Option>
                         );
-                      } else if (option.type === 'string') {
+                      } else if (option.type === 'string' || option.type === 'number') {
                         return (
                           <Option key={ option.name || i }>
                             <OptionHeader>
@@ -335,6 +335,7 @@ export class RuleInfoComponent extends React.Component {
                             { option.description && <OptionDescription>{ option.description }</OptionDescription> }
 
                             <Input
+                              type={ option.type === 'number' ? 'number' : 'text' }
                               id={ option.name }
                               value={ option.value }
                               placeholder={ 'Enter value here' }
@@ -585,7 +586,7 @@ export class RuleInfoComponent extends React.Component {
                             }
                           </Formik>
                         );
-                      } else if (option.type === 'string') {
+                      } else if (option.type === 'string' || option.type === 'number') {
                         return (
                           <Formik
                             enableReinitialize={ true }
@@ -653,6 +654,7 @@ export class RuleInfoComponent extends React.Component {
                                   }
 
                                   <Input
+                                    type={ option.type === 'number' ? 'number' : 'text' }
                                     id={ option.name }
                                     value={ option.value }
                                     placeholder={ 'Enter value here' }
