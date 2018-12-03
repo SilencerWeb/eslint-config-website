@@ -65,7 +65,7 @@ export const EditingModeModal = (props) => {
         <StyledHeading as={ 'h2' }>Thank you for deciding to help the project!</StyledHeading>
         <Text>
           Now you can add rule examples and rule option descriptions, all information you can get&nbsp;
-          <Link href={ 'https://eslint.org/docs/rules/' } target={ '_blank' }>here</Link>.
+          <Link href={ 'https://eslint.org/docs/rules/' } target={ '_blank' }>here</Link>. If you feel like you can come up with a better example than the example from ESLint docs, by all means, submit it.
         </Text>
         <Text>
           Please note, that every example should be divided by each other using 2 lines like this:

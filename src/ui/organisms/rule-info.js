@@ -425,8 +425,7 @@ export class RuleInfoComponent extends React.Component {
                     :
                     <NoExampleYet>
                       No examples yet. If you would love to help with adding it, please,&nbsp;
-                      <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link>&nbsp;
-                      and I will give you an instruction how to do it.
+                      <Link href={ 'https://twitter.com/messages/compose?screen_name=silencerweb' } target="_blank">contact me in the twitter</Link> and I will give you an instruction how to do it.
                     </NoExampleYet>
                 }
               </Section>
