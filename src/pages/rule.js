@@ -157,12 +157,11 @@ export class RulePage extends React.Component {
     element.click();
   };
 
-  openConfigPreviewer = () => {
-    this.setState({ isConfigPreviewerVisible: true });
-  };
-
-  closeConfigPreviewer = () => {
-    this.setState({ isConfigPreviewerVisible: false });
+  toggleConfigPreviewer = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      isConfigPreviewerVisible: !prevState.isConfigPreviewerVisible,
+    }));
   };
 
   closeEditingModeModal = () => {
@@ -271,11 +270,11 @@ export class RulePage extends React.Component {
                 onCategorySwitcherClick={ this.toggleAllRulesInCategory }
                 onRuleSwitcherClick={ this.changeRuleTurnOnValue }
                 onDownloadConfigButtonClick={ this.downloadConfig }
-                onPreviewConfigButtonClick={ this.openConfigPreviewer }
+                onPreviewConfigButtonClick={ this.toggleConfigPreviewer }
               />
               {
                 this.state.isConfigPreviewerVisible ?
-                  <ConfigPreviewer rules={ this.state.rules } onCloseButtonClick={ this.closeConfigPreviewer }/>
+                  <ConfigPreviewer rules={ this.state.rules } onCloseButtonClick={ this.toggleConfigPreviewer }/>
                   :
                   <RuleInfo
                     activeRule={ this.state.activeRule }
