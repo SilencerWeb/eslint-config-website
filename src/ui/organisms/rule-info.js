@@ -11,7 +11,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import { Heading, Button, Switcher, Input, Link } from 'ui/atoms';
 import { RuleExample } from 'ui/molecules';
-import { Check, Wrench } from 'ui/outlines';
+import { Check, Wrench, Github, Twitter, Email, Arrow } from 'ui/outlines';
 import { color } from 'ui/theme';
 
 import { UPDATE_RULE } from 'graphql/mutations/rule';
@@ -121,6 +121,72 @@ const RuleExamples = styled.div`
 const NoExampleYet = styled.p`
   margin-top: 0;
   margin-bottom: 0;
+`;
+
+const FooterButton = styled(Button)`
+  flex-basis: 40%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  
+  svg {
+    fill: ${color.secondary};
+    margin-right: 5px;
+    margin-left: 5px;
+    transition: 0.1s;
+    
+    &:first-child {
+      margin-left: 0;
+      transform: rotate(180deg);
+    }
+    
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  
+  &:last-child {
+    justify-content: flex-end;
+    margin-right: 0;
+  }
+  
+  &:hover {
+    
+    svg {
+      fill: ${color.primary};
+    }
+  }
+`;
+
+const SocialLink = styled.a`
+  display: inline-block;
+  vertical-align: top;
+  font-size: 0;
+  margin-right: 10px;
+  
+  svg {
+    fill: ${color.secondary};
+    opacity: 0.7;
+    transition: 0.1s;
+  }
+  
+  &:last-child {
+    margin-right: 0;
+  }
+  
+  &:hover {
+    
+    svg {
+      opacity: 1;
+    }
+  }
+`;
+
+const SocialLinksWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
 `;
 
 const SectionHeader = styled.div`
@@ -723,12 +789,29 @@ export class RuleInfoComponent extends React.Component {
         {
           this.props.previousRule && this.props.nextRule &&
           <Footer>
-            <Button to={ `/rules/${this.props.previousRule.name}` } as={ RouterLink }>
-              { '<' } Previous rule: { this.props.previousRule.name }
-            </Button>
-            <Button to={ `/rules/${this.props.nextRule.name}` } as={ RouterLink }>
-              Next rule: { this.props.nextRule.name } >
-            </Button>
+            <SocialLinksWrapper>
+              <SocialLink href={ 'https://github.com/SilencerWeb/eslint-config-website' } target={ '_blank' }>
+                <Github height={ 30 } width={ 30 }/>
+              </SocialLink>
+
+              <SocialLink href={ 'https://twitter.com/SilencerWeb' } target={ '_blank' }>
+                <Twitter height={ 30 } width={ 30 }/>
+              </SocialLink>
+
+              <SocialLink href={ 'mailto:silencer.web@gmail.com' } target={ '_blank' }>
+                <Email height={ 30 } width={ 30 }/>
+              </SocialLink>
+            </SocialLinksWrapper>
+
+            <FooterButton to={ `/rules/${this.props.previousRule.name}` } as={ RouterLink }>
+              <Arrow width={ 12 } height={ 12 } />
+              <span>{ this.props.previousRule.name }</span>
+            </FooterButton>
+
+            <FooterButton to={ `/rules/${this.props.nextRule.name}` } as={ RouterLink }>
+              <span>{ this.props.nextRule.name }</span>
+              <Arrow width={ 12 } height={ 12 } />
+            </FooterButton>
           </Footer>
         }
       </Wrapper>

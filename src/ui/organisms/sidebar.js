@@ -6,34 +6,8 @@ import fast from 'fast.js';
 
 import { Search, Heading, Button, Switcher } from 'ui/atoms';
 import { Rule } from 'ui/molecules';
-import { Github, Twitter, Email } from 'ui/outlines';
 import { color } from 'ui/theme';
 
-
-const SocialLink = styled.a`
-  display: inline-block;
-  vertical-align: top;
-  
-  svg {
-    fill: ${color.secondary};
-    opacity: 0.7;
-    transition: 0.1s;
-  }
-  
-  &:hover {
-    
-    svg {
-      opacity: 1;
-    }
-  }
-`;
-
-const SocialLinksWrapper = styled.div`
-  flex-shrink: 0;
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 10px;
-`;
 
 const StyledSearch = styled(Search)`
   margin-bottom: 30px;
@@ -138,20 +112,6 @@ export const Sidebar = (props) => {
 
   return (
     <Wrapper className={ props.className }>
-      <SocialLinksWrapper>
-        <SocialLink href={ 'https://github.com/SilencerWeb/eslint-config-website' } target={ '_blank' }>
-          <Github height={ 35 } width={ 35 }/>
-        </SocialLink>
-
-        <SocialLink href={ 'https://github.com/SilencerWeb/eslint-config-website' } target={ '_blank' }>
-          <Twitter height={ 35 } width={ 35 }/>
-        </SocialLink>
-
-        <SocialLink href={ 'https://github.com/SilencerWeb/eslint-config-website' } target={ '_blank' }>
-          <Email height={ 35 } width={ 35 }/>
-        </SocialLink>
-      </SocialLinksWrapper>
-
       <StyledSearch placeholder={ 'Type a rule here...' } onKeyPress={ handleSearchKeyPress } onChange={ handleSearchChange }/>
 
       <RulesWrapper>

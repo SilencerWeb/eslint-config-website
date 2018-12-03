@@ -3,6 +3,7 @@ import { ReactComponent as Wrench } from 'ui/outlines/wrench.svg';
 import { ReactComponent as Github } from 'ui/outlines/github.svg';
 import { ReactComponent as Twitter } from 'ui/outlines/twitter.svg';
 import { ReactComponent as Email } from 'ui/outlines/email.svg';
+import { ReactComponent as Arrow } from 'ui/outlines/arrow.svg';
 
 export {
   Check,
@@ -10,4 +11,5 @@ export {
   Github,
   Twitter,
   Email,
+  Arrow,
 };
