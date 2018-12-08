@@ -47,7 +47,7 @@ const Header = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 300px;
+  min-height: 500px;
 `;
 
 

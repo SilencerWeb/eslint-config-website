@@ -110,7 +110,7 @@ const Option = styled.div`
 
 const StyledRuleExample = styled(RuleExample)`
   flex-grow: 1;
-  max-width: 50%;
+  max-width: ${props => props.type === 'difference' ? '100%' : '50%'};
 `;
 
 const RuleExamples = styled.div`
@@ -803,13 +803,13 @@ export class RuleInfoComponent extends React.Component {
             </SocialLinksWrapper>
 
             <FooterButton to={ `/rules/${this.props.previousRule.name}` } as={ RouterLink }>
-              <Arrow width={ 12 } height={ 12 } />
+              <Arrow width={ 12 } height={ 12 }/>
               <span>{ this.props.previousRule.name }</span>
             </FooterButton>
 
             <FooterButton to={ `/rules/${this.props.nextRule.name}` } as={ RouterLink }>
               <span>{ this.props.nextRule.name }</span>
-              <Arrow width={ 12 } height={ 12 } />
+              <Arrow width={ 12 } height={ 12 }/>
             </FooterButton>
           </Footer>
         }
