@@ -1,11 +1,10 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import ReactList from 'react-list';
-import ReactTooltip from 'react-tooltip';
+import styled, { css } from 'styled-components';
 import fast from 'fast.js';
 
 import { Search, Heading, Button, Switcher } from 'ui/atoms';
 import { Rule } from 'ui/molecules';
+import { Arrow } from 'ui/outlines';
 import { color } from 'ui/theme';
 
 
@@ -21,30 +20,56 @@ const Subtitle = styled(Heading)`
   font-size: 18px;
   color: ${color.primary};
   margin-bottom: 0;
+  margin-left: 5px;
+`;
+
+const RulesGroupHeaderSide = styled.div`
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const RulesGroupHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 24px;
   padding-bottom: 15px;
+  
+  svg {
+    transform: rotate(-90deg);
+  }
 `;
 
 const RulesGroup = styled.div`
-  margin-bottom: 30px;
   
-  &:last-child {
-    margin-bottom: 0;
-  }
+  ${props => css`
+
+    ${props.isOpen && css`
+      margin-bottom: 30px;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      ${RulesGroupHeader} {
+      
+        svg {
+          transform: rotate(90deg);
+        }
+      }
+    `}
+  `}
 `;
 
 const RulesWrapper = styled.div`
   flex-grow: 0;
   flex-shrink: 1;
-  padding-right: 20px;
-  padding-left: 20px;
-  margin-right: -20px;
-  margin-left: -20px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: -15px;
+  margin-left: -15px;
   overflow-x: hidden;
   overflow-y: auto;
 `;
@@ -61,9 +86,9 @@ const Footer = styled.div`
   background-color: #ffffff;
   border-top: 1px solid ${color.tertiary};
   padding-top: 10px;
-  padding-right: 20px;
+  padding-right: 15px;
   padding-bottom: 10px;
-  padding-left: 20px;
+  padding-left: 15px;
 `;
 
 const Wrapper = styled.div`
@@ -74,303 +99,308 @@ const Wrapper = styled.div`
   min-width: 300px;
   height: 100vh;
   border-right: 1px solid ${color.tertiary};
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-bottom: 58px;
-  padding-left: 20px;
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-bottom: 53px;
+  padding-left: 15px;
 `;
 
 
-export const Sidebar = (props) => {
-  const possibleErrorsRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Possible Errors');
-  const bestPracticesRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Best Practices');
-  const strictModeRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Strict Mode');
-  const variablesRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Variables');
-  const nodeJSAndCommonJSRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Node.js and CommonJS');
-  const stylisticIssuesRules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'Stylistic Issues');
-  const ECMAScript6Rules = props.rules && fast.filter(props.rules, (rule) => rule.category === 'ECMAScript 6');
+export class Sidebar extends React.Component {
+  state = {
+    isPossibleErrorsRulesDropDownOpen: false,
+    isBestPracticesRulesDropDownOpen: false,
+    isStrictModeRulesDropDownOpen: false,
+    isVariablesRulesDropDownOpen: false,
+    isNodeJSAndCommonJSRulesDropDownOpen: false,
+    isStylisticIssuesRulesDropDownOpen: false,
+    isECMAScript6RulesDropDownOpen: false,
+  };
 
-  const areAllPossibleErrorsRulesTurnedOn = possibleErrorsRules && fast.every(possibleErrorsRules, (rule) => rule.isTurnedOn);
-  const areAllBestPracticesRules = bestPracticesRules && fast.every(bestPracticesRules, (rule) => rule.isTurnedOn);
-  const areAllStrictModeRules = strictModeRules && fast.every(strictModeRules, (rule) => rule.isTurnedOn);
-  const areAllVariablesRules = variablesRules && fast.every(variablesRules, (rule) => rule.isTurnedOn);
-  const areAllNodeJSAndCommonJSRules = nodeJSAndCommonJSRules && fast.every(nodeJSAndCommonJSRules, (rule) => rule.isTurnedOn);
-  const areAllStylisticIssuesRules = stylisticIssuesRules && fast.every(stylisticIssuesRules, (rule) => rule.isTurnedOn);
-  const areAllECMAScript6Rules = ECMAScript6Rules && fast.every(ECMAScript6Rules, (rule) => rule.isTurnedOn);
-
-  const handleSearchKeyPress = (e) => {
+  handleSearchKeyPress = (e) => {
     if (e.key === 'Enter') {
-      props.onSearchEnterPress(e.currentTarget.value);
+      this.props.onSearchEnterPress(e.currentTarget.value);
     }
   };
 
-  const handleSearchChange = (e) => {
+  handleSearchChange = (e) => {
     if (e.currentTarget.value.length === 0) {
-      props.onSearchEnterPress(e.currentTarget.value);
+      this.props.onSearchEnterPress(e.currentTarget.value);
     }
   };
 
-  return (
-    <Wrapper className={ props.className }>
-      <StyledSearch placeholder={ 'Type a rule here...' } onKeyPress={ handleSearchKeyPress } onChange={ handleSearchChange }/>
+  toggleDropDown = (name) => {
+    this.setState((prevState) => ({
+      ...prevState,
+      [name]: !prevState[name],
+    }));
+  };
 
-      <RulesWrapper>
-        {
-          props.rules ?
-            <React.Fragment>
-              {
-                possibleErrorsRules && possibleErrorsRules.length > 0 &&
-                <RulesGroup>
-                  <RulesGroupHeader>
-                    <Subtitle as={ 'h3' }>Possible Errors</Subtitle>
-                    <Switcher
-                      data-tip
-                      data-for={ `sidebar-switcher-possible-errors` }
-                      size={ 'medium' }
-                      isActive={ areAllPossibleErrorsRulesTurnedOn }
-                      onClick={ () => props.onCategorySwitcherClick('Possible Errors', !areAllPossibleErrorsRulesTurnedOn) }
-                    />
-                    <ReactTooltip id={ `sidebar-switcher-possible-errors` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ areAllPossibleErrorsRulesTurnedOn ? 'Turn off' : 'Turn on' }</span>
-                    </ReactTooltip>
-                  </RulesGroupHeader>
-                  <ReactList
-                    itemRenderer={ (i) => (
-                      <StyledRule
-                        name={ possibleErrorsRules[i].name }
-                        description={ possibleErrorsRules[i].shortDescription }
-                        isActive={ possibleErrorsRules[i].isActive }
-                        isRecommended={ possibleErrorsRules[i].isRecommended }
-                        isFixable={ possibleErrorsRules[i].isFixable }
-                        isTurnedOn={ possibleErrorsRules[i].isTurnedOn }
-                        onSwitcherClick={ props.onRuleSwitcherClick }
-                        key={ possibleErrorsRules[i].name }
+  render = () => {
+    const possibleErrorsRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Possible Errors');
+    const bestPracticesRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Best Practices');
+    const strictModeRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Strict Mode');
+    const variablesRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Variables');
+    const nodeJSAndCommonJSRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Node.js and CommonJS');
+    const stylisticIssuesRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Stylistic Issues');
+    const ECMAScript6Rules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'ECMAScript 6');
+
+    const areAllPossibleErrorsRulesTurnedOn = possibleErrorsRules && fast.every(possibleErrorsRules, (rule) => rule.isTurnedOn);
+    const areAllBestPracticesRulesTurnedOn = bestPracticesRules && fast.every(bestPracticesRules, (rule) => rule.isTurnedOn);
+    const areAllStrictModeRulesTurnedOn = strictModeRules && fast.every(strictModeRules, (rule) => rule.isTurnedOn);
+    const areAllVariablesRulesTurnedOn = variablesRules && fast.every(variablesRules, (rule) => rule.isTurnedOn);
+    const areAllNodeJSAndCommonJSRulesTurnedOn = nodeJSAndCommonJSRules && fast.every(nodeJSAndCommonJSRules, (rule) => rule.isTurnedOn);
+    const areAllStylisticIssuesRulesTurnedOn = stylisticIssuesRules && fast.every(stylisticIssuesRules, (rule) => rule.isTurnedOn);
+    const areAllECMAScript6RulesTurnedOn = ECMAScript6Rules && fast.every(ECMAScript6Rules, (rule) => rule.isTurnedOn);
+
+    return (
+      <Wrapper className={ this.props.className }>
+        <StyledSearch placeholder={ 'Type a rule here...' } onKeyPress={ this.handleSearchKeyPress } onChange={ this.handleSearchChange }/>
+
+        <RulesWrapper>
+          {
+            this.props.rules ?
+              <React.Fragment>
+                {
+                  possibleErrorsRules && possibleErrorsRules.length > 0 &&
+                  <RulesGroup isOpen={ this.state.isPossibleErrorsRulesDropDownOpen }>
+                    <RulesGroupHeader>
+                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isPossibleErrorsRulesDropDownOpen') }>
+                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
+                        <Subtitle as={ 'h3' }>Possible Errors</Subtitle>
+                      </RulesGroupHeaderSide>
+
+                      <Switcher
+                        size={ 'medium' }
+                        isActive={ areAllPossibleErrorsRulesTurnedOn }
+                        onClick={ () => this.props.onCategorySwitcherClick('Possible Errors', !areAllPossibleErrorsRulesTurnedOn) }
                       />
-                    ) }
-                    length={ possibleErrorsRules.length }
-                    threshold={ 750 }
-                  />
-                </RulesGroup>
-              }
+                    </RulesGroupHeader>
 
-              {
-                bestPracticesRules && bestPracticesRules.length > 0 &&
-                <RulesGroup>
-                  <RulesGroupHeader>
-                    <Subtitle as={ 'h3' }>Best Practices</Subtitle>
-                    <Switcher
-                      data-tip
-                      data-for={ `sidebar-switcher-best-practices` }
-                      size={ 'medium' }
-                      isActive={ areAllBestPracticesRules }
-                      onClick={ () => props.onCategorySwitcherClick('Best Practices', !areAllBestPracticesRules) }
-                    />
-                    <ReactTooltip id={ `sidebar-switcher-best-practices` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ areAllBestPracticesRules ? 'Turn off' : 'Turn on' }</span>
-                    </ReactTooltip>
-                  </RulesGroupHeader>
-                  <ReactList
-                    itemRenderer={ (i) => (
-                      <StyledRule
-                        name={ bestPracticesRules[i].name }
-                        description={ bestPracticesRules[i].shortDescription }
-                        isActive={ bestPracticesRules[i].isActive }
-                        isRecommended={ bestPracticesRules[i].isRecommended }
-                        isFixable={ bestPracticesRules[i].isFixable }
-                        isTurnedOn={ bestPracticesRules[i].isTurnedOn }
-                        onSwitcherClick={ props.onRuleSwitcherClick }
-                        key={ bestPracticesRules[i].name }
+                    {
+                      this.state.isPossibleErrorsRulesDropDownOpen && possibleErrorsRules.map((rule) => (
+                        <StyledRule
+                          name={ rule.name }
+                          description={ rule.shortDescription }
+                          isActive={ rule.isActive }
+                          isRecommended={ rule.isRecommended }
+                          isFixable={ rule.isFixable }
+                          isTurnedOn={ rule.isTurnedOn }
+                          onSwitcherClick={ this.props.onRuleSwitcherClick }
+                          key={ rule.name }
+                        />
+                      ))
+                    }
+                  </RulesGroup>
+                }
+
+                {
+                  bestPracticesRules && bestPracticesRules.length > 0 &&
+                  <RulesGroup isOpen={ this.state.isBestPracticesRulesDropDownOpen }>
+                    <RulesGroupHeader>
+                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isBestPracticesRulesDropDownOpen') }>
+                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
+                        <Subtitle as={ 'h3' }>Best Practices</Subtitle>
+                      </RulesGroupHeaderSide>
+
+                      <Switcher
+                        size={ 'medium' }
+                        isActive={ areAllBestPracticesRulesTurnedOn }
+                        onClick={ () => this.props.onCategorySwitcherClick('Best Practices', !areAllBestPracticesRulesTurnedOn) }
                       />
-                    ) }
-                    length={ bestPracticesRules.length }
-                    threshold={ 750 }
-                  />
-                </RulesGroup>
-              }
+                    </RulesGroupHeader>
 
-              {
-                strictModeRules && strictModeRules.length > 0 &&
-                <RulesGroup>
-                  <RulesGroupHeader>
-                    <Subtitle as={ 'h3' }>Strict Mode</Subtitle>
-                    <Switcher
-                      data-tip
-                      data-for={ `sidebar-switcher-strict-mode` }
-                      size={ 'medium' }
-                      isActive={ areAllStrictModeRules }
-                      onClick={ () => props.onCategorySwitcherClick('Strict Mode', !areAllStrictModeRules) }
-                    />
-                    <ReactTooltip id={ `sidebar-switcher-strict-mode` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ areAllStrictModeRules ? 'Turn off' : 'Turn on' }</span>
-                    </ReactTooltip>
-                  </RulesGroupHeader>
-                  <ReactList
-                    itemRenderer={ (i) => (
-                      <StyledRule
-                        name={ strictModeRules[i].name }
-                        description={ strictModeRules[i].shortDescription }
-                        isActive={ strictModeRules[i].isActive }
-                        isRecommended={ strictModeRules[i].isRecommended }
-                        isFixable={ strictModeRules[i].isFixable }
-                        isTurnedOn={ strictModeRules[i].isTurnedOn }
-                        onSwitcherClick={ props.onRuleSwitcherClick }
-                        key={ strictModeRules[i].name }
+                    {
+                      this.state.isBestPracticesRulesDropDownOpen && bestPracticesRules.map((rule) => (
+                        <StyledRule
+                          name={ rule.name }
+                          description={ rule.shortDescription }
+                          isActive={ rule.isActive }
+                          isRecommended={ rule.isRecommended }
+                          isFixable={ rule.isFixable }
+                          isTurnedOn={ rule.isTurnedOn }
+                          onSwitcherClick={ this.props.onRuleSwitcherClick }
+                          key={ rule.name }
+                        />
+                      ))
+                    }
+                  </RulesGroup>
+                }
+
+                {
+                  strictModeRules && strictModeRules.length > 0 &&
+                  <RulesGroup isOpen={ this.state.isStrictModeRulesDropDownOpen }>
+                    <RulesGroupHeader>
+                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isStrictModeRulesDropDownOpen') }>
+                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
+                        <Subtitle as={ 'h3' }>Strict Mode</Subtitle>
+                      </RulesGroupHeaderSide>
+
+                      <Switcher
+                        size={ 'medium' }
+                        isActive={ areAllStrictModeRulesTurnedOn }
+                        onClick={ () => this.props.onCategorySwitcherClick('Strict Mode', !areAllStrictModeRulesTurnedOn) }
                       />
-                    ) }
-                    length={ strictModeRules.length }
-                    threshold={ 750 }
-                  />
-                </RulesGroup>
-              }
+                    </RulesGroupHeader>
 
-              {
-                variablesRules && variablesRules.length > 0 &&
-                <RulesGroup>
-                  <RulesGroupHeader>
-                    <Subtitle as={ 'h3' }>Variables</Subtitle>
-                    <Switcher
-                      data-tip
-                      data-for={ `sidebar-switcher-variables` }
-                      size={ 'medium' }
-                      isActive={ areAllVariablesRules }
-                      onClick={ () => props.onCategorySwitcherClick('Variables', !areAllVariablesRules) }
-                    />
-                    <ReactTooltip id={ `sidebar-switcher-variables` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ areAllVariablesRules ? 'Turn off' : 'Turn on' }</span>
-                    </ReactTooltip>
-                  </RulesGroupHeader>
-                  <ReactList
-                    itemRenderer={ (i) => (
-                      <StyledRule
-                        name={ variablesRules[i].name }
-                        description={ variablesRules[i].shortDescription }
-                        isActive={ variablesRules[i].isActive }
-                        isRecommended={ variablesRules[i].isRecommended }
-                        isFixable={ variablesRules[i].isFixable }
-                        isTurnedOn={ variablesRules[i].isTurnedOn }
-                        onSwitcherClick={ props.onRuleSwitcherClick }
-                        key={ variablesRules[i].name }
+                    {
+                      this.state.isStrictModeRulesDropDownOpen && strictModeRules.map((rule) => (
+                        <StyledRule
+                          name={ rule.name }
+                          description={ rule.shortDescription }
+                          isActive={ rule.isActive }
+                          isRecommended={ rule.isRecommended }
+                          isFixable={ rule.isFixable }
+                          isTurnedOn={ rule.isTurnedOn }
+                          onSwitcherClick={ this.props.onRuleSwitcherClick }
+                          key={ rule.name }
+                        />
+                      ))
+                    }
+                  </RulesGroup>
+                }
+
+                {
+                  variablesRules && variablesRules.length > 0 &&
+                  <RulesGroup isOpen={ this.state.isVariablesRulesDropDownOpen }>
+                    <RulesGroupHeader>
+                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isVariablesRulesDropDownOpen') }>
+                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
+                        <Subtitle as={ 'h3' }>Variables</Subtitle>
+                      </RulesGroupHeaderSide>
+
+                      <Switcher
+                        size={ 'medium' }
+                        isActive={ areAllVariablesRulesTurnedOn }
+                        onClick={ () => this.props.onCategorySwitcherClick('Variables', !areAllVariablesRulesTurnedOn) }
                       />
-                    ) }
-                    length={ variablesRules.length }
-                    threshold={ 750 }
-                  />
-                </RulesGroup>
-              }
+                    </RulesGroupHeader>
 
-              {
-                nodeJSAndCommonJSRules && nodeJSAndCommonJSRules.length > 0 &&
-                <RulesGroup>
-                  <RulesGroupHeader>
-                    <Subtitle as={ 'h3' }>Node.js and CommonJS</Subtitle>
-                    <Switcher
-                      data-tip
-                      data-for={ `sidebar-switcher-nodejs-and-commonjs` }
-                      size={ 'medium' }
-                      isActive={ areAllNodeJSAndCommonJSRules }
-                      onClick={ () => props.onCategorySwitcherClick('Node.js and CommonJS', !areAllNodeJSAndCommonJSRules) }
-                    />
-                    <ReactTooltip id={ `sidebar-switcher-nodejs-and-commonjs` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ areAllNodeJSAndCommonJSRules ? 'Turn off' : 'Turn on' }</span>
-                    </ReactTooltip>
-                  </RulesGroupHeader>
-                  <ReactList
-                    itemRenderer={ (i) => (
-                      <StyledRule
-                        name={ nodeJSAndCommonJSRules[i].name }
-                        description={ nodeJSAndCommonJSRules[i].shortDescription }
-                        isActive={ nodeJSAndCommonJSRules[i].isActive }
-                        isRecommended={ nodeJSAndCommonJSRules[i].isRecommended }
-                        isFixable={ nodeJSAndCommonJSRules[i].isFixable }
-                        isTurnedOn={ nodeJSAndCommonJSRules[i].isTurnedOn }
-                        onSwitcherClick={ props.onRuleSwitcherClick }
-                        key={ nodeJSAndCommonJSRules[i].name }
+                    {
+                      this.state.isVariablesRulesDropDownOpen && variablesRules.map((rule) => (
+                        <StyledRule
+                          name={ rule.name }
+                          description={ rule.shortDescription }
+                          isActive={ rule.isActive }
+                          isRecommended={ rule.isRecommended }
+                          isFixable={ rule.isFixable }
+                          isTurnedOn={ rule.isTurnedOn }
+                          onSwitcherClick={ this.props.onRuleSwitcherClick }
+                          key={ rule.name }
+                        />
+                      ))
+                    }
+                  </RulesGroup>
+                }
+
+                {
+                  nodeJSAndCommonJSRules && nodeJSAndCommonJSRules.length > 0 &&
+                  <RulesGroup isOpen={ this.state.isNodeJSAndCommonJSRulesDropDownOpen }>
+                    <RulesGroupHeader>
+                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isNodeJSAndCommonJSRulesDropDownOpen') }>
+                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
+                        <Subtitle as={ 'h3' }>Node.js and CommonJS</Subtitle>
+                      </RulesGroupHeaderSide>
+
+                      <Switcher
+                        size={ 'medium' }
+                        isActive={ areAllNodeJSAndCommonJSRulesTurnedOn }
+                        onClick={ () => this.props.onCategorySwitcherClick('Node.js and CommonJS', !areAllNodeJSAndCommonJSRulesTurnedOn) }
                       />
-                    ) }
-                    length={ nodeJSAndCommonJSRules.length }
-                    threshold={ 750 }
-                  />
-                </RulesGroup>
-              }
+                    </RulesGroupHeader>
 
-              {
-                stylisticIssuesRules && stylisticIssuesRules.length > 0 &&
-                <RulesGroup>
-                  <RulesGroupHeader>
-                    <Subtitle as={ 'h3' }>Stylistic Issues</Subtitle>
-                    <Switcher
-                      data-tip
-                      data-for={ `sidebar-switcher-stylistic-issues` }
-                      size={ 'medium' }
-                      isActive={ areAllStylisticIssuesRules }
-                      onClick={ () => props.onCategorySwitcherClick('Stylistic Issues', !areAllStylisticIssuesRules) }
-                    />
-                    <ReactTooltip id={ `sidebar-switcher-stylistic-issues` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ areAllStylisticIssuesRules ? 'Turn off' : 'Turn on' }</span>
-                    </ReactTooltip>
-                  </RulesGroupHeader>
-                  <ReactList
-                    itemRenderer={ (i) => (
-                      <StyledRule
-                        name={ stylisticIssuesRules[i].name }
-                        description={ stylisticIssuesRules[i].shortDescription }
-                        isActive={ stylisticIssuesRules[i].isActive }
-                        isRecommended={ stylisticIssuesRules[i].isRecommended }
-                        isFixable={ stylisticIssuesRules[i].isFixable }
-                        isTurnedOn={ stylisticIssuesRules[i].isTurnedOn }
-                        onSwitcherClick={ props.onRuleSwitcherClick }
-                        key={ stylisticIssuesRules[i].name }
+                    {
+                      this.state.isNodeJSAndCommonJSRulesDropDownOpen && nodeJSAndCommonJSRules.map((rule) => (
+                        <StyledRule
+                          name={ rule.name }
+                          description={ rule.shortDescription }
+                          isActive={ rule.isActive }
+                          isRecommended={ rule.isRecommended }
+                          isFixable={ rule.isFixable }
+                          isTurnedOn={ rule.isTurnedOn }
+                          onSwitcherClick={ this.props.onRuleSwitcherClick }
+                          key={ rule.name }
+                        />
+                      ))
+                    }
+                  </RulesGroup>
+                }
+
+                {
+                  stylisticIssuesRules && stylisticIssuesRules.length > 0 &&
+                  <RulesGroup isOpen={ this.state.isStylisticIssuesRulesDropDownOpen }>
+                    <RulesGroupHeader>
+                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isStylisticIssuesRulesDropDownOpen') }>
+                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
+                        <Subtitle as={ 'h3' }>Stylistic Issues</Subtitle>
+                      </RulesGroupHeaderSide>
+
+                      <Switcher
+                        size={ 'medium' }
+                        isActive={ areAllStylisticIssuesRulesTurnedOn }
+                        onClick={ () => this.props.onCategorySwitcherClick('Stylistic Issues', !areAllStylisticIssuesRulesTurnedOn) }
                       />
-                    ) }
-                    length={ stylisticIssuesRules.length }
-                    threshold={ 750 }
-                  />
-                </RulesGroup>
-              }
+                    </RulesGroupHeader>
 
-              {
-                ECMAScript6Rules && ECMAScript6Rules.length > 0 &&
-                <RulesGroup>
-                  <RulesGroupHeader>
-                    <Subtitle as={ 'h3' }>ECMAScript 6</Subtitle>
-                    <Switcher
-                      data-tip
-                      data-for={ `sidebar-switcher-ECMAScript-6` }
-                      size={ 'medium' }
-                      isActive={ areAllECMAScript6Rules }
-                      onClick={ () => props.onCategorySwitcherClick('ECMAScript 6', !areAllECMAScript6Rules) }
-                    />
-                    <ReactTooltip id={ `sidebar-switcher-ECMAScript-6` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                      <span>{ areAllECMAScript6Rules ? 'Turn off' : 'Turn on' }</span>
-                    </ReactTooltip>
-                  </RulesGroupHeader>
-                  <ReactList
-                    itemRenderer={ (i) => (
-                      <StyledRule
-                        name={ ECMAScript6Rules[i].name }
-                        description={ ECMAScript6Rules[i].shortDescription }
-                        isActive={ ECMAScript6Rules[i].isActive }
-                        isRecommended={ ECMAScript6Rules[i].isRecommended }
-                        isFixable={ ECMAScript6Rules[i].isFixable }
-                        isTurnedOn={ ECMAScript6Rules[i].isTurnedOn }
-                        onSwitcherClick={ props.onRuleSwitcherClick }
-                        key={ ECMAScript6Rules[i].name }
+                    {
+                      this.state.isStylisticIssuesRulesDropDownOpen && stylisticIssuesRules.map((rule) => (
+                        <StyledRule
+                          name={ rule.name }
+                          description={ rule.shortDescription }
+                          isActive={ rule.isActive }
+                          isRecommended={ rule.isRecommended }
+                          isFixable={ rule.isFixable }
+                          isTurnedOn={ rule.isTurnedOn }
+                          onSwitcherClick={ this.props.onRuleSwitcherClick }
+                          key={ rule.name }
+                        />
+                      ))
+                    }
+                  </RulesGroup>
+                }
+
+                {
+                  ECMAScript6Rules && ECMAScript6Rules.length > 0 &&
+                  <RulesGroup isOpen={ this.state.isECMAScript6RulesDropDownOpen }>
+                    <RulesGroupHeader>
+                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isECMAScript6RulesDropDownOpen') }>
+                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
+                        <Subtitle as={ 'h3' }>ECMAScript 6</Subtitle>
+                      </RulesGroupHeaderSide>
+
+                      <Switcher
+                        size={ 'medium' }
+                        isActive={ areAllECMAScript6RulesTurnedOn }
+                        onClick={ () => this.props.onCategorySwitcherClick('ECMAScript 6', !areAllECMAScript6RulesTurnedOn) }
                       />
-                    ) }
-                    length={ ECMAScript6Rules.length }
-                    threshold={ 750 }
-                  />
-                </RulesGroup>
-              }
-            </React.Fragment>
-            : 'No rules found'
-        }
-      </RulesWrapper>
+                    </RulesGroupHeader>
 
-      <Footer>
-        <Button onClick={ props.onDownloadConfigButtonClick }>Download</Button>
-        <Button onClick={ props.onPreviewConfigButtonClick }>Preview</Button>
-      </Footer>
-    </Wrapper>
-  );
+                    {
+                      this.state.isECMAScript6RulesDropDownOpen && ECMAScript6Rules.map((rule) => (
+                        <StyledRule
+                          name={ rule.name }
+                          description={ rule.shortDescription }
+                          isActive={ rule.isActive }
+                          isRecommended={ rule.isRecommended }
+                          isFixable={ rule.isFixable }
+                          isTurnedOn={ rule.isTurnedOn }
+                          onSwitcherClick={ this.props.onRuleSwitcherClick }
+                          key={ rule.name }
+                        />
+                      ))
+                    }
+                  </RulesGroup>
+                }
+              </React.Fragment>
+              : 'No rules found'
+          }
+        </RulesWrapper>
+
+        <Footer>
+          <Button onClick={ this.props.onDownloadConfigButtonClick }>Download</Button>
+          <Button onClick={ this.props.onPreviewConfigButtonClick }>Preview</Button>
+        </Footer>
+      </Wrapper>
+    );
+  };
 };

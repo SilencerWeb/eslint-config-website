@@ -195,10 +195,10 @@ const SectionsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100vh - 58px);
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-  padding-left: 20px;
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
   overflow-x: hidden;
   overflow-y: auto;
 `;
@@ -214,15 +214,15 @@ const Footer = styled.div`
   background-color: #ffffff;
   border-top: 1px solid ${color.tertiary};
   padding-top: 10px;
-  padding-right: 20px;
+  padding-right: 15px;
   padding-bottom: 10px;
-  padding-left: 20px;
+  padding-left: 15px;
 `;
 
 const Wrapper = styled.div`
   flex: 0 1 80%;
   position: relative;
-  padding-bottom: 58px;
+  padding-bottom: 53px;
   overflow: hidden;
 `;
 
@@ -260,15 +260,10 @@ export class RuleInfo extends React.Component {
               </Title>
 
               <StyledSwitcher
-                data-tip
-                data-for={ `rule-info-switcher-${this.props.activeRule.name}` }
                 size={ 'large' }
                 isActive={ this.props.activeRule.isTurnedOn }
                 onClick={ () => this.props.onSwitcherClick(this.props.activeRule.name, !this.props.activeRule.isTurnedOn) }
               />
-              <ReactTooltip id={ `rule-info-switcher-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
-                <span>{ this.props.activeRule.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
-              </ReactTooltip>
             </SectionHeader>
 
             <Paragraph>{ this.props.activeRule.longDescription }</Paragraph>
