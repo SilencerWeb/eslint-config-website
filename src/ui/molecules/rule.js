@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router-dom';
 
 import { Switcher } from 'ui/atoms';
-import { Check, Wrench, Missing } from 'ui/outlines';
+import { Check, Wrench } from 'ui/outlines';
 import { color } from 'ui/theme';
 
 import { rgba } from 'utils';
@@ -30,17 +30,9 @@ const Description = styled.p`
 `;
 
 const HeaderSide = styled.div`
-  flex-grow: 1;
   text-decoration: none;
   padding-right: 10px;
   padding-bottom: 5px;
-  
-  &:last-child {
-    flex-grow: 0;
-    display: flex;
-    align-items: center;
-    padding-right: 0;
-  }
     
   svg {
     position: relative;
@@ -137,7 +129,6 @@ export class Rule extends React.Component {
   };
 
   render = () => {
-    const doesHaveMissingExamples = this.props.examples.length ? this.props.examples.some((example) => !example.correct && !example.incorrect) : true;
 
     return (
       <Wrapper className={ this.props.className } isActive={ this.props.isActive }>
@@ -164,16 +155,6 @@ export class Rule extends React.Component {
             }
           </HeaderSide>
 
-          <HeaderSide>
-            {
-              doesHaveMissingExamples &&
-              <React.Fragment>
-                <Missing data-tip data-for={ `rule-missing-icon-${ this.props.name }` } width={ 14 } height={ 14 }/>
-                <ReactTooltip id={ `rule-missing-icon-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
-                  <span>Has missing examples</span>
-                </ReactTooltip>
-              </React.Fragment>
-            }
             <Switcher
               data-tip
               data-for={ `rule-switcher-${this.props.name}` }
@@ -183,7 +164,6 @@ export class Rule extends React.Component {
             <ReactTooltip id={ `rule-switcher-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
               <span>{ this.props.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
             </ReactTooltip>
-          </HeaderSide>
         </Header>
 
         <Description to={ `/rules/${this.props.name}` } as={ Link }>{ this.props.description }</Description>

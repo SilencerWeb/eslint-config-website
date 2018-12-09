@@ -1,17 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
-import { ToastContainer, toast } from 'react-toastify';
 import fast from 'fast.js';
 
-import { Loader, EditingModeModal } from 'ui/atoms';
+import { Loader } from 'ui/atoms';
 import { ConfigPreviewer } from 'ui/molecules';
 import { Sidebar, RuleInfo } from 'ui/organisms';
 
 import { RULES_QUERY } from 'graphql/queries/rule';
 import { generateConfig } from 'utils';
-
-import 'react-toastify/dist/ReactToastify.css';
 
 
 const Wrapper = styled.div`
@@ -31,10 +28,6 @@ export class RulePage extends React.Component {
     searchingString: '',
 
     isConfigPreviewerVisible: false,
-    isEditingModeEnabled: false,
-    isEditingModeModalVisible: false,
-
-    wasEditingModeModalShowed: false,
 
     didRulesQueryMount: false,
   };
@@ -63,19 +56,7 @@ export class RulePage extends React.Component {
   };
 
   changeSearchingString = (value) => {
-
-    if (value === 'TURN ON EDITING MODE' || value === 'TURN OFF EDITING MODE') {
-      if (this.state.isEditingModeEnabled !== (value === 'TURN ON EDITING MODE')) {
-        this.setState({
-          isEditingModeEnabled: value === 'TURN ON EDITING MODE',
-          isEditingModeModalVisible: value === 'TURN ON EDITING MODE',
-        }, () => toast.success(`Editing mode was successfully ${value === 'TURN ON EDITING MODE' ? 'enabled' : 'disabled'}`));
-      }
-    } else {
-      this.setState({
-        searchingString: value,
-      }, this.filterRules);
-    }
+    this.setState({ searchingString: value }, this.filterRules);
   };
 
   toggleAllRulesInCategory = (category, value) => {
@@ -162,13 +143,6 @@ export class RulePage extends React.Component {
       ...prevState,
       isConfigPreviewerVisible: !prevState.isConfigPreviewerVisible,
     }));
-  };
-
-  closeEditingModeModal = () => {
-    this.setState({
-      isEditingModeModalVisible: false,
-      wasEditingModeModalShowed: true,
-    });
   };
 
   static getDerivedStateFromProps = (props, state) => {
@@ -272,6 +246,7 @@ export class RulePage extends React.Component {
                 onDownloadConfigButtonClick={ this.downloadConfig }
                 onPreviewConfigButtonClick={ this.toggleConfigPreviewer }
               />
+              
               {
                 this.state.isConfigPreviewerVisible ?
                   <ConfigPreviewer rules={ this.state.rules } onCloseButtonClick={ this.toggleConfigPreviewer }/>
@@ -283,24 +258,10 @@ export class RulePage extends React.Component {
                     onSelectChange={ this.changeRuleValue }
                     onSwitcherClick={ this.changeRuleTurnOnValue }
                     onOptionChange={ this.changeRuleOptionValue }
-                    isEditingModeEnabled={ this.state.isEditingModeEnabled }
                   />
               }
             </Wrapper>
         }
-
-        <ToastContainer
-          autoClose={ 5000 }
-          closeButton={ false }
-          hideProgressBar={ true }
-          newestOnTop={ true }
-          draggable={ false }
-        />
-
-        <EditingModeModal
-          isVisible={ this.state.isEditingModeModalVisible && !this.state.wasEditingModeModalShowed }
-          onCloseButtonClick={ this.closeEditingModeModal }
-        />
       </div>
     );
   };

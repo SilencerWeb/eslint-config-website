@@ -139,7 +139,6 @@ export const Sidebar = (props) => {
                       <StyledRule
                         name={ possibleErrorsRules[i].name }
                         description={ possibleErrorsRules[i].shortDescription }
-                        examples={ possibleErrorsRules[i].examples }
                         isActive={ possibleErrorsRules[i].isActive }
                         isRecommended={ possibleErrorsRules[i].isRecommended }
                         isFixable={ possibleErrorsRules[i].isFixable }
@@ -175,7 +174,6 @@ export const Sidebar = (props) => {
                       <StyledRule
                         name={ bestPracticesRules[i].name }
                         description={ bestPracticesRules[i].shortDescription }
-                        examples={ bestPracticesRules[i].examples }
                         isActive={ bestPracticesRules[i].isActive }
                         isRecommended={ bestPracticesRules[i].isRecommended }
                         isFixable={ bestPracticesRules[i].isFixable }
@@ -211,7 +209,6 @@ export const Sidebar = (props) => {
                       <StyledRule
                         name={ strictModeRules[i].name }
                         description={ strictModeRules[i].shortDescription }
-                        examples={ strictModeRules[i].examples }
                         isActive={ strictModeRules[i].isActive }
                         isRecommended={ strictModeRules[i].isRecommended }
                         isFixable={ strictModeRules[i].isFixable }
@@ -247,7 +244,6 @@ export const Sidebar = (props) => {
                       <StyledRule
                         name={ variablesRules[i].name }
                         description={ variablesRules[i].shortDescription }
-                        examples={ variablesRules[i].examples }
                         isActive={ variablesRules[i].isActive }
                         isRecommended={ variablesRules[i].isRecommended }
                         isFixable={ variablesRules[i].isFixable }
@@ -283,7 +279,6 @@ export const Sidebar = (props) => {
                       <StyledRule
                         name={ nodeJSAndCommonJSRules[i].name }
                         description={ nodeJSAndCommonJSRules[i].shortDescription }
-                        examples={ nodeJSAndCommonJSRules[i].examples }
                         isActive={ nodeJSAndCommonJSRules[i].isActive }
                         isRecommended={ nodeJSAndCommonJSRules[i].isRecommended }
                         isFixable={ nodeJSAndCommonJSRules[i].isFixable }
@@ -319,7 +314,6 @@ export const Sidebar = (props) => {
                       <StyledRule
                         name={ stylisticIssuesRules[i].name }
                         description={ stylisticIssuesRules[i].shortDescription }
-                        examples={ stylisticIssuesRules[i].examples }
                         isActive={ stylisticIssuesRules[i].isActive }
                         isRecommended={ stylisticIssuesRules[i].isRecommended }
                         isFixable={ stylisticIssuesRules[i].isFixable }
@@ -355,7 +349,6 @@ export const Sidebar = (props) => {
                       <StyledRule
                         name={ ECMAScript6Rules[i].name }
                         description={ ECMAScript6Rules[i].shortDescription }
-                        examples={ ECMAScript6Rules[i].examples }
                         isActive={ ECMAScript6Rules[i].isActive }
                         isRecommended={ ECMAScript6Rules[i].isRecommended }
                         isFixable={ ECMAScript6Rules[i].isFixable }

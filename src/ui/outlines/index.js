@@ -4,7 +4,6 @@ import { ReactComponent as Github } from 'ui/outlines/github.svg';
 import { ReactComponent as Twitter } from 'ui/outlines/twitter.svg';
 import { ReactComponent as Email } from 'ui/outlines/email.svg';
 import { ReactComponent as Arrow } from 'ui/outlines/arrow.svg';
-import { ReactComponent as Missing } from 'ui/outlines/missing.svg';
 
 export {
   Check,
@@ -13,5 +12,4 @@ export {
   Twitter,
   Email,
   Arrow,
-  Missing,
 };

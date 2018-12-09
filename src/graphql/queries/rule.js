@@ -18,14 +18,6 @@ export const RULE_QUERY = gql`
       category
       shortDescription
       longDescription
-      examples {
-        options {
-          name
-          value
-        }
-        correct
-        incorrect
-      }
       isRecommended
       isFixable
     }
@@ -49,14 +41,6 @@ export const RULES_QUERY = gql`
       category
       shortDescription
       longDescription
-      examples {
-        options {
-          name
-          value
-        }
-        correct
-        incorrect
-      }
       isRecommended
       isFixable
     }
