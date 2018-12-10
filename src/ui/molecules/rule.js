@@ -30,6 +30,7 @@ const Description = styled.p`
 `;
 
 const HeaderSide = styled.div`
+  flex-grow: 1;
   text-decoration: none;
   padding-right: 10px;
   padding-bottom: 5px;
