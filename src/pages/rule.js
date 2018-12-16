@@ -1,14 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Query } from 'react-apollo';
 import fast from 'fast.js';
 
-import { Loader } from 'ui/atoms';
 import { ConfigPreviewer } from 'ui/molecules';
 import { Sidebar, RuleInfo } from 'ui/organisms';
 
-import { RULES_QUERY } from 'graphql/queries/rule';
 import { generateConfig } from 'utils';
+import { rules } from 'rules';
 
 
 const Wrapper = styled.div`
@@ -18,18 +16,16 @@ const Wrapper = styled.div`
 
 export class RulePage extends React.Component {
   state = {
-    rules: [],
-    filteredRules: [],
+    rules: rules,
+    filteredRules: rules,
 
-    previousRule: null,
-    activeRule: null,
-    nextRule: null,
+    previousRule: rules[rules.length - 1],
+    activeRule: rules[0],
+    nextRule: rules[1],
 
     searchingString: '',
 
     isConfigPreviewerVisible: false,
-
-    didRulesQueryMount: false,
   };
 
   filterRules = () => {
@@ -183,86 +179,30 @@ export class RulePage extends React.Component {
   render = () => {
 
     return (
-      <div>
+      <Wrapper>
+        <Sidebar
+          rules={ this.state.filteredRules }
+          onSearchEnterPress={ this.changeSearchingString }
+          onCategorySwitcherClick={ this.toggleAllRulesInCategory }
+          onRuleSwitcherClick={ this.changeRuleTurnOnValue }
+          onDownloadConfigButtonClick={ this.downloadConfig }
+          onPreviewConfigButtonClick={ this.toggleConfigPreviewer }
+        />
+
         {
-          !this.state.didRulesQueryMount ?
-            <Query query={ RULES_QUERY }>
-              { ({ error, loading, data }) => {
-                if (error) {
-                  return <div>Oops, error! { error.message }</div>;
-                } else if (loading) {
-                  return <Loader/>;
-                }
-
-                if (data.rules && data.rules.length) {
-                  const sortedRules = data.rules.sort((rule1, rule2) => {
-                    if (rule1.name < rule2.name) return -1;
-                    if (rule1.name > rule2.name) return 1;
-
-                    return 0;
-                  });
-
-                  const possibleErrorsRules = fast.filter(sortedRules, (rule) => rule.category === 'Possible Errors');
-                  const bestPracticesRules = fast.filter(sortedRules, (rule) => rule.category === 'Best Practices');
-                  const strictModeRules = fast.filter(sortedRules, (rule) => rule.category === 'Strict Mode');
-                  const variablesRules = fast.filter(sortedRules, (rule) => rule.category === 'Variables');
-                  const nodeJSAndCommonJSRules = fast.filter(sortedRules, (rule) => rule.category === 'Node.js and CommonJS');
-                  const stylisticIssuesRules = fast.filter(sortedRules, (rule) => rule.category === 'Stylistic Issues');
-                  const ECMAScript6Rules = fast.filter(sortedRules, (rule) => rule.category === 'ECMAScript 6');
-
-                  const rules = [
-                    ...possibleErrorsRules,
-                    ...bestPracticesRules,
-                    ...strictModeRules,
-                    ...variablesRules,
-                    ...nodeJSAndCommonJSRules,
-                    ...stylisticIssuesRules,
-                    ...ECMAScript6Rules,
-                  ];
-
-                  rules[0].isActive = true; // First element should be active by default
-
-                  this.setState({
-                    rules: rules,
-                    activeRule: rules[0],
-                    previousRule: rules[rules.length - 1],
-                    nextRule: rules[1],
-                    didRulesQueryMount: true,
-                  });
-
-                  this.filterRules();
-                }
-
-                return null;
-              } }
-            </Query>
+          this.state.isConfigPreviewerVisible ?
+            <ConfigPreviewer rules={ this.state.rules } onCloseButtonClick={ this.toggleConfigPreviewer }/>
             :
-            <Wrapper>
-              <Sidebar
-                rules={ this.state.filteredRules }
-                onSearchEnterPress={ this.changeSearchingString }
-                onCategorySwitcherClick={ this.toggleAllRulesInCategory }
-                onRuleSwitcherClick={ this.changeRuleTurnOnValue }
-                onDownloadConfigButtonClick={ this.downloadConfig }
-                onPreviewConfigButtonClick={ this.toggleConfigPreviewer }
-              />
-              
-              {
-                this.state.isConfigPreviewerVisible ?
-                  <ConfigPreviewer rules={ this.state.rules } onCloseButtonClick={ this.toggleConfigPreviewer }/>
-                  :
-                  <RuleInfo
-                    activeRule={ this.state.activeRule }
-                    previousRule={ this.state.previousRule }
-                    nextRule={ this.state.nextRule }
-                    onSelectChange={ this.changeRuleValue }
-                    onSwitcherClick={ this.changeRuleTurnOnValue }
-                    onOptionChange={ this.changeRuleOptionValue }
-                  />
-              }
-            </Wrapper>
+            <RuleInfo
+              activeRule={ this.state.activeRule }
+              previousRule={ this.state.previousRule }
+              nextRule={ this.state.nextRule }
+              onSelectChange={ this.changeRuleValue }
+              onSwitcherClick={ this.changeRuleTurnOnValue }
+              onOptionChange={ this.changeRuleOptionValue }
+            />
         }
-      </div>
+      </Wrapper>
     );
   };
 }
