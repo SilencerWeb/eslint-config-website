@@ -171,6 +171,8 @@ export class RulePage extends React.Component {
 
       state.nextRule = state.filteredRules[nextRuleIndex];
       state.previousRule = state.filteredRules[previousRuleIndex];
+
+      state.isConfigPreviewerVisible = false;
     }
 
     return state;
