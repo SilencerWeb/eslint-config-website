@@ -2,11 +2,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 import fast from 'fast.js';
 
-import { ConfigPreviewer } from 'ui/molecules';
-import { Sidebar, RuleInfo } from 'ui/organisms';
+import { ConfigPreviewer } from '../ui/molecules';
+import { Sidebar, RuleInfo } from '../ui/organisms';
 
-import { generateConfig } from 'utils';
-import { rules } from 'rules';
+import { generateConfig } from '../utils';
+import { rules } from '../rules';
 
 
 const Wrapper = styled.div`

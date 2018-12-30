@@ -3,11 +3,11 @@ import styled, { css } from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router-dom';
 
-import { Switcher } from 'ui/atoms';
-import { Check, Wrench } from 'ui/outlines';
-import { color } from 'ui/theme';
+import { Switcher } from '../atoms';
+import { Check, Wrench } from '../outlines';
+import { color } from '../theme';
 
-import { rgba } from 'utils';
+import { rgba } from '../../utils';
 
 
 const Name = styled.h3`

@@ -5,10 +5,10 @@ import AceEditor from 'react-ace';
 import 'brace/mode/json';
 import 'brace/theme/tomorrow';
 
-import { Button } from 'ui/atoms';
-import { color } from 'ui/theme';
+import { Button } from '../atoms';
+import { color } from '../theme';
 
-import { generateConfig } from 'utils';
+import { generateConfig } from '../../utils';
 
 
 const Footer = styled.div`

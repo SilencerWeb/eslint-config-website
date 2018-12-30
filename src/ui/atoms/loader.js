@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-import { color } from 'ui/theme';
+import { color } from '../theme';
 
 
 const spinAnimation = keyframes`

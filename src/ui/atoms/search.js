@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { color } from 'ui/theme';
-import { rgba } from 'utils';
+import { color } from '../theme';
+import { rgba } from '../../utils';
 
 
 export const Search = styled.input`

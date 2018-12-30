@@ -1,7 +1,7 @@
 import { createGlobalStyle, css } from 'styled-components';
 import normalize from 'normalize.css/normalize.css';
 
-import { rgba } from 'utils';
+import { rgba } from '../utils';
 
 
 export const color = {

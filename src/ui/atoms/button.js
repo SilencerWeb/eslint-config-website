@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { color } from 'ui/theme';
+import { color } from '../theme';
 
 
 export const Button = styled.a`

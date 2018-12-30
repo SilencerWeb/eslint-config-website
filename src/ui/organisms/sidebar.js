@@ -2,10 +2,10 @@ import * as React from 'react';
 import styled, { css } from 'styled-components';
 import fast from 'fast.js';
 
-import { Search, Heading, Button, Switcher } from 'ui/atoms';
-import { Rule } from 'ui/molecules';
-import { Arrow } from 'ui/outlines';
-import { color } from 'ui/theme';
+import { Search, Heading, Button, Switcher } from '../atoms';
+import { Rule } from '../molecules';
+import { Arrow } from '../outlines';
+import { color } from '../theme';
 
 
 const StyledSearch = styled(Search)`

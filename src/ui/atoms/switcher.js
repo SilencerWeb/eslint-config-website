@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { color } from 'ui/theme';
+import { color } from '../theme';
 
 
 export const Switcher = styled.div`

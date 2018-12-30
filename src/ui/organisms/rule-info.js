@@ -4,9 +4,9 @@ import Select from 'react-select';
 import ReactTooltip from 'react-tooltip';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Heading, Button, Switcher, Input, Link } from 'ui/atoms';
-import { Check, Wrench, Github, Twitter, Email, Arrow } from 'ui/outlines';
-import { color } from 'ui/theme';
+import { Heading, Button, Switcher, Input, Link } from '../atoms';
+import { Check, Wrench, Github, Twitter, Email, Arrow } from '../outlines';
+import { color } from '../theme';
 
 
 const Name = styled(Heading)`
