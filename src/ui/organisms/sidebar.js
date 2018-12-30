@@ -136,6 +136,26 @@ export class Sidebar extends React.Component {
     }));
   };
 
+  componentDidMount = () => {
+    const activeRule = this.props.rules.find((rule) => rule.isActive);
+
+    if (activeRule.category === 'Possible Errors') {
+      this.setState({ isPossibleErrorsRulesDropDownOpen: true });
+    } else if (activeRule.category === 'Best Practices') {
+      this.setState({ isBestPracticesRulesDropDownOpen: true });
+    } else if (activeRule.category === 'Strict Mode') {
+      this.setState({ isStrictModeRulesDropDownOpen: true });
+    } else if (activeRule.category === 'Variables') {
+      this.setState({ isVariablesRulesDropDownOpen: true });
+    } else if (activeRule.category === 'Node.js and CommonJS') {
+      this.setState({ isNodeJSAndCommonJSRulesDropDownOpen: true });
+    } else if (activeRule.category === 'Stylistic Issues') {
+      this.setState({ isStylisticIssuesRulesDropDownOpen: true });
+    } else if (activeRule.category === 'ECMAScript 6') {
+      this.setState({ isECMAScript6RulesDropDownOpen: true });
+    }
+  };
+
   render = () => {
     const possibleErrorsRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Possible Errors');
     const bestPracticesRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Best Practices');
