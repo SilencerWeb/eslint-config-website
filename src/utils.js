@@ -25,7 +25,7 @@ export const generateConfig = (rules) => {
             optionsAsObject += ', ';
           }
 
-          optionsAsObject += `"${option.name}": ${option.type === 'string' ? `"${option.value}"` : option.value}`;
+          optionsAsObject += `"${option.name}": ${option.type === 'string' || option.type === 'select' ? `"${option.value}"` : option.value}`;
         } else {
           if (optionsAsArray.length > 0) {
             optionsAsArray += ', ';
