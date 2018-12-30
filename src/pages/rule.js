@@ -150,7 +150,7 @@ export class RulePage extends React.Component {
         return rule;
       }));
 
-      state.activeRule = state.rules.find((rule) => rule.name === props.match.params.name);
+      state.activeRule = state.filteredRules.find((rule) => rule.name === props.match.params.name);
 
       const activeRuleIndex = state.filteredRules.findIndex((rule) => rule.name === state.activeRule.name);
 
@@ -173,6 +173,12 @@ export class RulePage extends React.Component {
       state.previousRule = state.filteredRules[previousRuleIndex];
 
       state.isConfigPreviewerVisible = false;
+    } else {
+      state.filteredRules = fast.map(state.filteredRules, ((rule, i) => {
+        rule.isActive = i === 0;
+
+        return rule;
+      }));
     }
 
     return state;
