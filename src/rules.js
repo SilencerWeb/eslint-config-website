@@ -1447,6 +1447,16 @@ export const rules = [
     'isFixable': false,
   },
   {
+    'name': 'no-useless-catch',
+    'options': [],
+    'value': 'warn',
+    'category': 'Best Practices',
+    'shortDescription': 'Disallow unnecessary catch clauses',
+    'longDescription': 'This rule reports catch clauses that only throw the caught error.',
+    'isRecommended': false,
+    'isFixable': false,
+  },
+  {
     'name': 'no-useless-concat',
     'options': [],
     'value': 'warn',
