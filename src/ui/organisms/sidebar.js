@@ -38,7 +38,7 @@ const RulesGroupHeader = styled.div`
   padding-bottom: 15px;
   
   svg {
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
   }
 `;
 
@@ -56,7 +56,7 @@ const RulesGroup = styled.div`
       ${RulesGroupHeader} {
       
         svg {
-          transform: rotate(90deg);
+          transform: rotate(-90deg);
         }
       }
     `}
