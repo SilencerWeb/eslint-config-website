@@ -139,6 +139,10 @@ export class Sidebar extends React.Component {
   componentDidMount = () => {
     const activeRule = this.props.rules.find((rule) => rule.isActive);
 
+    if (!activeRule) {
+      return;
+    }
+
     if (activeRule.category === 'Possible Errors') {
       this.setState({ isPossibleErrorsRulesDropDownOpen: true });
     } else if (activeRule.category === 'Best Practices') {
