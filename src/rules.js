@@ -391,6 +391,7 @@ export const rules = [
     'value': 'warn',
     'category': 'Possible Errors',
     'shortDescription': 'Disallow template literal placeholder syntax in regular strings',
+    // eslint-disable-next-line no-template-curly-in-string
     'longDescription': 'This rule aims to warn when a regular string contains what looks like a template literal placeholder. It will warn when it finds a string containing the template literal place holder (${something}) that uses either " or \' for the quotes.',
     'isRecommended': false,
     'isFixable': false,
