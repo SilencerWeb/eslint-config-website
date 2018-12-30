@@ -106,7 +106,7 @@ const Wrapper = styled.div`
 `;
 
 
-export class Sidebar extends React.Component {
+export class Sidebar extends React.PureComponent {
   state = {
     isPossibleErrorsRulesDropDownOpen: false,
     isBestPracticesRulesDropDownOpen: false,
@@ -137,7 +137,7 @@ export class Sidebar extends React.Component {
   };
 
   componentDidMount = () => {
-    const activeRule = this.props.rules.find((rule) => rule.isActive);
+    const activeRule = this.props.rules.find((rule) => rule.isActive) || this.props.rules[0];
 
     if (activeRule.category === 'Possible Errors') {
       this.setState({ isPossibleErrorsRulesDropDownOpen: true });

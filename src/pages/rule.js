@@ -173,7 +173,7 @@ export class RulePage extends React.Component {
       state.previousRule = state.filteredRules[previousRuleIndex];
 
       state.isConfigPreviewerVisible = false;
-    } else if (!props.match.params) {
+    } else if (!props.match.params || !props.match.params.name) {
       state.filteredRules = fast.map(state.filteredRules, ((rule, i) => {
         rule.isActive = i === 0;
 
