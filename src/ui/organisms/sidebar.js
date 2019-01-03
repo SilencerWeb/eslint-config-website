@@ -106,7 +106,7 @@ const Wrapper = styled.div`
 `;
 
 
-export class Sidebar extends React.PureComponent {
+export class Sidebar extends React.Component {
   state = {
     isPossibleErrorsRulesDropDownOpen: false,
     isBestPracticesRulesDropDownOpen: false,
