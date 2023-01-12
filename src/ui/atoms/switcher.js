@@ -1,7 +1,6 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
-import { color } from 'ui/theme';
-
+import { color } from "ui/theme";
 
 export const Switcher = styled.div`
   position: relative;
@@ -10,7 +9,7 @@ export const Switcher = styled.div`
   border-radius: 15px;
   box-shadow: inset 0 0 0 1px ${color.tertiary};
   cursor: pointer;
-  
+
   &:before {
     content: "";
     position: absolute;
@@ -21,7 +20,7 @@ export const Switcher = styled.div`
     border-radius: 15px;
     transition: 0.2s ease-in-out;
   }
-  
+
   &:after {
     content: "";
     position: absolute;
@@ -34,28 +33,29 @@ export const Switcher = styled.div`
     box-shadow: inset 0 0 0 1px ${color.tertiary}, 0 2px 4px ${color.tertiary};
     transition: 0.2s ease-in-out;
   }
-  
-  ${props => css`
-    
-    ${props.size === 'medium' && css`
+
+  ${(props) => css`
+    ${props.size === "medium" &&
+    css`
       transform: scale(1.2);
     `}
-    
-    ${props.size === 'large' && css`
+
+    ${props.size === "large" &&
+    css`
       transform: scale(1.4);
     `}
     
-    ${props.isActive && css`
-      
+    ${props.isActive &&
+    css`
       &:before {
         width: 36px;
         background: ${color.primary};
       }
-      
+
       &:after {
         left: 16px;
         box-shadow: inset 0 0 0 1px ${color.primary};
-      }  
+      }
     `}
   `}
 `;

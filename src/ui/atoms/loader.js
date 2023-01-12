@@ -1,8 +1,7 @@
-import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
+import * as React from "react";
+import styled, { keyframes } from "styled-components";
 
-import { color } from 'ui/theme';
-
+import { color } from "ui/theme";
 
 const spinAnimation = keyframes`
   0% {
@@ -18,7 +17,7 @@ const Spinner = styled.div`
   position: relative;
   width: 76.5px;
   height: 76.5px;
-  
+
   span {
     position: absolute;
     width: 76.5px;
@@ -27,15 +26,15 @@ const Spinner = styled.div`
     border-color: ${color.primary} transparent transparent transparent;
     border-radius: 50%;
     animation: ${spinAnimation} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    
+
     &:nth-child(1) {
       animation-delay: -0.45s;
     }
-    
+
     &:nth-child(2) {
       animation-delay: -0.3s;
     }
-    
+
     &:nth-child(3) {
       animation-delay: -0.15s;
     }
@@ -55,14 +54,13 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-
 export const Loader = (props) => {
   return (
-    <Wrapper className={ props.className }>
+    <Wrapper className={props.className}>
       <Spinner>
-        <span/>
-        <span/>
-        <span/>
+        <span />
+        <span />
+        <span />
       </Spinner>
     </Wrapper>
   );

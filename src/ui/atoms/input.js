@@ -1,7 +1,6 @@
-import styled,{css} from 'styled-components';
+import styled, { css } from "styled-components";
 
-import { color } from 'ui/theme';
-
+import { color } from "ui/theme";
 
 export const Input = styled.input`
   width: 100%;
@@ -15,16 +14,16 @@ export const Input = styled.input`
   outline: none;
   resize: vertical;
   transition: 0.1s;
-  
+
   &:focus {
     border-color: ${color.primary};
   }
-  
-  ${props => css`
-    
-    ${props.error && css`
+
+  ${(props) => css`
+    ${props.error &&
+    css`
       border-color: ${color.error};
-      
+
       &:focus {
         border-color: ${color.error};
       }

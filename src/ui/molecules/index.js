@@ -1,2 +1,2 @@
-export { Rule } from './rule';
-export { ConfigPreviewer } from './config-previewer';
+export { Rule } from "./rule";
+export { ConfigPreviewer } from "./config-previewer";

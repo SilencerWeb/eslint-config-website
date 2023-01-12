@@ -1,19 +1,17 @@
-import * as React from 'react';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import fast from 'fast.js';
+import * as React from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import fast from "fast.js";
 
-import { ConfigPreviewer } from 'ui/molecules';
-import { Sidebar, RuleInfo } from 'ui/organisms';
+import { ConfigPreviewer } from "ui/molecules";
+import { Sidebar, RuleInfo } from "ui/organisms";
 
-import { generateConfig } from 'utils';
-import { rules } from 'rules';
-
+import { generateConfig } from "utils";
+import { rules } from "rules";
 
 const Wrapper = styled.div`
   display: flex;
 `;
-
 
 class RulePageInternal extends React.Component {
   state = {
@@ -24,7 +22,7 @@ class RulePageInternal extends React.Component {
     activeRule: rules[0],
     nextRule: rules[1],
 
-    searchingString: '',
+    searchingString: "",
 
     isConfigPreviewerVisible: false,
   };
@@ -38,12 +36,23 @@ class RulePageInternal extends React.Component {
         };
       }
 
-      const rulesMatchedByName = fast.filter(prevState.rules, ((rule) => rule.name.includes(prevState.searchingString)));
-      const rulesMatchedByShortDescription = fast.filter(prevState.rules, ((rule) => rule.shortDescription.includes(prevState.searchingString)));
+      const rulesMatchedByName = fast.filter(prevState.rules, (rule) =>
+        rule.name.includes(prevState.searchingString)
+      );
+      const rulesMatchedByShortDescription = fast.filter(
+        prevState.rules,
+        (rule) => rule.shortDescription.includes(prevState.searchingString)
+      );
 
-      const filteredRules = [...rulesMatchedByName, ...rulesMatchedByShortDescription];
+      const filteredRules = [
+        ...rulesMatchedByName,
+        ...rulesMatchedByShortDescription,
+      ];
 
-      const filteredRulesWithoutCopies = fast.filter(filteredRules, ((rule, i, rules) => !rules.includes(rule, i + 1)));
+      const filteredRulesWithoutCopies = fast.filter(
+        filteredRules,
+        (rule, i, rules) => !rules.includes(rule, i + 1)
+      );
 
       return {
         ...prevState,
@@ -58,16 +67,15 @@ class RulePageInternal extends React.Component {
 
   toggleAllRulesInCategory = (category, value) => {
     this.setState((prevState) => {
-
       return {
         ...prevState,
-        rules: fast.map(prevState.rules, ((rule) => {
+        rules: fast.map(prevState.rules, (rule) => {
           if (rule.category === category) {
             rule.isTurnedOn = value;
           }
 
           return rule;
-        })),
+        }),
       };
     });
   };
@@ -76,7 +84,9 @@ class RulePageInternal extends React.Component {
     this.setState((prevState) => {
       const rules = [...prevState.rules];
 
-      const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
+      const changingRuleIndex = rules.findIndex(
+        (rule) => rule.name === ruleName
+      );
 
       if (rules[changingRuleIndex].value !== value) {
         rules[changingRuleIndex].isTurnedOn = true;
@@ -95,7 +105,9 @@ class RulePageInternal extends React.Component {
     this.setState((prevState) => {
       const rules = [...prevState.rules];
 
-      const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
+      const changingRuleIndex = rules.findIndex(
+        (rule) => rule.name === ruleName
+      );
 
       rules[changingRuleIndex].isTurnedOn = value;
 
@@ -110,12 +122,20 @@ class RulePageInternal extends React.Component {
     this.setState((prevState) => {
       const rules = [...prevState.rules];
 
-      const changingRuleIndex = rules.findIndex((rule) => rule.name === ruleName);
-      const changingRuleOptionIndex = rules[changingRuleIndex].options.findIndex((option) => option.name === optionName);
+      const changingRuleIndex = rules.findIndex(
+        (rule) => rule.name === ruleName
+      );
+      const changingRuleOptionIndex = rules[
+        changingRuleIndex
+      ].options.findIndex((option) => option.name === optionName);
 
       rules[changingRuleIndex].options[changingRuleOptionIndex].value = value;
 
-      if (!rules[changingRuleIndex].options.every((option) => option.value === option.defaultValue)) {
+      if (
+        !rules[changingRuleIndex].options.every(
+          (option) => option.value === option.defaultValue
+        )
+      ) {
         rules[changingRuleIndex].isTurnedOn = true;
       }
 
@@ -127,11 +147,13 @@ class RulePageInternal extends React.Component {
   };
 
   downloadConfig = () => {
-    const element = document.createElement('a');
-    const file = new Blob([generateConfig(this.state.rules)], { type: 'application/json' });
+    const element = document.createElement("a");
+    const file = new Blob([generateConfig(this.state.rules)], {
+      type: "application/json",
+    });
 
     element.href = URL.createObjectURL(file);
-    element.download = '_.eslintrc.json';
+    element.download = "_.eslintrc.json";
     element.click();
   };
 
@@ -143,17 +165,24 @@ class RulePageInternal extends React.Component {
   };
 
   static getDerivedStateFromProps = (props, state) => {
-
-    if (props.name && state.activeRule && props.name !== state.activeRule.name) {
-      state.filteredRules = fast.map(state.filteredRules, ((rule) => {
+    if (
+      props.name &&
+      state.activeRule &&
+      props.name !== state.activeRule.name
+    ) {
+      state.filteredRules = fast.map(state.filteredRules, (rule) => {
         rule.isActive = rule.name === props.name;
 
         return rule;
-      }));
+      });
 
-      state.activeRule = state.filteredRules.find((rule) => rule.name === props.name);
+      state.activeRule = state.filteredRules.find(
+        (rule) => rule.name === props.name
+      );
 
-      const activeRuleIndex = state.filteredRules.findIndex((rule) => rule.name === state.activeRule.name);
+      const activeRuleIndex = state.filteredRules.findIndex(
+        (rule) => rule.name === state.activeRule.name
+      );
 
       let previousRuleIndex = activeRuleIndex - 1;
       let nextRuleIndex = activeRuleIndex + 1;
@@ -175,42 +204,43 @@ class RulePageInternal extends React.Component {
 
       state.isConfigPreviewerVisible = false;
     } else if (!props.name) {
-      state.filteredRules = fast.map(state.filteredRules, ((rule, i) => {
+      state.filteredRules = fast.map(state.filteredRules, (rule, i) => {
         rule.isActive = i === 0;
 
         return rule;
-      }));
+      });
     }
 
     return state;
   };
 
   render = () => {
-
     return (
       <Wrapper>
         <Sidebar
-          rules={ this.state.filteredRules }
-          onSearchEnterPress={ this.changeSearchingString }
-          onCategorySwitcherClick={ this.toggleAllRulesInCategory }
-          onRuleSwitcherClick={ this.changeRuleTurnOnValue }
-          onDownloadConfigButtonClick={ this.downloadConfig }
-          onPreviewConfigButtonClick={ this.toggleConfigPreviewer }
+          rules={this.state.filteredRules}
+          onSearchEnterPress={this.changeSearchingString}
+          onCategorySwitcherClick={this.toggleAllRulesInCategory}
+          onRuleSwitcherClick={this.changeRuleTurnOnValue}
+          onDownloadConfigButtonClick={this.downloadConfig}
+          onPreviewConfigButtonClick={this.toggleConfigPreviewer}
         />
 
-        {
-          this.state.isConfigPreviewerVisible ?
-            <ConfigPreviewer rules={ this.state.rules } onCloseButtonClick={ this.toggleConfigPreviewer }/>
-            :
-            <RuleInfo
-              activeRule={ this.state.activeRule }
-              previousRule={ this.state.previousRule }
-              nextRule={ this.state.nextRule }
-              onSelectChange={ this.changeRuleValue }
-              onSwitcherClick={ this.changeRuleTurnOnValue }
-              onOptionChange={ this.changeRuleOptionValue }
-            />
-        }
+        {this.state.isConfigPreviewerVisible ? (
+          <ConfigPreviewer
+            rules={this.state.rules}
+            onCloseButtonClick={this.toggleConfigPreviewer}
+          />
+        ) : (
+          <RuleInfo
+            activeRule={this.state.activeRule}
+            previousRule={this.state.previousRule}
+            nextRule={this.state.nextRule}
+            onSelectChange={this.changeRuleValue}
+            onSwitcherClick={this.changeRuleTurnOnValue}
+            onOptionChange={this.changeRuleOptionValue}
+          />
+        )}
       </Wrapper>
     );
   };
@@ -218,5 +248,5 @@ class RulePageInternal extends React.Component {
 
 export const RulePage = () => {
   const params = useParams();
-  return <RulePageInternal name={params.name} />
-}
+  return <RulePageInternal name={params.name} />;
+};

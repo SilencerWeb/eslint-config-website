@@ -1,6 +1,5 @@
-import * as React from 'react';
-import styled, { css } from 'styled-components';
-
+import * as React from "react";
+import styled, { css } from "styled-components";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -13,19 +12,16 @@ const Wrapper = styled.div`
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
-  
-  ${p => css`
-  
-    ${p.isVisible && css`
+
+  ${(p) => css`
+    ${p.isVisible &&
+    css`
       opacity: 1;
       visibility: visible;
     `}
   `}
 `;
 
-
 export const Overlay = (props) => {
-  return (
-    <Wrapper className={ props.className } isVisible={ props.isVisible }/>
-  );
+  return <Wrapper className={props.className} isVisible={props.isVisible} />;
 };

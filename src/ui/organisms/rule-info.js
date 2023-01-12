@@ -1,13 +1,12 @@
-import * as React from 'react';
-import styled, { css } from 'styled-components';
-import Select from 'react-select';
-import { Tooltip } from 'react-tooltip';
-import { Link as RouterLink } from 'react-router-dom';
+import * as React from "react";
+import styled, { css } from "styled-components";
+import Select from "react-select";
+import { Tooltip } from "react-tooltip";
+import { Link as RouterLink } from "react-router-dom";
 
-import { Heading, Button, Switcher, Input, Link } from 'ui/atoms';
-import { Check, Wrench, Github, Twitter, Email, Arrow } from 'ui/outlines';
-import { color } from 'ui/theme';
-
+import { Heading, Button, Switcher, Input, Link } from "ui/atoms";
+import { Check, Wrench, Github, Twitter, Email, Arrow } from "ui/outlines";
+import { color } from "ui/theme";
 
 const Name = styled(Heading)`
   display: inline;
@@ -126,7 +125,6 @@ const FooterButton = styled(Button)`
   }
 
   &:hover {
-
     svg {
       fill: ${color.primary};
     }
@@ -150,7 +148,6 @@ const SocialLink = styled.a`
   }
 
   &:hover {
-
     svg {
       opacity: 1;
     }
@@ -181,9 +178,9 @@ const Section = styled.div`
     margin-bottom: 0;
   }
 
-  ${props => css`
-
-    ${props.isAllowedToGrow && css`
+  ${(props) => css`
+    ${props.isAllowedToGrow &&
+    css`
       flex-grow: 1;
       display: flex;
       flex-direction: column;
@@ -226,177 +223,250 @@ const Wrapper = styled.div`
   overflow: hidden;
 `;
 
-
 export class RuleInfo extends React.Component {
-
   render = () => {
-
     return (
-      <Wrapper className={ this.props.className }>
+      <Wrapper className={this.props.className}>
         <SectionsWrapper>
           <Section>
             <SectionHeader>
               <Title>
-                <Name>{ this.props.activeRule.name }</Name>
-                <ShortDescription>- { this.props.activeRule.shortDescription }</ShortDescription>
-                {
-                  this.props.activeRule.isRecommended &&
+                <Name>{this.props.activeRule.name}</Name>
+                <ShortDescription>
+                  - {this.props.activeRule.shortDescription}
+                </ShortDescription>
+                {this.props.activeRule.isRecommended && (
                   <React.Fragment>
-                    <Check data-tip data-for={ `rule-info-check-icon-${ this.props.activeRule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                    <Tooltip id={ `rule-info-check-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                    <Check
+                      data-tip
+                      data-for={`rule-info-check-icon-${this.props.activeRule.name}`}
+                      width={20}
+                      height={20}
+                      fill={color.secondary}
+                    />
+                    <Tooltip
+                      id={`rule-info-check-icon-${this.props.activeRule.name}`}
+                      className={"react-tooltip"}
+                      effect={"solid"}
+                      delayShow={500}
+                    >
                       <span>Recommended</span>
                     </Tooltip>
                   </React.Fragment>
-                }
-                {
-                  this.props.activeRule.isFixable &&
+                )}
+                {this.props.activeRule.isFixable && (
                   <React.Fragment>
-                    <Wrench data-tip data-for={ `rule-info-wrench-icon-${ this.props.activeRule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                    <Tooltip id={ `rule-info-wrench-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                    <Wrench
+                      data-tip
+                      data-for={`rule-info-wrench-icon-${this.props.activeRule.name}`}
+                      width={20}
+                      height={20}
+                      fill={color.secondary}
+                    />
+                    <Tooltip
+                      id={`rule-info-wrench-icon-${this.props.activeRule.name}`}
+                      className={"react-tooltip"}
+                      effect={"solid"}
+                      delayShow={500}
+                    >
                       <span>Fixable</span>
                     </Tooltip>
                   </React.Fragment>
-                }
+                )}
               </Title>
 
               <StyledSwitcher
-                size={ 'large' }
-                isActive={ this.props.activeRule.isTurnedOn }
-                onClick={ () => this.props.onSwitcherClick(this.props.activeRule.name, !this.props.activeRule.isTurnedOn) }
+                size={"large"}
+                isActive={this.props.activeRule.isTurnedOn}
+                onClick={() =>
+                  this.props.onSwitcherClick(
+                    this.props.activeRule.name,
+                    !this.props.activeRule.isTurnedOn
+                  )
+                }
               />
             </SectionHeader>
 
-            <Paragraph>{ this.props.activeRule.longDescription }</Paragraph>
+            <Paragraph>{this.props.activeRule.longDescription}</Paragraph>
           </Section>
 
           <Section>
-            <Heading as={ 'h2' }>What ESLint should do when it catches the rule break</Heading>
+            <Heading as={"h2"}>
+              What ESLint should do when it catches the rule break
+            </Heading>
             <Select
-              classNamePrefix={ 'react-select' }
+              classNamePrefix={"react-select"}
               value={
-                this.props.activeRule.value === 'warn' ?
-                  { label: 'Show a warning', value: 'warn' }
-                  :
-                  { label: 'Throw an error', value: 'error' }
+                this.props.activeRule.value === "warn"
+                  ? { label: "Show a warning", value: "warn" }
+                  : { label: "Throw an error", value: "error" }
               }
-              options={ [
-                { label: 'Show a warning', value: 'warn' },
-                { label: 'Throw an error', value: 'error' },
-              ] }
-              onChange={ ({ value }) => this.props.onSelectChange(this.props.activeRule.name, value) }
+              options={[
+                { label: "Show a warning", value: "warn" },
+                { label: "Throw an error", value: "error" },
+              ]}
+              onChange={({ value }) =>
+                this.props.onSelectChange(this.props.activeRule.name, value)
+              }
             />
           </Section>
 
-          {
-            this.props.activeRule.options && this.props.activeRule.options.length > 0 &&
-            <Section>
-              <Heading as={ 'h2' }>Options</Heading>
-              {
-                this.props.activeRule.options.map((option, i) => {
-                  if (option.type === 'boolean') {
+          {this.props.activeRule.options &&
+            this.props.activeRule.options.length > 0 && (
+              <Section>
+                <Heading as={"h2"}>Options</Heading>
+                {this.props.activeRule.options.map((option, i) => {
+                  if (option.type === "boolean") {
                     return (
-                      <Option key={ option.name || i }>
+                      <Option key={option.name || i}>
                         <OptionHeader>
                           <OptionHeaderLeftSide>
-                            { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
+                            {option.name && (
+                              <OptionName as={"h3"}>{option.name}</OptionName>
+                            )}
                             <Switcher
-                              isActive={ option.value === 'true' } // Because all values are strings even if the type is boolean
-                              onClick={ () => this.props.onOptionChange(this.props.activeRule.name, option.name, option.value === 'true' ? 'false' : 'true') } // Because all values are strings even if the type is boolean
+                              isActive={option.value === "true"} // Because all values are strings even if the type is boolean
+                              onClick={() =>
+                                this.props.onOptionChange(
+                                  this.props.activeRule.name,
+                                  option.name,
+                                  option.value === "true" ? "false" : "true"
+                                )
+                              } // Because all values are strings even if the type is boolean
                             />
                           </OptionHeaderLeftSide>
                         </OptionHeader>
 
-                        { option.description && <OptionDescription>{ option.description }</OptionDescription> }
+                        {option.description && (
+                          <OptionDescription>
+                            {option.description}
+                          </OptionDescription>
+                        )}
                       </Option>
                     );
-                  } else if (option.type === 'select') {
+                  } else if (option.type === "select") {
                     return (
-                      <Option key={ option.name || i }>
+                      <Option key={option.name || i}>
                         <OptionHeader>
-                          { option.name && <OptionName as={ 'h3' }>{ option.name }</OptionName> }
+                          {option.name && (
+                            <OptionName as={"h3"}>{option.name}</OptionName>
+                          )}
                         </OptionHeader>
 
                         <Select
-                          classNamePrefix={ 'react-select' }
-                          value={ { label: option.value, value: option.value } }
-                          options={
-                            option.options.map((optionOption) => ({
-                              label: optionOption,
-                              value: optionOption,
-                            }))
+                          classNamePrefix={"react-select"}
+                          value={{ label: option.value, value: option.value }}
+                          options={option.options.map((optionOption) => ({
+                            label: optionOption,
+                            value: optionOption,
+                          }))}
+                          onChange={({ value }) =>
+                            this.props.onOptionChange(
+                              this.props.activeRule.name,
+                              option.name,
+                              value
+                            )
                           }
-                          onChange={ ({ value }) => this.props.onOptionChange(this.props.activeRule.name, option.name, value) }
                         />
                       </Option>
                     );
-                  } else if (option.type === 'string' || option.type === 'number') {
+                  } else if (
+                    option.type === "string" ||
+                    option.type === "number"
+                  ) {
                     return (
-                      <Option key={ option.name || i }>
+                      <Option key={option.name || i}>
                         <OptionHeader>
-                          {
-                            option.name &&
-                            <OptionName as={ 'h3' }>
-                              <label htmlFor={ option.name }>
-                                { option.name }
-                              </label>
+                          {option.name && (
+                            <OptionName as={"h3"}>
+                              <label htmlFor={option.name}>{option.name}</label>
                             </OptionName>
-                          }
+                          )}
                         </OptionHeader>
 
-                        { option.description && <OptionDescription>{ option.description }</OptionDescription> }
+                        {option.description && (
+                          <OptionDescription>
+                            {option.description}
+                          </OptionDescription>
+                        )}
 
                         <Input
-                          type={ option.type === 'number' ? 'number' : 'text' }
-                          id={ option.name }
-                          value={ option.value }
-                          placeholder={ 'Enter value here' }
-                          onChange={ (e) => this.props.onOptionChange(this.props.activeRule.name, option.name, e.currentTarget.value) }
+                          type={option.type === "number" ? "number" : "text"}
+                          id={option.name}
+                          value={option.value}
+                          placeholder={"Enter value here"}
+                          onChange={(e) =>
+                            this.props.onOptionChange(
+                              this.props.activeRule.name,
+                              option.name,
+                              e.currentTarget.value
+                            )
+                          }
                         />
                       </Option>
                     );
                   }
-                })
-              }
-            </Section>
-          }
+                })}
+              </Section>
+            )}
 
-          <Section isAllowedToGrow={ true }>
-            <Heading as={ 'h2' }>Rule examples</Heading>
+          <Section isAllowedToGrow={true}>
+            <Heading as={"h2"}>Rule examples</Heading>
             <ExamplesInfo>
               You can check them out&nbsp;
-              <Link href={ `https://eslint.org/docs/rules/${this.props.activeRule.name}#rule-details` } target={ '_blank' }>here</Link>.
+              <Link
+                href={`https://eslint.org/docs/rules/${this.props.activeRule.name}#rule-details`}
+                target={"_blank"}
+              >
+                here
+              </Link>
+              .
             </ExamplesInfo>
           </Section>
         </SectionsWrapper>
 
-        {
-          this.props.previousRule && this.props.nextRule &&
+        {this.props.previousRule && this.props.nextRule && (
           <Footer>
             <SocialLinksWrapper>
-              <SocialLink href={ 'https://github.com/SilencerWeb/eslint-config-website' } target={ '_blank' }>
-                <Github height={ 30 } width={ 30 }/>
+              <SocialLink
+                href={"https://github.com/SilencerWeb/eslint-config-website"}
+                target={"_blank"}
+              >
+                <Github height={30} width={30} />
               </SocialLink>
 
-              <SocialLink href={ 'https://twitter.com/SilencerWeb' } target={ '_blank' }>
-                <Twitter height={ 30 } width={ 30 }/>
+              <SocialLink
+                href={"https://twitter.com/SilencerWeb"}
+                target={"_blank"}
+              >
+                <Twitter height={30} width={30} />
               </SocialLink>
 
-              <SocialLink href={ 'mailto:silencer.web@gmail.com' } target={ '_blank' }>
-                <Email height={ 30 } width={ 30 }/>
+              <SocialLink
+                href={"mailto:silencer.web@gmail.com"}
+                target={"_blank"}
+              >
+                <Email height={30} width={30} />
               </SocialLink>
             </SocialLinksWrapper>
 
-            <FooterButton to={ `/rules/${this.props.previousRule.name}` } as={ RouterLink }>
-              <Arrow width={ 12 } height={ 12 }/>
-              <span>{ this.props.previousRule.name }</span>
+            <FooterButton
+              to={`/rules/${this.props.previousRule.name}`}
+              as={RouterLink}
+            >
+              <Arrow width={12} height={12} />
+              <span>{this.props.previousRule.name}</span>
             </FooterButton>
 
-            <FooterButton to={ `/rules/${this.props.nextRule.name}` } as={ RouterLink }>
-              <span>{ this.props.nextRule.name }</span>
-              <Arrow width={ 12 } height={ 12 }/>
+            <FooterButton
+              to={`/rules/${this.props.nextRule.name}`}
+              as={RouterLink}
+            >
+              <span>{this.props.nextRule.name}</span>
+              <Arrow width={12} height={12} />
             </FooterButton>
           </Footer>
-        }
+        )}
       </Wrapper>
     );
   };

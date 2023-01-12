@@ -1,15 +1,14 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import AceEditor from 'react-ace';
-import 'brace/mode/json';
-import 'brace/theme/tomorrow';
+import * as React from "react";
+import styled from "styled-components";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import AceEditor from "react-ace";
+import "brace/mode/json";
+import "brace/theme/tomorrow";
 
-import { Button } from 'ui/atoms';
-import { color } from 'ui/theme';
+import { Button } from "ui/atoms";
+import { color } from "ui/theme";
 
-import { generateConfig } from 'utils';
-
+import { generateConfig } from "utils";
 
 const Footer = styled.div`
   flex-shrink: 0;
@@ -24,10 +23,10 @@ const Footer = styled.div`
   margin-top: 20px;
   margin-right: -20px;
   margin-left: -20px;
-  
+
   ${Button} {
     margin-right: 15px;
-    
+
     &:last-child {
       margin-right: 0;
     }
@@ -46,29 +45,28 @@ const Wrapper = styled.div`
   overflow-y: auto;
 `;
 
-
 export const ConfigPreviewer = (props) => {
   const config = props.rules && generateConfig(props.rules);
 
   return (
-    <Wrapper className={ props.className }>
+    <Wrapper className={props.className}>
       <AceEditor
-        value={ config }
-        mode={ 'json' }
-        theme={ 'tomorrow' }
-        width={ '100%' }
-        height={ '100%' }
-        fontSize={ 14 }
-        readOnly={ true }
-        wrapEnabled={ true }
-        showPrintMargin={ false }
-        showGutter={ false }
-        highlightActiveLine={ false }
+        value={config}
+        mode={"json"}
+        theme={"tomorrow"}
+        width={"100%"}
+        height={"100%"}
+        fontSize={14}
+        readOnly={true}
+        wrapEnabled={true}
+        showPrintMargin={false}
+        showGutter={false}
+        highlightActiveLine={false}
       />
 
       <Footer>
-        <Button onClick={ props.onCloseButtonClick }>Close</Button>
-        <CopyToClipboard text={ config }>
+        <Button onClick={props.onCloseButtonClick}>Close</Button>
+        <CopyToClipboard text={config}>
           <Button>Copy</Button>
         </CopyToClipboard>
       </Footer>

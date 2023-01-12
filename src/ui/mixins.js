@@ -1,18 +1,17 @@
 const css = String.raw;
 
-
 export const breakpoints = {
   up: {
-    xs: '576px',
-    sm: '768px',
-    md: '992px',
-    lg: '1200px',
+    xs: "576px",
+    sm: "768px",
+    md: "992px",
+    lg: "1200px",
   },
   down: {
-    xs: '575.98px',
-    sm: '767.98px',
-    md: '991.98px',
-    lg: '1199.98px',
+    xs: "575.98px",
+    sm: "767.98px",
+    md: "991.98px",
+    lg: "1199.98px",
   },
 };
 

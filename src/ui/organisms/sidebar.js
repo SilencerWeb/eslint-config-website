@@ -1,12 +1,11 @@
-import * as React from 'react';
-import styled, { css } from 'styled-components';
-import fast from 'fast.js';
+import * as React from "react";
+import styled, { css } from "styled-components";
+import fast from "fast.js";
 
-import { Search, Heading, Button, Switcher } from 'ui/atoms';
-import { Rule } from 'ui/molecules';
-import { Arrow } from 'ui/outlines';
-import { color } from 'ui/theme';
-
+import { Search, Heading, Button, Switcher } from "ui/atoms";
+import { Rule } from "ui/molecules";
+import { Arrow } from "ui/outlines";
+import { color } from "ui/theme";
 
 const StyledSearch = styled(Search)`
   margin-bottom: 30px;
@@ -36,25 +35,23 @@ const RulesGroupHeader = styled.div`
   align-items: center;
   min-height: 24px;
   padding-bottom: 15px;
-  
+
   svg {
     transform: rotate(90deg);
   }
 `;
 
 const RulesGroup = styled.div`
-  
-  ${props => css`
-
-    ${props.isOpen && css`
+  ${(props) => css`
+    ${props.isOpen &&
+    css`
       margin-bottom: 30px;
-      
+
       &:last-child {
         margin-bottom: 0;
       }
-      
+
       ${RulesGroupHeader} {
-      
         svg {
           transform: rotate(-90deg);
         }
@@ -105,7 +102,6 @@ const Wrapper = styled.div`
   padding-left: 15px;
 `;
 
-
 export class Sidebar extends React.Component {
   state = {
     isPossibleErrorsRulesDropDownOpen: false,
@@ -118,7 +114,7 @@ export class Sidebar extends React.Component {
   };
 
   handleSearchKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       this.props.onSearchEnterPress(e.currentTarget.value);
     }
   };
@@ -137,290 +133,398 @@ export class Sidebar extends React.Component {
   };
 
   componentDidMount = () => {
-    const activeRule = this.props.rules.find((rule) => rule.isActive) || this.props.rules[0];
+    const activeRule =
+      this.props.rules.find((rule) => rule.isActive) || this.props.rules[0];
 
-    if (activeRule.category === 'Possible Errors') {
+    if (activeRule.category === "Possible Errors") {
       this.setState({ isPossibleErrorsRulesDropDownOpen: true });
-    } else if (activeRule.category === 'Best Practices') {
+    } else if (activeRule.category === "Best Practices") {
       this.setState({ isBestPracticesRulesDropDownOpen: true });
-    } else if (activeRule.category === 'Strict Mode') {
+    } else if (activeRule.category === "Strict Mode") {
       this.setState({ isStrictModeRulesDropDownOpen: true });
-    } else if (activeRule.category === 'Variables') {
+    } else if (activeRule.category === "Variables") {
       this.setState({ isVariablesRulesDropDownOpen: true });
-    } else if (activeRule.category === 'Node.js and CommonJS') {
+    } else if (activeRule.category === "Node.js and CommonJS") {
       this.setState({ isNodeJSAndCommonJSRulesDropDownOpen: true });
-    } else if (activeRule.category === 'Stylistic Issues') {
+    } else if (activeRule.category === "Stylistic Issues") {
       this.setState({ isStylisticIssuesRulesDropDownOpen: true });
-    } else if (activeRule.category === 'ECMAScript 6') {
+    } else if (activeRule.category === "ECMAScript 6") {
       this.setState({ isECMAScript6RulesDropDownOpen: true });
     }
   };
 
   render = () => {
-    const possibleErrorsRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Possible Errors');
-    const bestPracticesRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Best Practices');
-    const strictModeRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Strict Mode');
-    const variablesRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Variables');
-    const nodeJSAndCommonJSRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Node.js and CommonJS');
-    const stylisticIssuesRules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'Stylistic Issues');
-    const ECMAScript6Rules = this.props.rules && fast.filter(this.props.rules, (rule) => rule.category === 'ECMAScript 6');
+    const possibleErrorsRules =
+      this.props.rules &&
+      fast.filter(
+        this.props.rules,
+        (rule) => rule.category === "Possible Errors"
+      );
+    const bestPracticesRules =
+      this.props.rules &&
+      fast.filter(
+        this.props.rules,
+        (rule) => rule.category === "Best Practices"
+      );
+    const strictModeRules =
+      this.props.rules &&
+      fast.filter(this.props.rules, (rule) => rule.category === "Strict Mode");
+    const variablesRules =
+      this.props.rules &&
+      fast.filter(this.props.rules, (rule) => rule.category === "Variables");
+    const nodeJSAndCommonJSRules =
+      this.props.rules &&
+      fast.filter(
+        this.props.rules,
+        (rule) => rule.category === "Node.js and CommonJS"
+      );
+    const stylisticIssuesRules =
+      this.props.rules &&
+      fast.filter(
+        this.props.rules,
+        (rule) => rule.category === "Stylistic Issues"
+      );
+    const ECMAScript6Rules =
+      this.props.rules &&
+      fast.filter(this.props.rules, (rule) => rule.category === "ECMAScript 6");
 
-    const areAllPossibleErrorsRulesTurnedOn = possibleErrorsRules && fast.every(possibleErrorsRules, (rule) => rule.isTurnedOn);
-    const areAllBestPracticesRulesTurnedOn = bestPracticesRules && fast.every(bestPracticesRules, (rule) => rule.isTurnedOn);
-    const areAllStrictModeRulesTurnedOn = strictModeRules && fast.every(strictModeRules, (rule) => rule.isTurnedOn);
-    const areAllVariablesRulesTurnedOn = variablesRules && fast.every(variablesRules, (rule) => rule.isTurnedOn);
-    const areAllNodeJSAndCommonJSRulesTurnedOn = nodeJSAndCommonJSRules && fast.every(nodeJSAndCommonJSRules, (rule) => rule.isTurnedOn);
-    const areAllStylisticIssuesRulesTurnedOn = stylisticIssuesRules && fast.every(stylisticIssuesRules, (rule) => rule.isTurnedOn);
-    const areAllECMAScript6RulesTurnedOn = ECMAScript6Rules && fast.every(ECMAScript6Rules, (rule) => rule.isTurnedOn);
+    const areAllPossibleErrorsRulesTurnedOn =
+      possibleErrorsRules &&
+      fast.every(possibleErrorsRules, (rule) => rule.isTurnedOn);
+    const areAllBestPracticesRulesTurnedOn =
+      bestPracticesRules &&
+      fast.every(bestPracticesRules, (rule) => rule.isTurnedOn);
+    const areAllStrictModeRulesTurnedOn =
+      strictModeRules && fast.every(strictModeRules, (rule) => rule.isTurnedOn);
+    const areAllVariablesRulesTurnedOn =
+      variablesRules && fast.every(variablesRules, (rule) => rule.isTurnedOn);
+    const areAllNodeJSAndCommonJSRulesTurnedOn =
+      nodeJSAndCommonJSRules &&
+      fast.every(nodeJSAndCommonJSRules, (rule) => rule.isTurnedOn);
+    const areAllStylisticIssuesRulesTurnedOn =
+      stylisticIssuesRules &&
+      fast.every(stylisticIssuesRules, (rule) => rule.isTurnedOn);
+    const areAllECMAScript6RulesTurnedOn =
+      ECMAScript6Rules &&
+      fast.every(ECMAScript6Rules, (rule) => rule.isTurnedOn);
 
     return (
-      <Wrapper className={ this.props.className }>
-        <StyledSearch placeholder={ 'Type a rule here...' } onKeyPress={ this.handleSearchKeyPress } onChange={ this.handleSearchChange }/>
+      <Wrapper className={this.props.className}>
+        <StyledSearch
+          placeholder={"Type a rule here..."}
+          onKeyPress={this.handleSearchKeyPress}
+          onChange={this.handleSearchChange}
+        />
 
         <RulesWrapper>
-          {
-            this.props.rules ?
-              <React.Fragment>
-                {
-                  possibleErrorsRules && possibleErrorsRules.length > 0 &&
-                  <RulesGroup isOpen={ this.state.isPossibleErrorsRulesDropDownOpen }>
-                    <RulesGroupHeader>
-                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isPossibleErrorsRulesDropDownOpen') }>
-                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
-                        <Subtitle as={ 'h3' }>Possible Errors</Subtitle>
-                      </RulesGroupHeaderSide>
+          {this.props.rules ? (
+            <React.Fragment>
+              {possibleErrorsRules && possibleErrorsRules.length > 0 && (
+                <RulesGroup
+                  isOpen={this.state.isPossibleErrorsRulesDropDownOpen}
+                >
+                  <RulesGroupHeader>
+                    <RulesGroupHeaderSide
+                      onClick={() =>
+                        this.toggleDropDown("isPossibleErrorsRulesDropDownOpen")
+                      }
+                    >
+                      <Arrow width={14} height={14} fill={color.secondary} />
+                      <Subtitle as={"h3"}>Possible Errors</Subtitle>
+                    </RulesGroupHeaderSide>
 
-                      <Switcher
-                        size={ 'medium' }
-                        isActive={ areAllPossibleErrorsRulesTurnedOn }
-                        onClick={ () => this.props.onCategorySwitcherClick('Possible Errors', !areAllPossibleErrorsRulesTurnedOn) }
+                    <Switcher
+                      size={"medium"}
+                      isActive={areAllPossibleErrorsRulesTurnedOn}
+                      onClick={() =>
+                        this.props.onCategorySwitcherClick(
+                          "Possible Errors",
+                          !areAllPossibleErrorsRulesTurnedOn
+                        )
+                      }
+                    />
+                  </RulesGroupHeader>
+
+                  {this.state.isPossibleErrorsRulesDropDownOpen &&
+                    possibleErrorsRules.map((rule) => (
+                      <StyledRule
+                        name={rule.name}
+                        description={rule.shortDescription}
+                        isActive={rule.isActive}
+                        isRecommended={rule.isRecommended}
+                        isFixable={rule.isFixable}
+                        isTurnedOn={rule.isTurnedOn}
+                        onSwitcherClick={this.props.onRuleSwitcherClick}
+                        key={rule.name}
                       />
-                    </RulesGroupHeader>
+                    ))}
+                </RulesGroup>
+              )}
 
-                    {
-                      this.state.isPossibleErrorsRulesDropDownOpen && possibleErrorsRules.map((rule) => (
-                        <StyledRule
-                          name={ rule.name }
-                          description={ rule.shortDescription }
-                          isActive={ rule.isActive }
-                          isRecommended={ rule.isRecommended }
-                          isFixable={ rule.isFixable }
-                          isTurnedOn={ rule.isTurnedOn }
-                          onSwitcherClick={ this.props.onRuleSwitcherClick }
-                          key={ rule.name }
-                        />
-                      ))
-                    }
-                  </RulesGroup>
-                }
+              {bestPracticesRules && bestPracticesRules.length > 0 && (
+                <RulesGroup
+                  isOpen={this.state.isBestPracticesRulesDropDownOpen}
+                >
+                  <RulesGroupHeader>
+                    <RulesGroupHeaderSide
+                      onClick={() =>
+                        this.toggleDropDown("isBestPracticesRulesDropDownOpen")
+                      }
+                    >
+                      <Arrow width={14} height={14} fill={color.secondary} />
+                      <Subtitle as={"h3"}>Best Practices</Subtitle>
+                    </RulesGroupHeaderSide>
 
-                {
-                  bestPracticesRules && bestPracticesRules.length > 0 &&
-                  <RulesGroup isOpen={ this.state.isBestPracticesRulesDropDownOpen }>
-                    <RulesGroupHeader>
-                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isBestPracticesRulesDropDownOpen') }>
-                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
-                        <Subtitle as={ 'h3' }>Best Practices</Subtitle>
-                      </RulesGroupHeaderSide>
+                    <Switcher
+                      size={"medium"}
+                      isActive={areAllBestPracticesRulesTurnedOn}
+                      onClick={() =>
+                        this.props.onCategorySwitcherClick(
+                          "Best Practices",
+                          !areAllBestPracticesRulesTurnedOn
+                        )
+                      }
+                    />
+                  </RulesGroupHeader>
 
-                      <Switcher
-                        size={ 'medium' }
-                        isActive={ areAllBestPracticesRulesTurnedOn }
-                        onClick={ () => this.props.onCategorySwitcherClick('Best Practices', !areAllBestPracticesRulesTurnedOn) }
+                  {this.state.isBestPracticesRulesDropDownOpen &&
+                    bestPracticesRules.map((rule) => (
+                      <StyledRule
+                        name={rule.name}
+                        description={rule.shortDescription}
+                        isActive={rule.isActive}
+                        isRecommended={rule.isRecommended}
+                        isFixable={rule.isFixable}
+                        isTurnedOn={rule.isTurnedOn}
+                        onSwitcherClick={this.props.onRuleSwitcherClick}
+                        key={rule.name}
                       />
-                    </RulesGroupHeader>
+                    ))}
+                </RulesGroup>
+              )}
 
-                    {
-                      this.state.isBestPracticesRulesDropDownOpen && bestPracticesRules.map((rule) => (
-                        <StyledRule
-                          name={ rule.name }
-                          description={ rule.shortDescription }
-                          isActive={ rule.isActive }
-                          isRecommended={ rule.isRecommended }
-                          isFixable={ rule.isFixable }
-                          isTurnedOn={ rule.isTurnedOn }
-                          onSwitcherClick={ this.props.onRuleSwitcherClick }
-                          key={ rule.name }
-                        />
-                      ))
-                    }
-                  </RulesGroup>
-                }
+              {strictModeRules && strictModeRules.length > 0 && (
+                <RulesGroup isOpen={this.state.isStrictModeRulesDropDownOpen}>
+                  <RulesGroupHeader>
+                    <RulesGroupHeaderSide
+                      onClick={() =>
+                        this.toggleDropDown("isStrictModeRulesDropDownOpen")
+                      }
+                    >
+                      <Arrow width={14} height={14} fill={color.secondary} />
+                      <Subtitle as={"h3"}>Strict Mode</Subtitle>
+                    </RulesGroupHeaderSide>
 
-                {
-                  strictModeRules && strictModeRules.length > 0 &&
-                  <RulesGroup isOpen={ this.state.isStrictModeRulesDropDownOpen }>
-                    <RulesGroupHeader>
-                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isStrictModeRulesDropDownOpen') }>
-                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
-                        <Subtitle as={ 'h3' }>Strict Mode</Subtitle>
-                      </RulesGroupHeaderSide>
+                    <Switcher
+                      size={"medium"}
+                      isActive={areAllStrictModeRulesTurnedOn}
+                      onClick={() =>
+                        this.props.onCategorySwitcherClick(
+                          "Strict Mode",
+                          !areAllStrictModeRulesTurnedOn
+                        )
+                      }
+                    />
+                  </RulesGroupHeader>
 
-                      <Switcher
-                        size={ 'medium' }
-                        isActive={ areAllStrictModeRulesTurnedOn }
-                        onClick={ () => this.props.onCategorySwitcherClick('Strict Mode', !areAllStrictModeRulesTurnedOn) }
+                  {this.state.isStrictModeRulesDropDownOpen &&
+                    strictModeRules.map((rule) => (
+                      <StyledRule
+                        name={rule.name}
+                        description={rule.shortDescription}
+                        isActive={rule.isActive}
+                        isRecommended={rule.isRecommended}
+                        isFixable={rule.isFixable}
+                        isTurnedOn={rule.isTurnedOn}
+                        onSwitcherClick={this.props.onRuleSwitcherClick}
+                        key={rule.name}
                       />
-                    </RulesGroupHeader>
+                    ))}
+                </RulesGroup>
+              )}
 
-                    {
-                      this.state.isStrictModeRulesDropDownOpen && strictModeRules.map((rule) => (
-                        <StyledRule
-                          name={ rule.name }
-                          description={ rule.shortDescription }
-                          isActive={ rule.isActive }
-                          isRecommended={ rule.isRecommended }
-                          isFixable={ rule.isFixable }
-                          isTurnedOn={ rule.isTurnedOn }
-                          onSwitcherClick={ this.props.onRuleSwitcherClick }
-                          key={ rule.name }
-                        />
-                      ))
-                    }
-                  </RulesGroup>
-                }
+              {variablesRules && variablesRules.length > 0 && (
+                <RulesGroup isOpen={this.state.isVariablesRulesDropDownOpen}>
+                  <RulesGroupHeader>
+                    <RulesGroupHeaderSide
+                      onClick={() =>
+                        this.toggleDropDown("isVariablesRulesDropDownOpen")
+                      }
+                    >
+                      <Arrow width={14} height={14} fill={color.secondary} />
+                      <Subtitle as={"h3"}>Variables</Subtitle>
+                    </RulesGroupHeaderSide>
 
-                {
-                  variablesRules && variablesRules.length > 0 &&
-                  <RulesGroup isOpen={ this.state.isVariablesRulesDropDownOpen }>
-                    <RulesGroupHeader>
-                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isVariablesRulesDropDownOpen') }>
-                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
-                        <Subtitle as={ 'h3' }>Variables</Subtitle>
-                      </RulesGroupHeaderSide>
+                    <Switcher
+                      size={"medium"}
+                      isActive={areAllVariablesRulesTurnedOn}
+                      onClick={() =>
+                        this.props.onCategorySwitcherClick(
+                          "Variables",
+                          !areAllVariablesRulesTurnedOn
+                        )
+                      }
+                    />
+                  </RulesGroupHeader>
 
-                      <Switcher
-                        size={ 'medium' }
-                        isActive={ areAllVariablesRulesTurnedOn }
-                        onClick={ () => this.props.onCategorySwitcherClick('Variables', !areAllVariablesRulesTurnedOn) }
+                  {this.state.isVariablesRulesDropDownOpen &&
+                    variablesRules.map((rule) => (
+                      <StyledRule
+                        name={rule.name}
+                        description={rule.shortDescription}
+                        isActive={rule.isActive}
+                        isRecommended={rule.isRecommended}
+                        isFixable={rule.isFixable}
+                        isTurnedOn={rule.isTurnedOn}
+                        onSwitcherClick={this.props.onRuleSwitcherClick}
+                        key={rule.name}
                       />
-                    </RulesGroupHeader>
+                    ))}
+                </RulesGroup>
+              )}
 
-                    {
-                      this.state.isVariablesRulesDropDownOpen && variablesRules.map((rule) => (
-                        <StyledRule
-                          name={ rule.name }
-                          description={ rule.shortDescription }
-                          isActive={ rule.isActive }
-                          isRecommended={ rule.isRecommended }
-                          isFixable={ rule.isFixable }
-                          isTurnedOn={ rule.isTurnedOn }
-                          onSwitcherClick={ this.props.onRuleSwitcherClick }
-                          key={ rule.name }
-                        />
-                      ))
-                    }
-                  </RulesGroup>
-                }
+              {nodeJSAndCommonJSRules && nodeJSAndCommonJSRules.length > 0 && (
+                <RulesGroup
+                  isOpen={this.state.isNodeJSAndCommonJSRulesDropDownOpen}
+                >
+                  <RulesGroupHeader>
+                    <RulesGroupHeaderSide
+                      onClick={() =>
+                        this.toggleDropDown(
+                          "isNodeJSAndCommonJSRulesDropDownOpen"
+                        )
+                      }
+                    >
+                      <Arrow width={14} height={14} fill={color.secondary} />
+                      <Subtitle as={"h3"}>Node.js and CommonJS</Subtitle>
+                    </RulesGroupHeaderSide>
 
-                {
-                  nodeJSAndCommonJSRules && nodeJSAndCommonJSRules.length > 0 &&
-                  <RulesGroup isOpen={ this.state.isNodeJSAndCommonJSRulesDropDownOpen }>
-                    <RulesGroupHeader>
-                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isNodeJSAndCommonJSRulesDropDownOpen') }>
-                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
-                        <Subtitle as={ 'h3' }>Node.js and CommonJS</Subtitle>
-                      </RulesGroupHeaderSide>
+                    <Switcher
+                      size={"medium"}
+                      isActive={areAllNodeJSAndCommonJSRulesTurnedOn}
+                      onClick={() =>
+                        this.props.onCategorySwitcherClick(
+                          "Node.js and CommonJS",
+                          !areAllNodeJSAndCommonJSRulesTurnedOn
+                        )
+                      }
+                    />
+                  </RulesGroupHeader>
 
-                      <Switcher
-                        size={ 'medium' }
-                        isActive={ areAllNodeJSAndCommonJSRulesTurnedOn }
-                        onClick={ () => this.props.onCategorySwitcherClick('Node.js and CommonJS', !areAllNodeJSAndCommonJSRulesTurnedOn) }
+                  {this.state.isNodeJSAndCommonJSRulesDropDownOpen &&
+                    nodeJSAndCommonJSRules.map((rule) => (
+                      <StyledRule
+                        name={rule.name}
+                        description={rule.shortDescription}
+                        isActive={rule.isActive}
+                        isRecommended={rule.isRecommended}
+                        isFixable={rule.isFixable}
+                        isTurnedOn={rule.isTurnedOn}
+                        onSwitcherClick={this.props.onRuleSwitcherClick}
+                        key={rule.name}
                       />
-                    </RulesGroupHeader>
+                    ))}
+                </RulesGroup>
+              )}
 
-                    {
-                      this.state.isNodeJSAndCommonJSRulesDropDownOpen && nodeJSAndCommonJSRules.map((rule) => (
-                        <StyledRule
-                          name={ rule.name }
-                          description={ rule.shortDescription }
-                          isActive={ rule.isActive }
-                          isRecommended={ rule.isRecommended }
-                          isFixable={ rule.isFixable }
-                          isTurnedOn={ rule.isTurnedOn }
-                          onSwitcherClick={ this.props.onRuleSwitcherClick }
-                          key={ rule.name }
-                        />
-                      ))
-                    }
-                  </RulesGroup>
-                }
+              {stylisticIssuesRules && stylisticIssuesRules.length > 0 && (
+                <RulesGroup
+                  isOpen={this.state.isStylisticIssuesRulesDropDownOpen}
+                >
+                  <RulesGroupHeader>
+                    <RulesGroupHeaderSide
+                      onClick={() =>
+                        this.toggleDropDown(
+                          "isStylisticIssuesRulesDropDownOpen"
+                        )
+                      }
+                    >
+                      <Arrow width={14} height={14} fill={color.secondary} />
+                      <Subtitle as={"h3"}>Stylistic Issues</Subtitle>
+                    </RulesGroupHeaderSide>
 
-                {
-                  stylisticIssuesRules && stylisticIssuesRules.length > 0 &&
-                  <RulesGroup isOpen={ this.state.isStylisticIssuesRulesDropDownOpen }>
-                    <RulesGroupHeader>
-                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isStylisticIssuesRulesDropDownOpen') }>
-                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
-                        <Subtitle as={ 'h3' }>Stylistic Issues</Subtitle>
-                      </RulesGroupHeaderSide>
+                    <Switcher
+                      size={"medium"}
+                      isActive={areAllStylisticIssuesRulesTurnedOn}
+                      onClick={() =>
+                        this.props.onCategorySwitcherClick(
+                          "Stylistic Issues",
+                          !areAllStylisticIssuesRulesTurnedOn
+                        )
+                      }
+                    />
+                  </RulesGroupHeader>
 
-                      <Switcher
-                        size={ 'medium' }
-                        isActive={ areAllStylisticIssuesRulesTurnedOn }
-                        onClick={ () => this.props.onCategorySwitcherClick('Stylistic Issues', !areAllStylisticIssuesRulesTurnedOn) }
+                  {this.state.isStylisticIssuesRulesDropDownOpen &&
+                    stylisticIssuesRules.map((rule) => (
+                      <StyledRule
+                        name={rule.name}
+                        description={rule.shortDescription}
+                        isActive={rule.isActive}
+                        isRecommended={rule.isRecommended}
+                        isFixable={rule.isFixable}
+                        isTurnedOn={rule.isTurnedOn}
+                        onSwitcherClick={this.props.onRuleSwitcherClick}
+                        key={rule.name}
                       />
-                    </RulesGroupHeader>
+                    ))}
+                </RulesGroup>
+              )}
 
-                    {
-                      this.state.isStylisticIssuesRulesDropDownOpen && stylisticIssuesRules.map((rule) => (
-                        <StyledRule
-                          name={ rule.name }
-                          description={ rule.shortDescription }
-                          isActive={ rule.isActive }
-                          isRecommended={ rule.isRecommended }
-                          isFixable={ rule.isFixable }
-                          isTurnedOn={ rule.isTurnedOn }
-                          onSwitcherClick={ this.props.onRuleSwitcherClick }
-                          key={ rule.name }
-                        />
-                      ))
-                    }
-                  </RulesGroup>
-                }
+              {ECMAScript6Rules && ECMAScript6Rules.length > 0 && (
+                <RulesGroup isOpen={this.state.isECMAScript6RulesDropDownOpen}>
+                  <RulesGroupHeader>
+                    <RulesGroupHeaderSide
+                      onClick={() =>
+                        this.toggleDropDown("isECMAScript6RulesDropDownOpen")
+                      }
+                    >
+                      <Arrow width={14} height={14} fill={color.secondary} />
+                      <Subtitle as={"h3"}>ECMAScript 6</Subtitle>
+                    </RulesGroupHeaderSide>
 
-                {
-                  ECMAScript6Rules && ECMAScript6Rules.length > 0 &&
-                  <RulesGroup isOpen={ this.state.isECMAScript6RulesDropDownOpen }>
-                    <RulesGroupHeader>
-                      <RulesGroupHeaderSide onClick={ () => this.toggleDropDown('isECMAScript6RulesDropDownOpen') }>
-                        <Arrow width={ 14 } height={ 14 } fill={ color.secondary }/>
-                        <Subtitle as={ 'h3' }>ECMAScript 6</Subtitle>
-                      </RulesGroupHeaderSide>
+                    <Switcher
+                      size={"medium"}
+                      isActive={areAllECMAScript6RulesTurnedOn}
+                      onClick={() =>
+                        this.props.onCategorySwitcherClick(
+                          "ECMAScript 6",
+                          !areAllECMAScript6RulesTurnedOn
+                        )
+                      }
+                    />
+                  </RulesGroupHeader>
 
-                      <Switcher
-                        size={ 'medium' }
-                        isActive={ areAllECMAScript6RulesTurnedOn }
-                        onClick={ () => this.props.onCategorySwitcherClick('ECMAScript 6', !areAllECMAScript6RulesTurnedOn) }
+                  {this.state.isECMAScript6RulesDropDownOpen &&
+                    ECMAScript6Rules.map((rule) => (
+                      <StyledRule
+                        name={rule.name}
+                        description={rule.shortDescription}
+                        isActive={rule.isActive}
+                        isRecommended={rule.isRecommended}
+                        isFixable={rule.isFixable}
+                        isTurnedOn={rule.isTurnedOn}
+                        onSwitcherClick={this.props.onRuleSwitcherClick}
+                        key={rule.name}
                       />
-                    </RulesGroupHeader>
-
-                    {
-                      this.state.isECMAScript6RulesDropDownOpen && ECMAScript6Rules.map((rule) => (
-                        <StyledRule
-                          name={ rule.name }
-                          description={ rule.shortDescription }
-                          isActive={ rule.isActive }
-                          isRecommended={ rule.isRecommended }
-                          isFixable={ rule.isFixable }
-                          isTurnedOn={ rule.isTurnedOn }
-                          onSwitcherClick={ this.props.onRuleSwitcherClick }
-                          key={ rule.name }
-                        />
-                      ))
-                    }
-                  </RulesGroup>
-                }
-              </React.Fragment>
-              : 'No rules found'
-          }
+                    ))}
+                </RulesGroup>
+              )}
+            </React.Fragment>
+          ) : (
+            "No rules found"
+          )}
         </RulesWrapper>
 
         <Footer>
-          <Button onClick={ this.props.onDownloadConfigButtonClick }>Download</Button>
-          <Button onClick={ this.props.onPreviewConfigButtonClick }>Preview</Button>
+          <Button onClick={this.props.onDownloadConfigButtonClick}>
+            Download
+          </Button>
+          <Button onClick={this.props.onPreviewConfigButtonClick}>
+            Preview
+          </Button>
         </Footer>
       </Wrapper>
     );
   };
-};
+}

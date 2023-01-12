@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { color } from 'ui/theme';
-
+import { color } from "ui/theme";
 
 export const Heading = styled.h1`
   font-size: 20px;
@@ -9,7 +8,7 @@ export const Heading = styled.h1`
   color: ${color.secondary};
   margin-top: 0;
   margin-bottom: 15px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }

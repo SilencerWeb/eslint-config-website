@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { color } from 'ui/theme';
-
+import { color } from "ui/theme";
 
 export const Button = styled.a`
   display: inline-block;
@@ -17,7 +16,7 @@ export const Button = styled.a`
   transition: 0.1s;
   cursor: pointer;
   user-select: none;
-  
+
   &:hover {
     border-color: ${color.primary};
   }

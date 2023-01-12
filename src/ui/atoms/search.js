@@ -1,8 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { color } from 'ui/theme';
-import { rgba } from 'utils';
-
+import { color } from "ui/theme";
+import { rgba } from "utils";
 
 export const Search = styled.input`
   width: 100%;
@@ -18,11 +17,11 @@ export const Search = styled.input`
   padding-left: 15px;
   transition: 0.1s;
   outline: none;
-  
+
   &::placeholder {
     color: ${rgba(color.secondary, 0.7)};
   }
-  
+
   &:focus {
     border-color: ${color.primary};
   }

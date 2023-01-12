@@ -1,5 +1,4 @@
-import fast from 'fast.js';
-
+import fast from "fast.js";
 
 export const rgba = (hex, alpha) => {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -10,25 +9,29 @@ export const rgba = (hex, alpha) => {
 };
 
 export const generateConfig = (rules) => {
-  let rulesAsString = '';
+  let rulesAsString = "";
 
-  const filteredRules = fast.filter(rules, ((rule) => rule.isTurnedOn));
+  const filteredRules = fast.filter(rules, (rule) => rule.isTurnedOn);
 
   fast.forEach(filteredRules, (rule, i, rules) => {
-    let optionsAsObject = '';
-    let optionsAsArray = '';
+    let optionsAsObject = "";
+    let optionsAsArray = "";
 
     if (rule.options) {
       rule.options.forEach((option) => {
         if (option.name) {
           if (optionsAsObject.length > 0) {
-            optionsAsObject += ', ';
+            optionsAsObject += ", ";
           }
 
-          optionsAsObject += `"${option.name}": ${option.type === 'string' || option.type === 'select' ? `"${option.value}"` : option.value}`;
+          optionsAsObject += `"${option.name}": ${
+            option.type === "string" || option.type === "select"
+              ? `"${option.value}"`
+              : option.value
+          }`;
         } else {
           if (optionsAsArray.length > 0) {
-            optionsAsArray += ', ';
+            optionsAsArray += ", ";
           }
 
           optionsAsArray += `"${option.value}"`;
@@ -47,7 +50,7 @@ export const generateConfig = (rules) => {
     }
 
     if (i !== rules.length - 1) {
-      rulesAsString += ',\n';
+      rulesAsString += ",\n";
     }
   });
 
