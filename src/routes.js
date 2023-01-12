@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Routes as ReactRouterDOMRoutes, Route } from 'react-router-dom';
 
 import { RulePage } from 'pages/rule';
 
 
 export const Routes = () => (
-  <Switch>
-    <Route path={ '/' } exact component={ RulePage }/>
-    <Route path={ '/rules/:name' } exact component={ RulePage }/>
-  </Switch>
+  <ReactRouterDOMRoutes>
+    <Route path={ '/' } exact element={ <RulePage /> }/>
+    <Route path={ '/rules/:name' } exact element={ <RulePage /> }/>
+  </ReactRouterDOMRoutes>
 );

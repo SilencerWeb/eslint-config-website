@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 import { Link } from 'react-router-dom';
 
 import { Switcher } from 'ui/atoms';
@@ -34,7 +34,7 @@ const HeaderSide = styled.div`
   text-decoration: none;
   padding-right: 10px;
   padding-bottom: 5px;
-    
+
   svg {
     position: relative;
     z-index: 9;
@@ -43,7 +43,7 @@ const HeaderSide = styled.div`
     margin-top: 2.5px;
     margin-left: 5px;
     transition: 0.1s;
-    
+
     &:first-child {
       margin-left: 0;
       margin-right: 5px;
@@ -55,7 +55,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  
+
   ${Switcher} {
     flex-shrink: 0;
   }
@@ -63,19 +63,19 @@ const Header = styled.div`
 
 const Wrapper = styled.div`
   cursor: pointer;
-  
+
   &:hover {
-  
+
     ${Name} {
       color: ${color.secondary};
     }
-    
+
     ${Description} {
       color: ${color.secondary};
     }
-    
+
     ${HeaderSide} {
-      
+
       svg {
         fill: ${color.secondary};
       }
@@ -83,21 +83,21 @@ const Wrapper = styled.div`
   }
 
   ${props => css`
-    
+
     ${props.isActive && css`
-  
+
       &:hover {
-      
+
         ${Name} {
           color: ${color.primary};
         }
-        
+
         ${Description} {
           color: ${color.secondary};
         }
-        
+
         ${HeaderSide} {
-      
+
           svg {
             fill: ${color.secondary};
           }
@@ -107,13 +107,13 @@ const Wrapper = styled.div`
       ${Name} {
         color: ${color.primary};
       }
-      
+
       ${Description} {
         color: ${color.secondary};
       }
-      
+
       ${HeaderSide} {
-    
+
         svg {
           fill: ${color.secondary};
         }
@@ -140,18 +140,18 @@ export class Rule extends React.Component {
               this.props.isRecommended &&
               <React.Fragment>
                 <Check data-tip data-for={ `rule-check-icon-${ this.props.name }` } width={ 14 } height={ 14 }/>
-                <ReactTooltip id={ `rule-check-icon-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                <Tooltip id={ `rule-check-icon-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
                   <span>Recommended</span>
-                </ReactTooltip>
+                </Tooltip>
               </React.Fragment>
             }
             {
               this.props.isFixable &&
               <React.Fragment>
                 <Wrench data-tip data-for={ `rule-wrench-icon-${ this.props.name }` } width={ 14 } height={ 14 }/>
-                <ReactTooltip id={ `rule-wrench-icon-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                <Tooltip id={ `rule-wrench-icon-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
                   <span>Fixable</span>
-                </ReactTooltip>
+                </Tooltip>
               </React.Fragment>
             }
           </HeaderSide>
@@ -162,9 +162,9 @@ export class Rule extends React.Component {
               isActive={ this.props.isTurnedOn }
               onClick={ () => this.props.onSwitcherClick(this.props.name, !this.props.isTurnedOn) }
             />
-            <ReactTooltip id={ `rule-switcher-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
+            <Tooltip id={ `rule-switcher-${this.props.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 750 }>
               <span>{ this.props.isTurnedOn ? 'Turn off' : 'Turn on' }</span>
-            </ReactTooltip>
+            </Tooltip>
         </Header>
 
         <Description to={ `/rules/${this.props.name}` } as={ Link }>{ this.props.description }</Description>

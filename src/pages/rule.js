@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import fast from 'fast.js';
 
@@ -14,7 +15,7 @@ const Wrapper = styled.div`
 `;
 
 
-export class RulePage extends React.Component {
+class RulePageInternal extends React.Component {
   state = {
     rules: rules,
     filteredRules: rules,
@@ -143,14 +144,14 @@ export class RulePage extends React.Component {
 
   static getDerivedStateFromProps = (props, state) => {
 
-    if (props.match.params && props.match.params.name && state.activeRule && props.match.params.name !== state.activeRule.name) {
+    if (props.name && state.activeRule && props.name !== state.activeRule.name) {
       state.filteredRules = fast.map(state.filteredRules, ((rule) => {
-        rule.isActive = rule.name === props.match.params.name;
+        rule.isActive = rule.name === props.name;
 
         return rule;
       }));
 
-      state.activeRule = state.filteredRules.find((rule) => rule.name === props.match.params.name);
+      state.activeRule = state.filteredRules.find((rule) => rule.name === props.name);
 
       const activeRuleIndex = state.filteredRules.findIndex((rule) => rule.name === state.activeRule.name);
 
@@ -173,7 +174,7 @@ export class RulePage extends React.Component {
       state.previousRule = state.filteredRules[previousRuleIndex];
 
       state.isConfigPreviewerVisible = false;
-    } else if (!props.match.params || !props.match.params.name) {
+    } else if (!props.name) {
       state.filteredRules = fast.map(state.filteredRules, ((rule, i) => {
         rule.isActive = i === 0;
 
@@ -213,4 +214,9 @@ export class RulePage extends React.Component {
       </Wrapper>
     );
   };
+}
+
+export const RulePage = () => {
+  const params = useParams();
+  return <RulePageInternal name={params.name} />
 }

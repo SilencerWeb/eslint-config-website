@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import Select from 'react-select';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { Heading, Button, Switcher, Input, Link } from 'ui/atoms';
@@ -50,7 +50,7 @@ const OptionName = styled(Heading)`
   font-size: 16px;
   margin-right: 10px;
   margin-bottom: 0;
-  
+
   &:last-child {
     margin-right: 0;
   }
@@ -67,7 +67,7 @@ const OptionHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -76,7 +76,7 @@ const OptionHeader = styled.div`
 const OptionDescription = styled.p`
   margin-top: 0;
   margin-bottom: 10px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -86,7 +86,7 @@ const Option = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -103,30 +103,30 @@ const FooterButton = styled(Button)`
   display: flex;
   align-items: center;
   margin-right: 10px;
-  
+
   svg {
     fill: ${color.secondary};
     margin-right: 5px;
     margin-left: 5px;
     transition: 0.1s;
-    
+
     &:first-child {
       margin-left: 0;
       transform: rotate(180deg);
     }
-    
+
     &:last-child {
       margin-right: 0;
     }
   }
-  
+
   &:last-child {
     justify-content: flex-end;
     margin-right: 0;
   }
-  
+
   &:hover {
-    
+
     svg {
       fill: ${color.primary};
     }
@@ -138,19 +138,19 @@ const SocialLink = styled.a`
   vertical-align: top;
   font-size: 0;
   margin-right: 10px;
-  
+
   svg {
     fill: ${color.secondary};
     opacity: 0.7;
     transition: 0.1s;
   }
-  
+
   &:last-child {
     margin-right: 0;
   }
-  
+
   &:hover {
-    
+
     svg {
       opacity: 1;
     }
@@ -167,7 +167,7 @@ const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
-  
+
   ${Heading} {
     margin-bottom: 0;
   }
@@ -176,11 +176,11 @@ const SectionHeader = styled.div`
 const Section = styled.div`
   flex-shrink: 0;
   margin-bottom: 30px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
-  
+
   ${props => css`
 
     ${props.isAllowedToGrow && css`
@@ -243,18 +243,18 @@ export class RuleInfo extends React.Component {
                   this.props.activeRule.isRecommended &&
                   <React.Fragment>
                     <Check data-tip data-for={ `rule-info-check-icon-${ this.props.activeRule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                    <ReactTooltip id={ `rule-info-check-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                    <Tooltip id={ `rule-info-check-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
                       <span>Recommended</span>
-                    </ReactTooltip>
+                    </Tooltip>
                   </React.Fragment>
                 }
                 {
                   this.props.activeRule.isFixable &&
                   <React.Fragment>
                     <Wrench data-tip data-for={ `rule-info-wrench-icon-${ this.props.activeRule.name }` } width={ 20 } height={ 20 } fill={ color.secondary }/>
-                    <ReactTooltip id={ `rule-info-wrench-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
+                    <Tooltip id={ `rule-info-wrench-icon-${this.props.activeRule.name}` } className={ 'react-tooltip' } effect={ 'solid' } delayShow={ 500 }>
                       <span>Fixable</span>
-                    </ReactTooltip>
+                    </Tooltip>
                   </React.Fragment>
                 }
               </Title>

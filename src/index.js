@@ -1,10 +1,12 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyles } from 'ui/theme';
 
 import { Routes } from 'routes';
+
+import 'react-tooltip/dist/react-tooltip.css'
 
 
 class App extends React.Component {
@@ -24,7 +26,8 @@ class App extends React.Component {
 }
 
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>, )
 
 
 if (module.hot) {
